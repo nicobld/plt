@@ -1,5 +1,7 @@
 # PLT
 
+Le rapport se trouve dans `rapport/rapport.md`
+
 ## Dépendances :
     sudo apt install git dia cmake g++ lcov gcovr libxml2-dev libsfml-dev libboost-test-dev
     sudo apt install ghostscript
