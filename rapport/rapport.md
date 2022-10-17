@@ -63,6 +63,10 @@ Les terrains :
 
 <img src="../res/terrains.png" width="500"/>
 
+les terrains plages :
+
+<img src="../res/terrainBeachBoat.png" width="500"/>
+
 Les éléments du plateau :
 
 <img src="../res/buildings.png" width="500"/>
