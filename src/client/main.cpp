@@ -25,7 +25,7 @@ int main(int argc,char* argv[])
         // création de la fenêtre
     RenderWindow window(VideoMode(800, 600), "Catan");
     window.setVerticalSyncEnabled(true);
-    
+
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
     while (window.isOpen())
     {
