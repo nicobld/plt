@@ -16,9 +16,10 @@ using namespace state;
 
 int main(int argc,char* argv[])
 {
+    //bonjour, c'est un test de branche
     Exemple exemple;
     exemple.setX(53);
-
+    
     cout << "It works !" << endl;
 
         // création de la fenêtre
