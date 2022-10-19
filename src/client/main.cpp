@@ -26,6 +26,11 @@ int main(int argc,char* argv[])
     RenderWindow window(VideoMode(800, 600), "Catan");
     window.setVerticalSyncEnabled(true);
 
+    Image icon;
+    if(!icon.loadFromFile("catan.png"))
+        EXIT_FAILURE;
+ 
+
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
     while (window.isOpen())
     {
