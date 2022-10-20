@@ -19,6 +19,8 @@ int main(int argc,char* argv[])
 {
     Exemple exemple;
     exemple.setX(53);
+
+    Resource resource(Wool);
     
     cout << "It works !" << endl;
 
@@ -27,9 +29,11 @@ int main(int argc,char* argv[])
     window.setVerticalSyncEnabled(true);
 
     Image icon;
-    if(!icon.loadFromFile("catan.png"))
-        EXIT_FAILURE;
+    if(!icon.loadFromFile("../res/catan.png")){
+        cout << "image load error\n";
+    }
  
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
     while (window.isOpen())
