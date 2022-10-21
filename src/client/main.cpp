@@ -19,8 +19,6 @@ int main(int argc,char* argv[])
 {
     Exemple exemple;
     exemple.setX(53);
-
-    Resource resource(Wool);
     
     cout << "It works !" << endl;
 
