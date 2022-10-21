@@ -74,3 +74,22 @@ Les éléments du plateau :
 Les ressources :
 
 <img src="../res/textures.png" width="500"/>
+
+
+### __Diagramme de classes__
+
+<img src="images/state.png"/>
+
+Pour définir les images de chaque objet, on définit un attribut statique.
+
+#### __A gauche, les classes en rapport avec les cartes__
+<img src="images/state0.png"/>
+
+#### __Au milieu, les classes en rapport avec le jeu et la map__
+<img src="images/state1.png"/>
+
+Pour les tiles, on utilise une méthode appelée "Type Object", qui consiste à définir un type de tile par une instance globale TileType, qui ne seront pas directement utilisés, mais référencés par les tiles que l'on crééra.
+On fait ceci parce que ça évite de créer beaucoup de classes pour chaque type de tile.
+
+#### __A droite, les classes en rapport avec le joueur et les constructions__
+<img src="images/state2.png"/>
