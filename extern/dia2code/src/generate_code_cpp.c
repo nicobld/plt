@@ -696,6 +696,7 @@ struct stdlib_includes {
    int random;
    int sfmlGraphics;
    int jsoncpp;
+   int tuple;
 };
 
 void print_include_stdlib(struct stdlib_includes* si,char* name) {
@@ -800,7 +801,12 @@ void print_include_stdlib(struct stdlib_includes* si,char* name) {
        && (strstr(name,"Json::") == name)) {
            print ("#include <json/json.h>\n");
            si->jsoncpp = 1;
-       }       
+       }  
+        //ADD
+        if (!si->tuple && strstr(name,"std::tuple")) {
+           print ("#include <tuple>\n");
+           si->tuple = 1;
+       }     
     }
 }
 
