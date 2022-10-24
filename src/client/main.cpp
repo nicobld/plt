@@ -30,8 +30,11 @@ int main(int argc,char* argv[])
 
 
 
+    Texture texture;
+    texture.loadFromFile("res/terrains.png", IntRect(0, 0, 256, 256));
 
-
+    Sprite sprite(texture);
+    sprite.setScale(Vector2f(0.5f, 0.5f));
 
 
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
@@ -51,6 +54,7 @@ int main(int argc,char* argv[])
 
         // c'est ici qu'on dessine tout
         // window.draw(...);
+        window.draw(sprite);
 
         // fin de la frame courante, affichage de tout ce qu'on a dessiné
         window.display();
