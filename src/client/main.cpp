@@ -17,12 +17,10 @@ using namespace sf;
 
 int main(int argc,char* argv[])
 {
-    Exemple exemple;
-    exemple.setX(53);
-    
-    cout << "===============|  Catan  |===============" << endl;
 
-        // création de la fenêtre
+    cout << "===============| Catan |===============" << endl;
+
+    // création de la fenêtre
     RenderWindow window(VideoMode(800, 600), "Catan");
 
     Player* player = new Player("Player Test");
@@ -35,12 +33,6 @@ int main(int argc,char* argv[])
 
 
 
-
-
-
-
-
- 
 
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
     while (window.isOpen())
