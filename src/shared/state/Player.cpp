@@ -2,6 +2,9 @@
 
 namespace state{
 
-Player::Player(std::string name) : name(name) {}
+Player::Player(std::string name) : name(name) {
+    victoryPoints = 0;
+    knightNumber = 0;
+    }
 
 }

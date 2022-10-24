@@ -17,21 +17,21 @@ using namespace sf;
 
 int main(int argc,char* argv[])
 {
-    Exemple exemple;
-    exemple.setX(53);
-    
-    cout << "It works !" << endl;
+    cout << "===============| Catan |===============" << endl;
 
-        // création de la fenêtre
+    // création de la fenêtre
     RenderWindow window(VideoMode(800, 600), "Catan");
-    window.setVerticalSyncEnabled(true);
 
-    Image icon;
-    if(!icon.loadFromFile("../res/catan.png")){
-        cout << "image load error\n";
-    }
- 
-    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    Player* player = new Player("Player test");
+    cout << "name : " << player->name << endl;
+    cout << "Victory Points : " << player->victoryPoints << endl;
+
+
+
+
+
+
+
 
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
     while (window.isOpen())
