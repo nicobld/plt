@@ -20,18 +20,27 @@ int main(int argc,char* argv[])
     Exemple exemple;
     exemple.setX(53);
     
-    cout << "It works !" << endl;
+    cout << "===============|  Catan  |===============" << endl;
 
         // création de la fenêtre
     RenderWindow window(VideoMode(800, 600), "Catan");
-    window.setVerticalSyncEnabled(true);
 
-    Image icon;
-    if(!icon.loadFromFile("../res/catan.png")){
-        cout << "image load error\n";
-    }
+    Player* player = new Player("Player Test");
+
+    cout << "Player : " << player->getName() << endl;
+    cout << "Victory Point : " << player->victoryPoints << endl;
+
+
+
+
+
+
+
+
+
+
+
  
-    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
     while (window.isOpen())
@@ -46,7 +55,7 @@ int main(int argc,char* argv[])
         }
 
         // effacement de la fenêtre en noir
-        window.clear(Color::Black);
+        window.clear(Color::Blue);
 
         // c'est ici qu'on dessine tout
         // window.draw(...);
