@@ -17,15 +17,16 @@ using namespace sf;
 
 int main(int argc,char* argv[])
 {
+
     cout << "===============| Catan |===============" << endl;
 
     // création de la fenêtre
     RenderWindow window(VideoMode(800, 600), "Catan");
 
-    Player* player = new Player("Player test");
-    cout << "name : " << player->name << endl;
-    cout << "Victory Points : " << player->victoryPoints << endl;
+    Player* player = new Player("Player Test");
 
+    cout << "Player : " << player->getName() << endl;
+    cout << "Victory Point : " << player->victoryPoints << endl;
 
 
 
@@ -46,7 +47,7 @@ int main(int argc,char* argv[])
         }
 
         // effacement de la fenêtre en noir
-        window.clear(Color::Black);
+        window.clear(Color::Blue);
 
         // c'est ici qu'on dessine tout
         // window.draw(...);
