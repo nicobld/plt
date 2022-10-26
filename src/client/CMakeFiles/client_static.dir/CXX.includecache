@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/src/client/client/Exemple.cpp
+state/Exemple.h
+-
+Exemple.h
+/mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/src/client/client/Exemple.h
+
+/mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/src/client/client/Exemple.h
+
+src/shared/state/Exemple.h
+
