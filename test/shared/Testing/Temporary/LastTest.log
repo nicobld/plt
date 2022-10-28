@@ -1,0 +1,454 @@
+Start testing: Oct 26 16:46 CEST
+----------------------------------------------------------
+1/28 Testing: test_shared_dummy
+1/28 Test: test_shared_dummy
+Command: "/mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_shared_dummy"
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_shared_dummy" start time: Oct 26 16:46 CEST
+Output:
+----------------------------------------------------------
+Running 3 test cases...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_shared_dummy" end time: Oct 26 16:46 CEST
+"test_shared_dummy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Player
+2/28 Testing: test_Player
+2/28 Test: test_Player
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Player" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Player" end time: Oct 26 16:46 CEST
+"test_Player" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Card
+3/28 Testing: test_Card
+3/28 Test: test_Card
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Card" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Card" end time: Oct 26 16:46 CEST
+"test_Card" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_City
+4/28 Testing: test_City
+4/28 Test: test_City
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_City" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_City" end time: Oct 26 16:46 CEST
+"test_City" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Development
+5/28 Testing: test_Development
+5/28 Test: test_Development
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Development" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Development" end time: Oct 26 16:46 CEST
+"test_Development" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Display
+6/28 Testing: test_Display
+6/28 Test: test_Display
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Display" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Display" end time: Oct 26 16:46 CEST
+"test_Display" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Game
+7/28 Testing: test_Game
+7/28 Test: test_Game
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Game" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Game" end time: Oct 26 16:46 CEST
+"test_Game" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_GameCards
+8/28 Testing: test_GameCards
+8/28 Test: test_GameCards
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_GameCards" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_GameCards" end time: Oct 26 16:46 CEST
+"test_GameCards" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Invention
+9/28 Testing: test_Invention
+9/28 Test: test_Invention
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Invention" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Invention" end time: Oct 26 16:46 CEST
+"test_Invention" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Knight
+10/28 Testing: test_Knight
+10/28 Test: test_Knight
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Knight" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Knight" end time: Oct 26 16:46 CEST
+"test_Knight" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_LargestArmy
+11/28 Testing: test_LargestArmy
+11/28 Test: test_LargestArmy
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_LargestArmy" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_LargestArmy" end time: Oct 26 16:46 CEST
+"test_LargestArmy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_LongestRoad
+12/28 Testing: test_LongestRoad
+12/28 Test: test_LongestRoad
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_LongestRoad" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_LongestRoad" end time: Oct 26 16:46 CEST
+"test_LongestRoad" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Map
+13/28 Testing: test_Map
+13/28 Test: test_Map
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Map" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Map" end time: Oct 26 16:46 CEST
+"test_Map" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Monopoly
+14/28 Testing: test_Monopoly
+14/28 Test: test_Monopoly
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Monopoly" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Monopoly" end time: Oct 26 16:46 CEST
+"test_Monopoly" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Piece
+15/28 Testing: test_Piece
+15/28 Test: test_Piece
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Piece" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Piece" end time: Oct 26 16:46 CEST
+"test_Piece" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_VictoryPoints
+16/28 Testing: test_VictoryPoints
+16/28 Test: test_VictoryPoints
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_VictoryPoints" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_VictoryPoints" end time: Oct 26 16:46 CEST
+"test_VictoryPoints" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Progress
+17/28 Testing: test_Progress
+17/28 Test: test_Progress
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Progress" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Progress" end time: Oct 26 16:46 CEST
+"test_Progress" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Resource
+18/28 Testing: test_Resource
+18/28 Test: test_Resource
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Resource" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Resource" end time: Oct 26 16:46 CEST
+"test_Resource" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Road
+19/28 Testing: test_Road
+19/28 Test: test_Road
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Road" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Road" end time: Oct 26 16:46 CEST
+"test_Road" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_RoadConstruction
+20/28 Testing: test_RoadConstruction
+20/28 Test: test_RoadConstruction
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_RoadConstruction" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_RoadConstruction" end time: Oct 26 16:46 CEST
+"test_RoadConstruction" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Special
+21/28 Testing: test_Special
+21/28 Test: test_Special
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Special" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Special" end time: Oct 26 16:46 CEST
+"test_Special" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Thief
+22/28 Testing: test_Thief
+22/28 Test: test_Thief
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Thief" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Thief" end time: Oct 26 16:46 CEST
+"test_Thief" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Tile
+23/28 Testing: test_Tile
+23/28 Test: test_Tile
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Tile" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Tile" end time: Oct 26 16:46 CEST
+"test_Tile" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_TileBeach
+24/28 Testing: test_TileBeach
+24/28 Test: test_TileBeach
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_TileBeach" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_TileBeach" end time: Oct 26 16:46 CEST
+"test_TileBeach" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_TileBeachType
+25/28 Testing: test_TileBeachType
+25/28 Test: test_TileBeachType
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_TileBeachType" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_TileBeachType" end time: Oct 26 16:46 CEST
+"test_TileBeachType" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_TileGround
+26/28 Testing: test_TileGround
+26/28 Test: test_TileGround
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_TileGround" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_TileGround" end time: Oct 26 16:46 CEST
+"test_TileGround" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_TileGroundType
+27/28 Testing: test_TileGroundType
+27/28 Test: test_TileGroundType
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_TileGroundType" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_TileGroundType" end time: Oct 26 16:46 CEST
+"test_TileGroundType" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt/test/shared/test_Token
+28/28 Testing: test_Token
+28/28 Test: test_Token
+Command: ""
+Directory: /mnt/c/Users/stphd/Desktop/ENSEA_3A/catan/plt
+"test_Token" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_Token" end time: Oct 26 16:46 CEST
+"test_Token" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 26 16:46 CEST
