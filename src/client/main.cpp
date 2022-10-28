@@ -7,9 +7,11 @@
 // Fin test SFML
 
 #include <state.h>
+#include <view.h>
 
 using namespace std;
 using namespace state;
+using namespace view;
 using namespace sf;
 
 int main(int argc,char* argv[])
@@ -22,17 +24,15 @@ int main(int argc,char* argv[])
     int LENGTH = 720;
     RenderWindow window(VideoMode(WIDTH, LENGTH), "Catan");
 
-    Player* player1 = new Player("Jonah");
-    Player* player2 = new Player("Nicolas");
-    Player* player3 = new Player("Xu");
-    Player* player4 = new Player("Stephane");
+    Player player1("Jonah");
+    Player player2("Nicolas");
+    Player player3("Xu");
+    Player player4("Stephane");
 
-    cout << "Player : " << player1->getName() << endl;
-    cout << "Victory Point : " << player1->victoryPoints << endl;
+    cout << "Player : " << player1.getName() << endl;
+    cout << "Victory Point : " << player1.victoryPoints << endl;
 
-    Font font;
-    font.loadFromFile("res/poppins.ttf");
-
+    
     Texture map;
     
     map.loadFromFile("res/map.png", IntRect(0, 0, 1850, 1450));
@@ -40,72 +40,11 @@ int main(int argc,char* argv[])
     spriteMap.setScale(Vector2f(0.4f, 0.4f));
     spriteMap.setOrigin(1850/2, 1450/2);
     spriteMap.setPosition(WIDTH/2, LENGTH/2);
-
-    Texture redSquare, greenSquare, blueSquare, yellowSquare;
-    int scrennGap = 30;
-    int squareGap = 20;
-    float scaleSquare = 0.7;
-
-    redSquare.loadFromFile("res/square.png", IntRect(0, 0, 510, 210));
-    Sprite spriteRedSquare(redSquare);
-    spriteRedSquare.setScale(Vector2f(scaleSquare, scaleSquare));
-    spriteRedSquare.setPosition(scrennGap, -80);
-
-    int widthSquare = 180;
-    int lengthSquare = 210;
-    greenSquare.loadFromFile("res/square.png", IntRect(400, 225, widthSquare, lengthSquare));
-    Sprite spriteGreenSquare(greenSquare);
-    spriteGreenSquare.setScale(Vector2f(scaleSquare, scaleSquare));
-    spriteGreenSquare.setPosition(WIDTH - scrennGap - 3*(widthSquare*scaleSquare) - 2*squareGap, -50);
-
-    blueSquare.loadFromFile("res/square.png", IntRect(0, 225, widthSquare, lengthSquare));
-    Sprite spriteBlueSquare(blueSquare);
-    spriteBlueSquare.setScale(Vector2f(scaleSquare, scaleSquare));
-    spriteBlueSquare.setPosition(WIDTH - scrennGap - 2*(widthSquare*scaleSquare) - squareGap, -50);
-
-    yellowSquare.loadFromFile("res/square.png", IntRect(200, 225, widthSquare, lengthSquare));
-    Sprite spriteYellowSquare(yellowSquare);
-    spriteYellowSquare.setScale(Vector2f(scaleSquare, scaleSquare));
-    spriteYellowSquare.setPosition(WIDTH - scrennGap -widthSquare*scaleSquare, -50);
-
-    Color* red = new Color(181, 53, 53);
-    Color* green = new Color(70, 157, 70);
-    Color* blue = new Color(69, 98, 184);
-    Color* yellow = new Color(182, 148, 82);
-
-    Text player1Name;
-    player1Name.setFont(font);
-    player1Name.setString(player1->getName());
-    player1Name.setCharacterSize(24);
-    player1Name.setFillColor(*red);
-    player1Name.setPosition(scrennGap + 25, 15);
-
-    Text player2Name;
-    player2Name.setFont(font);
-    player2Name.setString(player2->getName());
-    player2Name.setCharacterSize(18);
-    player2Name.setFillColor(*green);
-    player2Name.setOrigin((player2Name.getGlobalBounds().width)/2, 0);
-    player2Name.setPosition((spriteGreenSquare.getGlobalBounds().width)/2 + spriteGreenSquare.getPosition().x , 15);
-
-    Text player3Name;
-    player3Name.setFont(font);
-    player3Name.setString(player3->getName());
-    player3Name.setCharacterSize(18);
-    player3Name.setFillColor(*blue);
-    player3Name.setOrigin((player3Name.getGlobalBounds().width)/2, 0);
-    player3Name.setPosition((spriteBlueSquare.getGlobalBounds().width)/2 + spriteBlueSquare.getPosition().x , 15);
-
-    Text player4Name;
-    player4Name.setFont(font);
-    player4Name.setString(player4->getName());
-    player4Name.setCharacterSize(18);
-    player4Name.setFillColor(*yellow);
-    player4Name.setOrigin((player4Name.getGlobalBounds().width)/2, 0);
-    player4Name.setPosition((spriteYellowSquare.getGlobalBounds().width)/2 + spriteYellowSquare.getPosition().x , 15);
+    
+    
 
 
-
+    DisplayHUD HUD(WIDTH, LENGTH, player1, player2, player3, player4);
 
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
     while (window.isOpen())
@@ -123,18 +62,10 @@ int main(int argc,char* argv[])
         window.clear(Color::Black);
 
         // c'est ici qu'on dessine tout
-
         window.draw(spriteMap);
+        HUD.display(window);
 
-        window.draw(spriteRedSquare);
-        window.draw(spriteGreenSquare);
-        window.draw(spriteBlueSquare);
-        window.draw(spriteYellowSquare);
-
-        window.draw(player1Name);
-        window.draw(player2Name);
-        window.draw(player3Name);
-        window.draw(player4Name);
+        window.draw(HUD.spritePlayer1Square);
 
         // fin de la frame courante, affichage de tout ce qu'on a dessiné
         window.display();
