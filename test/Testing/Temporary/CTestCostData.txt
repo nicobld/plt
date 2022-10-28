@@ -1,3 +1,0 @@
-test_shared_dummy 4 0.0149391
-test_client_dummy 2 0.144063
----
