@@ -7,8 +7,4 @@ Player::Player(std::string name) : name(name) {
     this->knightNumber = 0;
 }
 
-std::string Player::getName(){
-    return this->name;
-}
-
 }

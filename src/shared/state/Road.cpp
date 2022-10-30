@@ -2,6 +2,6 @@
 
 namespace state{
 
-Road::Road(Player& player) : Building(player){}
+Road::Road(Player& player) : player(player) {}
 
 }
