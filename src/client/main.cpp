@@ -35,7 +35,7 @@ int main(int argc,char* argv[])
     
     Texture map;
     
-    map.loadFromFile("res/map.png", IntRect(0, 0, 1850, 1450));
+    map.loadFromFile("../res/map.png", IntRect(0, 0, 1850, 1450));
     Sprite spriteMap(map);
     spriteMap.setScale(Vector2f(0.4f, 0.4f));
     spriteMap.setOrigin(1850/2, 1450/2);
@@ -64,8 +64,6 @@ int main(int argc,char* argv[])
         // c'est ici qu'on dessine tout
         window.draw(spriteMap);
         HUD.display(window);
-
-        window.draw(HUD.spritePlayer1Square);
 
         // fin de la frame courante, affichage de tout ce qu'on a dessiné
         window.display();
