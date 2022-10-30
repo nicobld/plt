@@ -22,13 +22,15 @@ int main(int argc,char* argv[])
     int LENGTH = 720;
     RenderWindow window(VideoMode(WIDTH, LENGTH), "Catan");
 
-    Player* player1 = new Player("Jonah");
-    Player* player2 = new Player("Nicolas");
-    Player* player3 = new Player("Xu");
-    Player* player4 = new Player("Stephane");
+    Player* player1 = new Player("Jonah", PlayerRed);
+    Player* player2 = new Player("Nicolas", PlayerBlue);
+    Player* player3 = new Player("Xu", PlayerOrange);
+    Player* player4 = new Player("Stephane", PlayerWhite);
 
     cout << "Player : " << player1->name << endl;
     cout << "Victory Point : " << player1->victoryPoints << endl;
+
+    GameCards* gameCards = new GameCards();
 
     // Font font;
     // font.loadFromFile("res/poppins.ttf");

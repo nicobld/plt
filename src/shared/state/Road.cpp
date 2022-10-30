@@ -2,6 +2,6 @@
 
 namespace state{
 
-Road::Road(Player& player) : player(player) {}
+Road::Road(PlayerColor playerColor) : playerColor(playerColor) {}
 
 }

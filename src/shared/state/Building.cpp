@@ -2,6 +2,6 @@
 
 namespace state{
 
-Building::Building(Player& player): player(player) {}
+Building::Building(PlayerColor playerColor, BuildingType buildingType): playerColor(playerColor), buildingType(buildingType) {}
 
 }

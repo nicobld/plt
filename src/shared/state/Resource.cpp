@@ -2,6 +2,6 @@
 
 namespace state{
 
-Resource::Resource(ResourceType resourceType){}
+Resource::Resource(ResourceType resourceType) : resourceType(resourceType) {}
 
 }
