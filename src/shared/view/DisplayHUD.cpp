@@ -84,10 +84,10 @@ void DisplayHUD::display(sf::RenderTarget& target){
     target.draw(spritePlayer3Square);
     target.draw(spritePlayer4Square);
     
-    target.draw(player1Name);
-    target.draw(player2Name);
-    target.draw(player3Name);
-    target.draw(player4Name);
+    // target.draw(player1Name);
+    // target.draw(player2Name);
+    // target.draw(player3Name);
+    // target.draw(player4Name);
     
 }
 }
