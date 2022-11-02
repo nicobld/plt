@@ -1,17 +1,15 @@
-#include "TileMap.h"
-#include <iostream>
+ #include "TileMap.h"
+ #include <iostream>
+ 
+ using namespace view;
 
-using namespace sf;
-using namespace std;
-using namespace view;
 
-TileMap::TileMap(){}
-
-bool TileMap::load (const std::string&  tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height){
-
-    if (! m_tileset.loadFromFile(tileset))
+bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height){
+// on charge la texture du tileset
+    if (!m_tileset.loadFromFile(tileset))
         return false;
 
+    // on redimensionne le tableau de vertex pour qu'il puisse contenir tout le niveau
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize(width * height * 4);
 
@@ -41,17 +39,16 @@ bool TileMap::load (const std::string&  tileset, sf::Vector2u tileSize, const in
             quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
             quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
         }
-
-        return true;
+    return true;
 }
 
-void TileMap::draw (sf::RenderTarget& target, sf::RenderStates states){
-        // on applique la transformation
-        states.transform *= getTransform();
+void draw(sf::RenderTarget& target, sf::RenderStates states){
+    // on applique la transformation
+    states.transform *= getTransform();
 
-        // on applique la texture du tileset
-        states.texture = &m_tileset;
+    // on applique la texture du tileset
+    states.texture = &m_tileset;
 
-        // et on dessine enfin le tableau de vertex
-        target.draw(m_vertices, states);
-    }
+    // et on dessine enfin le tableau de vertex
+    target.draw(m_vertices, states);
+}
