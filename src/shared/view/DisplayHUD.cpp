@@ -49,32 +49,10 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player player1, Player player2, Pl
     spritePlayer4Square.setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer4Square.setPosition(WIDTH - scrennGap -widthSquare*scaleSquare, -50);
     
-    player1Name.setFont(font);
-    player1Name.setString(player1.name);
-    player1Name.setCharacterSize(24);
-    player1Name.setFillColor(red);
-    player1Name.setPosition(scrennGap + 25, 15);
-    
-    player2Name.setFont(font);
-    player2Name.setString(player2.name);
-    player2Name.setCharacterSize(18);
-    player2Name.setFillColor(green);
-    player2Name.setOrigin((player2Name.getGlobalBounds().width)/2, 0);
-    player2Name.setPosition((spritePlayer2Square.getGlobalBounds().width)/2 + spritePlayer2Square.getPosition().x , 15);
-
-    player3Name.setFont(font);
-    player3Name.setString(player3.name);
-    player3Name.setCharacterSize(18);
-    player3Name.setFillColor(blue);
-    player3Name.setOrigin((player3Name.getGlobalBounds().width)/2, 0);
-    player3Name.setPosition((spritePlayer3Square.getGlobalBounds().width)/2 + spritePlayer3Square.getPosition().x , 15);
-
-    player4Name.setFont(font);
-    player4Name.setString(player4.name);
-    player4Name.setCharacterSize(18);
-    player4Name.setFillColor(yellow);
-    player4Name.setOrigin((player4Name.getGlobalBounds().width)/2, 0);
-    player4Name.setPosition((spritePlayer4Square.getGlobalBounds().width)/2 + spritePlayer4Square.getPosition().x , 15);
+   player1Name = player1.name;
+   player2Name = player2.name;
+   player3Name = player3.name;
+   player4Name = player4.name;
 }
 
 void DisplayHUD::display(sf::RenderTarget& target){
@@ -84,10 +62,50 @@ void DisplayHUD::display(sf::RenderTarget& target){
     target.draw(spritePlayer3Square);
     target.draw(spritePlayer4Square);
     
-    // target.draw(player1Name);
-    // target.draw(player2Name);
-    // target.draw(player3Name);
-    // target.draw(player4Name);
+    Font font;
+    if (!font.loadFromFile("../res/poppins.ttf")){
+        cout << "Could not find the font " << "res/poppins.ttf" << endl;
+    }
+    
+    Color red(181, 53, 53);
+    Color green(70, 157, 70);
+    Color blue(69, 98, 184);
+    Color yellow(182, 148, 82);
+
+    int scrennGap = 30;
+
+    Text player1Name, player2Name, player3Name, player4Name;
+    player1Name.setFont(font);
+    player1Name.setString(this->player1Name);
+    player1Name.setCharacterSize(24);
+    player1Name.setFillColor(red);
+    player1Name.setPosition(scrennGap + 25, 15);
+    
+    player2Name.setFont(font);
+    player2Name.setString(this->player2Name);
+    player2Name.setCharacterSize(18);
+    player2Name.setFillColor(green);
+    player2Name.setOrigin((player2Name.getGlobalBounds().width)/2, 0);
+    player2Name.setPosition((spritePlayer2Square.getGlobalBounds().width)/2 + spritePlayer2Square.getPosition().x , 15);
+
+    player3Name.setFont(font);
+    player3Name.setString(this->player3Name);
+    player3Name.setCharacterSize(18);
+    player3Name.setFillColor(blue);
+    player3Name.setOrigin((player3Name.getGlobalBounds().width)/2, 0);
+    player3Name.setPosition((spritePlayer3Square.getGlobalBounds().width)/2 + spritePlayer3Square.getPosition().x , 15);
+
+    player4Name.setFont(font);
+    player4Name.setString(this->player4Name);
+    player4Name.setCharacterSize(18);
+    player4Name.setFillColor(yellow);
+    player4Name.setOrigin((player4Name.getGlobalBounds().width)/2, 0);
+    player4Name.setPosition((spritePlayer4Square.getGlobalBounds().width)/2 + spritePlayer4Square.getPosition().x , 15);
+
+    target.draw(player1Name);
+    target.draw(player2Name);
+    target.draw(player3Name);
+    target.draw(player4Name);
     
 }
 }

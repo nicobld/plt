@@ -41,11 +41,21 @@ int main(int argc,char* argv[])
     spriteMap.setOrigin(1850/2, 1450/2);
     spriteMap.setPosition(WIDTH/2, LENGTH/2);
     
-    
+    const int level[] =
+    {
+        2, 2, 3,
+        2, 1, 1, 1, 
+        1, 5, 0, 1, 3,
+        4, 1, 5, 1, 
+        4, 1, 5,
+    };
+    TileMap tilemap();
+    if (!tilemap.load("tileset.png", sf::Vector2u(32, 32), level, 16, 8))
+        return -1;
 
 
     DisplayHUD HUD(WIDTH, LENGTH, player1, player2, player3, player4);
-
+    
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
     while (window.isOpen())
     {
@@ -62,8 +72,8 @@ int main(int argc,char* argv[])
         window.clear(Color::Black);
 
         // c'est ici qu'on dessine tout
-        window.draw(spriteMap);
-        HUD.display(window);
+        //window.draw(spriteMap);
+        //HUD.display(window);
 
         // fin de la frame courante, affichage de tout ce qu'on a dessiné
         window.display();
