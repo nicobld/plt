@@ -42,7 +42,7 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
     return true;
 }
 
-void draw(sf::RenderTarget& target, sf::RenderStates states){
+void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states){
     // on applique la transformation
     states.transform *= getTransform();
 
