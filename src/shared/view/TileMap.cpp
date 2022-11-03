@@ -1,43 +1,89 @@
- #include "TileMap.h"
- #include <iostream>
- 
- using namespace view;
+#include "TileMap.h"
+#include <iostream>
 
+using namespace view;
 
 bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height){
-// on charge la texture du tileset
+    // on charge la texture du tileset
     if (!m_tileset.loadFromFile(tileset))
         return false;
 
+    //offset to place map in the middle
+    sf::Vector2u offset = sf::Vector2u(128, 0);
+    float resize = 1;
+
     // on redimensionne le tableau de vertex pour qu'il puisse contenir tout le niveau
-    m_vertices.setPrimitiveType(sf::Quads);
-    m_vertices.resize(width * height * 4);
+    m_vertices.setPrimitiveType(sf::Triangles);
+    m_vertices.resize(width * height * 12);
 
     // on remplit le tableau de vertex, avec un quad par tuile
-    for (unsigned int i = 0; i < width; ++i)
-        for (unsigned int j = 0; j < height; ++j)
-        {
+    for (unsigned int j = 0; j < height; ++j)
+        for (unsigned int i = 0; i < width; ++i){
             // on récupère le numéro de tuile courant
-            int tileNumber = tiles[i + j * width];
+            int tileNumber = tiles[i + (j * width)];
 
-            // on en déduit sa position dans la texture du tileset
-            int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);
-            int tv = tileNumber / (m_tileset.getSize().x / tileSize.x);
+            //on boucle sur les 4 triangles
+            for (unsigned int k = 0; k < 4; k++){
+                // on récupère un pointeur vers le quad à définir dans le tableau de vertex
+                sf::Vertex* hex = &m_vertices[(i + j * width) * 12 + k * 3];
 
-            // on récupère un pointeur vers le quad à définir dans le tableau de vertex
-            sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
+                //la pointe en haut de l'hexagone
+                hex[0].position = sf::Vector2f((i + 0.5 + j%2 * 0.5) * tileSize.x + offset.x, j*0.75 * tileSize.y + offset.y);
+                hex[0].texCoords = sf::Vector2f((tileNumber + 0.5) * tileSize.x, 0);
 
-            // on définit ses quatre coins
-            quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
-            quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-            quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-            quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+                //on tourne dans le sens d'une montre pour chercher les 2 prochains points
+                switch (k){
+                    case 0:
+                        hex[1].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x + offset.x, (j*0.75 + 0.25) * tileSize.y + offset.y);
+                        hex[2].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x + offset.x, (j*0.75 + 0.75) * tileSize.y + offset.y);
 
-            // on définit ses quatre coordonnées de texture
-            quad[0].texCoords = sf::Vector2f(tu * tileSize.x, tv * tileSize.y);
-            quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x, tv * tileSize.y);
-            quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
-            quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
+                        hex[1].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.25 * tileSize.y);
+                        hex[2].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.75 * tileSize.y);
+                        break;
+                    
+                    case 1:
+                        hex[1].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x + offset.x, (j*0.75 + 0.75) * tileSize.y + offset.y);
+                        hex[2].position = sf::Vector2f((i + 0.5 + j%2 * 0.5) * tileSize.x + offset.x, (j*0.75 + 1) * tileSize.y + offset.y);
+
+                        hex[1].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.75 * tileSize.y);
+                        hex[2].texCoords = sf::Vector2f((tileNumber + 0.5) * tileSize.x, 1 * tileSize.y);
+                        break;
+                    
+                    case 2:
+                        hex[1].position = sf::Vector2f((i + 0.5 + j%2 * 0.5) * tileSize.x + offset.x, (j*0.75 + 1) * tileSize.y + offset.y);
+                        hex[2].position = sf::Vector2f((i + j%2 * 0.5) * tileSize.x + offset.x, (j*0.75 + 0.75) * tileSize.y + offset.y);
+
+                        hex[1].texCoords = sf::Vector2f((tileNumber + 0.5) * tileSize.x, 1 * tileSize.y);
+                        hex[2].texCoords = sf::Vector2f(tileNumber * tileSize.x, 0.75 * tileSize.y);
+                        break;
+
+                    case 3:
+                        hex[1].position = sf::Vector2f((i + j%2 * 0.5) * tileSize.x + offset.x, (j*0.75 + 0.75) * tileSize.y + offset.y);
+                        hex[2].position = sf::Vector2f((i + j%2 * 0.5) * tileSize.x + offset.x, (j*0.75 + 0.25) * tileSize.y + offset.y);
+
+                        hex[1].texCoords = sf::Vector2f(tileNumber * tileSize.x, 0.75 * tileSize.y);
+                        hex[2].texCoords = sf::Vector2f(tileNumber * tileSize.x, 0.25 * tileSize.y);
+                        break;
+                }
+
+                hex[0].position *= resize;
+                hex[1].position *= resize;
+                hex[2].position *= resize;
+
+                // hex[0].position = sf::Vector2f((i + 0.5 + j%2 * 0.5) * tileSize.x, j*0.75 * tileSize.y);
+                // hex[1].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x, (j*0.75 + 0.25) * tileSize.y);
+                // hex[2].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x, (j*0.75 + 0.75) * tileSize.y);
+                // hex[3].position = sf::Vector2f((i + 0.5 + j%2 * 0.5) * tileSize.x, (j*0.75 + 1) * tileSize.y);
+                // hex[4].position = sf::Vector2f((i + j%2 * 0.5) * tileSize.x, (j*0.75 + 0.75) * tileSize.y);
+                // hex[5].position = sf::Vector2f((i + j%2 * 0.5) * tileSize.x, (j*0.75 + 0.25) * tileSize.y);
+
+                // hex[0].texCoords = sf::Vector2f((tileNumber + 0.5) * tileSize.x, 0);
+                // hex[1].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.25 * tileSize.y);
+                // hex[2].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.75 * tileSize.y);
+                // hex[3].texCoords = sf::Vector2f((tileNumber + 0.5) * tileSize.x, 1 * tileSize.y);
+                // hex[4].texCoords = sf::Vector2f(tileNumber * tileSize.x, 0.75 * tileSize.y);
+                // hex[5].texCoords = sf::Vector2f(tileNumber * tileSize.x, 0.25 * tileSize.y);
+            }
         }
     return true;
 }

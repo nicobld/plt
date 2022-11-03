@@ -24,38 +24,31 @@ int main(int argc,char* argv[])
     int LENGTH = 720;
     RenderWindow window(VideoMode(WIDTH, LENGTH), "Catan");
 
+    State state;
+    TileMap tileMap;
+
+
+    const int level[] = {
+        0, 1, 2,
+        2, 3, 4,
+        5, 4, 1
+    };
+
     Player player1("Jonah", PlayerRed);
     Player player2("Nicolas", PlayerBlue);
     Player player3("Xu", PlayerOrange);
     Player player4("Stephane", PlayerWhite);
 
+    DisplayHUD HUD(WIDTH, LENGTH, player1, player2, player3, player4);
+
     cout << "Player : " << player1.name << endl;
     cout << "Victory Point : " << player1.victoryPoints << endl;
 
-    
-    Texture map;
-    
-    map.loadFromFile("../res/map.png", IntRect(0, 0, 1850, 1450));
-    Sprite spriteMap(map);
-    spriteMap.setScale(Vector2f(0.4f, 0.4f));
-    spriteMap.setOrigin(1850/2, 1450/2);
-    spriteMap.setPosition(WIDTH/2, LENGTH/2);
-    
-    const int level[] =
-    {
-        2, 2, 3,
-        2, 1, 1, 1, 
-        1, 5, 0, 1, 3,
-        4, 1, 5, 1, 
-        4, 1, 5,
-    };
 
-    TileMap tilemap;
-    if (!tilemap.load("tiles.png", sf::Vector2u(114, 130), level, 16, 8))
+    if (!tileMap.load("../res/tiles.png", sf::Vector2u(114, 131), state.map.grid, 7, 7))
         return -1;
 
 
-    DisplayHUD HUD(WIDTH, LENGTH, player1, player2, player3, player4);
     
     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
     while (window.isOpen())
@@ -73,8 +66,8 @@ int main(int argc,char* argv[])
         window.clear(Color::Black);
 
         // c'est ici qu'on dessine tout
-        //window.draw(spriteMap);
         //HUD.display(window);
+        window.draw(tileMap);
 
         // fin de la frame courante, affichage de tout ce qu'on a dessiné
         window.display();
