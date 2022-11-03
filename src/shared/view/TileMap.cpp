@@ -9,7 +9,7 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
         return false;
 
     //offset to place map in the middle
-    sf::Vector2u offset = sf::Vector2u(128, 0);
+    sf::Vector2u offset = sf::Vector2u(0, 0);
     float resize = 1;
 
     // on redimensionne le tableau de vertex pour qu'il puisse contenir tout le niveau

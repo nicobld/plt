@@ -47,6 +47,9 @@ int main(int argc,char* argv[])
 
     if (!tileMap.load("../res/tiles.png", sf::Vector2u(114, 131), state.map.grid, 7, 7))
         return -1;
+    tileMap.setOrigin((8*114)/2, 719/2);
+    tileMap.setPosition(WIDTH/2, LENGTH/2);
+    tileMap.setScale(Vector2f(0.8, 0.8));
 
 
     
@@ -68,6 +71,7 @@ int main(int argc,char* argv[])
         // c'est ici qu'on dessine tout
         //HUD.display(window);
         window.draw(tileMap);
+        HUD.display(window);
 
         // fin de la frame courante, affichage de tout ce qu'on a dessiné
         window.display();
