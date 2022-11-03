@@ -49,7 +49,8 @@ int main(int argc,char* argv[])
         4, 1, 5, 1, 
         4, 1, 5,
     };
-    TileMap tilemap();
+
+    TileMap tilemap;
     if (!tilemap.load("tiles.png", sf::Vector2u(114, 130), level, 16, 8))
         return -1;
 
