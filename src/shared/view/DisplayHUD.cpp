@@ -39,8 +39,8 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     playerSquare.setSmooth(true);
 
     spritePlayer1Square =  new Sprite(playerSquare,IntRect(0, 0, 504, 204));
-    spritePlayer1Square->setScale(Vector2f(0.8, 0.8));
-    spritePlayer1Square->setPosition(scrennGap, -100);
+    spritePlayer1Square->setScale(Vector2f(0.9, 0.9));
+    spritePlayer1Square->setPosition(scrennGap, -120);
 
     spritePlayer2Square = new Sprite(playerSquare, IntRect(400, 227, widthSquare, lengthSquare));
     spritePlayer2Square->setScale(Vector2f(scaleSquare, scaleSquare));
@@ -90,7 +90,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     //--------------------playerVP----------------------------
 
     spritePlayer1VP = new Sprite(icon, IntRect(5*74, 0, 74, 58));
-    spritePlayer1VP->setPosition(scrennGap + 350, 12);
+    spritePlayer1VP->setPosition(scrennGap + 400, 12);
     spritePlayer1VP->setScale((Vector2f(scaleIconPlayer1, scaleIconPlayer1)));
 
     spritePlayer2VP = new Sprite(icon, IntRect(5*74, 0, 74, 58));
@@ -109,7 +109,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     player1VP = new Text(to_string(player1.victoryPoints), font, 24);
     player1VP->setFillColor(Color::White);
     player1VP->setOrigin(player1VP->getGlobalBounds().width, 0);
-    player1VP->setPosition(scrennGap + 340, 15);
+    player1VP->setPosition(spritePlayer1VP->getPosition().x -10 , spritePlayer1VP->getPosition().y + 3);
 
     player2VP = new Text(to_string(player2.victoryPoints), font, sizeFontIconsplayers);
     player2VP->setFillColor(Color::White);
@@ -131,7 +131,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     //----------------playerNumberCards-----------------------
 
     spritePlayer1NumberCards = new Sprite(icon, IntRect(7*74, 0, 74, 58));
-    spritePlayer1NumberCards->setPosition(scrennGap + 270, 15);
+    spritePlayer1NumberCards->setPosition(scrennGap + 320, 15);
     spritePlayer1NumberCards->setScale((Vector2f(scaleIconPlayer1, scaleIconPlayer1)));
 
     spritePlayer2NumberCards = new Sprite(icon, IntRect(7*74, 0, 74, 58));
@@ -150,7 +150,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     player1NumberCards = new Text("0", font, 24);
     player1NumberCards->setFillColor(Color::White);
     player1NumberCards->setOrigin(player1NumberCards->getGlobalBounds().width, 0);
-    player1NumberCards->setPosition(scrennGap + 265, 15);
+    player1NumberCards->setPosition(spritePlayer1NumberCards->getPosition().x - 2, spritePlayer1NumberCards->getPosition().y);
 
     player2NumberCards = new Text("0", font, sizeFontIconsplayers);
     player2NumberCards->setFillColor(Color::White);
@@ -205,7 +205,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
 
     spritePlayer1NumberKnights = new Sprite(icon, IntRect(6*74, 0, 74, 58));
-    spritePlayer1NumberKnights->setPosition(scrennGap + 200, 12);
+    spritePlayer1NumberKnights->setPosition(scrennGap + 185, 12);
     spritePlayer1NumberKnights->setScale((Vector2f(scaleIconPlayer1, scaleIconPlayer1)));
 
     spritePlayer2NumberKnights = new Sprite(icon, IntRect(6*74, 0, 74, 58));
@@ -224,7 +224,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     player1NumberKnights = new Text(to_string(player1.knightNumber), font, 24);
     player1NumberKnights->setFillColor(Color::White);
     player1NumberKnights->setOrigin(player1NumberKnights->getGlobalBounds().width, 0);
-    player1NumberKnights->setPosition(scrennGap + 192, 15);
+    player1NumberKnights->setPosition(spritePlayer1NumberKnights->getPosition().x -3, spritePlayer1NumberKnights->getPosition().y + 3);
 
     player2NumberKnights = new Text(to_string(player2.knightNumber), font, sizeFontIconsplayers);
     player2NumberKnights->setFillColor(Color::White);
@@ -244,6 +244,49 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     
 
     //----------------playerNumberKnights---------------------
+
+    //-----------------playerNumberRoads----------------------
+
+    spritePlayer1NumberRoads = new Sprite(icon, IntRect(9*74, 0, 74, 58));
+    spritePlayer1NumberRoads->setPosition(scrennGap + 255, 15);
+    spritePlayer1NumberRoads->setScale((Vector2f(scaleIconPlayer1, scaleIconPlayer1)));
+
+    spritePlayer2NumberRoads = new Sprite(icon, IntRect(9*74, 0, 74, 58));
+    spritePlayer2NumberRoads->setPosition((spritePlayer2Square->getGlobalBounds().width)/2 + spritePlayer2Square->getPosition().x, 118);
+    spritePlayer2NumberRoads->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
+
+    spritePlayer3NumberRoads = new Sprite(icon, IntRect(9*74, 0, 74, 58));
+    spritePlayer3NumberRoads->setPosition((spritePlayer3Square->getGlobalBounds().width)/2 + spritePlayer3Square->getPosition().x , 118);
+    spritePlayer3NumberRoads->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
+
+    spritePlayer4NumberRoads = new Sprite(icon, IntRect(9*74, 0, 74, 58));
+    spritePlayer4NumberRoads->setPosition((spritePlayer4Square->getGlobalBounds().width)/2 + spritePlayer4Square->getPosition().x, 118);
+    spritePlayer4NumberRoads->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
+
+    player1NumberRoads = new Text("0", font, 24);
+    player1NumberRoads->setFillColor(Color::White);
+    player1NumberRoads->setOrigin(player1NumberRoads->getGlobalBounds().width, 0);
+    player1NumberRoads->setPosition(spritePlayer1NumberRoads->getPosition().x -5, spritePlayer1NumberRoads->getPosition().y);
+
+    player2NumberRoads = new Text("0", font, sizeFontIconsplayers);
+    player2NumberRoads->setFillColor(Color::White);
+    player2NumberRoads->setOrigin(player2NumberRoads->getGlobalBounds().width, 0);
+    player2NumberRoads->setPosition(spritePlayer2NumberRoads->getPosition().x -10 , spritePlayer2NumberRoads->getPosition().y);
+    
+    player3NumberRoads = new Text("0", font, sizeFontIconsplayers);
+    player3NumberRoads->setFillColor(Color::White);
+    player3NumberRoads->setOrigin(player3NumberRoads->getGlobalBounds().width, 0);
+    player3NumberRoads->setPosition(spritePlayer3NumberRoads->getPosition().x -10 , spritePlayer3NumberRoads->getPosition().y);
+    
+    player4NumberRoads = new Text("0", font, sizeFontIconsplayers);
+    player4NumberRoads->setFillColor(Color::White);
+    player4NumberRoads->setOrigin(player4NumberRoads->getGlobalBounds().width, 0);
+    player4NumberRoads->setPosition(spritePlayer4NumberRoads->getPosition().x -10 , spritePlayer4NumberRoads->getPosition().y);
+
+    
+
+    //-----------------playerNumberRoads----------------------
+
 }
 
 void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2, Player player3, Player player4){
@@ -297,6 +340,16 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     target.draw(*player2NumberKnights);
     target.draw(*player3NumberKnights);
     target.draw(*player4NumberKnights);
+
+    target.draw(*spritePlayer1NumberRoads);
+    target.draw(*spritePlayer2NumberRoads);
+    target.draw(*spritePlayer3NumberRoads);
+    target.draw(*spritePlayer4NumberRoads);
+
+    target.draw(*player1NumberRoads);
+    target.draw(*player2NumberRoads);
+    target.draw(*player3NumberRoads);
+    target.draw(*player4NumberRoads);
 }
 
 
