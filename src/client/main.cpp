@@ -27,17 +27,13 @@ int main(int argc,char* argv[])
     State state;
     TileMap tileMap;
 
-
-    const int level[] = {
-        0, 1, 2,
-        2, 3, 4,
-        5, 4, 1
-    };
-
     Player player1("Jonah", PlayerRed);
     Player player2("Nicolas", PlayerBlue);
     Player player3("Xu", PlayerOrange);
     Player player4("Stephane", PlayerWhite);
+
+    player1.victoryPoints = 10;
+    player1.knightNumber = 3;
 
     DisplayHUD HUD(WIDTH, LENGTH, player1, player2, player3, player4);
 
@@ -49,7 +45,7 @@ int main(int argc,char* argv[])
         return -1;
     tileMap.setOrigin((8*114)/2, 719/2);
     tileMap.setPosition(WIDTH/2, LENGTH/2);
-    tileMap.setScale(Vector2f(0.8, 0.8));
+    tileMap.setScale(Vector2f(0.9, 0.9));
 
 
     
@@ -67,11 +63,13 @@ int main(int argc,char* argv[])
 
         // effacement de la fenêtre en noir
         window.clear(Color::Black);
+        //Color sea(55, 233, 254);
+        //window.clear(sea);
 
         // c'est ici qu'on dessine tout
         //HUD.display(window);
         window.draw(tileMap);
-        HUD.display(window);
+        HUD.display(window, player1, player2, player3, player4);
 
         // fin de la frame courante, affichage de tout ce qu'on a dessiné
         window.display();
