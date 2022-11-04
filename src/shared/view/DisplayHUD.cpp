@@ -51,7 +51,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     spritePlayer4Square.setPosition(WIDTH - scrennGap -widthSquare*scaleSquare, heigthSqaure);
 }
 
-void DisplayHUD::display(sf::RenderTarget& target, Player player1, Player player2, Player player3, Player player4){
+void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2, Player player3, Player player4){
     
     target.draw(spritePlayer1Square);
     target.draw(spritePlayer2Square);
