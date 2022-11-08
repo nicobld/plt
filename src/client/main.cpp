@@ -26,8 +26,8 @@ int main(int argc,char* argv[])
     State state;
     state.players.push_back(Player("Jonah", PlayerRed));
     state.players.push_back(Player("Nicolas", PlayerBlue));
-    state.players.push_back(Player("Xu", PlayerOrange));
-    state.players.push_back(Player("Stephane", PlayerWhite));
+    state.players.push_back(Player("Xu", PlayerYellow));
+    state.players.push_back(Player("Stephane", PlayerGreen));
 
     StateView stateView(state);
 
