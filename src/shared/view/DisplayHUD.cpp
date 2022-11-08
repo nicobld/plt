@@ -137,11 +137,19 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     spritePlayer2NumberCards = new Sprite(icon, IntRect(7*74, 0, 74, 58));
     spritePlayer2NumberCards->setPosition((spritePlayer2Square->getGlobalBounds().width)/2 + spritePlayer2Square->getPosition().x - 40, 45);
     spritePlayer2NumberCards->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
+<<<<<<< HEAD
     
     spritePlayer3NumberCards = new Sprite(icon, IntRect(7*74, 0, 74, 58));
     spritePlayer3NumberCards->setPosition((spritePlayer3Square->getGlobalBounds().width)/2 + spritePlayer3Square->getPosition().x -40, 45);
     spritePlayer3NumberCards->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
     
+=======
+    
+    spritePlayer3NumberCards = new Sprite(icon, IntRect(7*74, 0, 74, 58));
+    spritePlayer3NumberCards->setPosition((spritePlayer3Square->getGlobalBounds().width)/2 + spritePlayer3Square->getPosition().x -40, 45);
+    spritePlayer3NumberCards->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
+    
+>>>>>>> 13d82a31b31bf6fc482d1746b8eac47a228e1179
     spritePlayer4NumberCards = new Sprite(icon, IntRect(7*74, 0, 74, 58));
     spritePlayer4NumberCards->setPosition((spritePlayer4Square->getGlobalBounds().width)/2 + spritePlayer4Square->getPosition().x -40, 45);
     spritePlayer4NumberCards->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
@@ -211,11 +219,19 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     spritePlayer2NumberKnights = new Sprite(icon, IntRect(6*74, 0, 74, 58));
     spritePlayer2NumberKnights->setPosition((spritePlayer2Square->getGlobalBounds().width)/2 + spritePlayer2Square->getPosition().x + 25, 85);
     spritePlayer2NumberKnights->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
+<<<<<<< HEAD
     
     spritePlayer3NumberKnights = new Sprite(icon, IntRect(6*74, 0, 74, 58));
     spritePlayer3NumberKnights->setPosition((spritePlayer3Square->getGlobalBounds().width)/2 + spritePlayer3Square->getPosition().x + 25, 85);
     spritePlayer3NumberKnights->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
     
+=======
+    
+    spritePlayer3NumberKnights = new Sprite(icon, IntRect(6*74, 0, 74, 58));
+    spritePlayer3NumberKnights->setPosition((spritePlayer3Square->getGlobalBounds().width)/2 + spritePlayer3Square->getPosition().x + 25, 85);
+    spritePlayer3NumberKnights->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
+    
+>>>>>>> 13d82a31b31bf6fc482d1746b8eac47a228e1179
     spritePlayer4NumberKnights = new Sprite(icon, IntRect(6*74, 0, 74, 58));
     spritePlayer4NumberKnights->setPosition((spritePlayer4Square->getGlobalBounds().width)/2 + spritePlayer4Square->getPosition().x + 25, 85);
     spritePlayer4NumberKnights->setScale((Vector2f(scaleIconPlayers, scaleIconPlayers)));
@@ -283,10 +299,24 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     player4NumberRoads->setOrigin(player4NumberRoads->getGlobalBounds().width, 0);
     player4NumberRoads->setPosition(spritePlayer4NumberRoads->getPosition().x -10 , spritePlayer4NumberRoads->getPosition().y);
 
+<<<<<<< HEAD
     
 
     //-----------------playerNumberRoads----------------------
 
+=======
+    //-----------------playerNumberRoads----------------------
+
+    //--------------------player1Cards------------------------
+    /*
+    Texture developmentCards;
+    developmentCards.loadFromFile("../res/developmentCards.png");
+    developmentCards.setSmooth(true);
+    */
+
+    //--------------------player1Cards------------------------
+
+>>>>>>> 13d82a31b31bf6fc482d1746b8eac47a228e1179
 }
 
 void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2, Player player3, Player player4){
@@ -350,6 +380,34 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     target.draw(*player2NumberRoads);
     target.draw(*player3NumberRoads);
     target.draw(*player4NumberRoads);
+<<<<<<< HEAD
+=======
+
+
+
+
+    Texture developmentCards;
+    developmentCards.loadFromFile("../res/developmentCards.png");
+    developmentCards.setSmooth(true);
+
+    std::vector<int> cardsPlayer1(10);
+    cardsPlayer1.at(0) = 2;
+    cardsPlayer1.at(0) = 3;
+    
+    std::vector<Sprite> vectorSpriteCards(10);
+    int ecart = 0;
+    for(int i = cardsPlayer1.size()-1; i > 0; i--){
+
+        Sprite *spriteCard = new Sprite(developmentCards, IntRect(154 * cardsPlayer1.at(i), 0, 154, 234));
+        spriteCard->setPosition(100-ecart, 500);
+        vectorSpriteCards.at(i) = *spriteCard;
+        ecart += 20;
+    }
+
+    for(int i= 0; i<9; i++){
+        target.draw(vectorSpriteCards.at(i));
+    }
+>>>>>>> 13d82a31b31bf6fc482d1746b8eac47a228e1179
 }
 
 
@@ -374,6 +432,35 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     player3NumberKnights->setString(to_string(player3.knightNumber));
     player4NumberKnights->setString(to_string(player4.knightNumber));
 
+<<<<<<< HEAD
+=======
+    player1NumberRoads->setString("0");
+    player2NumberRoads->setString("0");
+    player3NumberRoads->setString("0");
+    player4NumberRoads->setString("0");
+
+    //--------------------player1Cards------------------------
+    /*
+    Texture developmentCards;
+    developmentCards.loadFromFile("../res/developmentCards.png");
+    developmentCards.setSmooth(true);
+
+    std::vector<int> cardsPlayer1(10);
+    cardsPlayer1.at(0) = 2;
+    cardsPlayer1.at(0) = 3;
+    
+    std::vector<Sprite> vectorSpriteCards(10);
+    
+    for(int i = 0; i < cardsPlayer1.size(); i++){
+
+        Sprite *spriteCard = new Sprite(developmentCards, IntRect(154 * cardsPlayer1.at(i), 0, 154, 234));
+        vectorSpriteCards.at(i) = *spriteCard;
+    }
+    
+   */
+    //--------------------player1Cards------------------------
+
+>>>>>>> 13d82a31b31bf6fc482d1746b8eac47a228e1179
 }
 
 }
