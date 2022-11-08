@@ -34,6 +34,10 @@ int main(int argc,char* argv[])
 
     player1.victoryPoints = 10;
     player1.knightNumber = 3;
+     
+    player1.developments.push_back(Development(1, Knight));
+    player1.developments.push_back(Development(1, VictoryPointsCard));
+    player1.developments.push_back(Development(1, VictoryPointsCard));
 
     DisplayHUD HUD(WIDTH, LENGTH, player1, player2, player3, player4);
 
