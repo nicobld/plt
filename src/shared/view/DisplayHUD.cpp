@@ -66,7 +66,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
         vectorSpriteRessource.back().setScale(Vector2f(0.5, 0.5));
         vectorSpriteRessource.back().setPosition(spriteRessourceSquare->getPosition().x + 40 + i*80, spriteRessourceSquare->getPosition().y + spriteRessourceSquare->getGlobalBounds().height/2 - 13);
 
-        vectorTextRessource.push_back(Text(to_string(player1.resources.at(i).Number), font, 24));
+        vectorTextRessource.push_back(Text(to_string(player1.resources.at(i).number), font, 24));
         vectorTextRessource.back().setPosition(vectorSpriteRessource.back().getPosition().x - 20, vectorSpriteRessource.back().getPosition().y);
         vectorTextRessource.back().setFillColor(Color(0,0,0));
     }
@@ -310,6 +310,22 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
     //--------------------player1Cards------------------------
 
+    //-----------------------Button---------------------------
+
+    ButtonPassTurn = new Sprite(playerSquare, IntRect(1009, 205, 199, 48));
+    ButtonExhchange = new Sprite(playerSquare, IntRect(1009 + 199, 205, 199, 48));
+    ButtonBuild = new Sprite(playerSquare, IntRect(1009 + 199*2, 205, 199, 48));
+
+    passTurn = new Text("Passer son tour", font, 24);
+    exchange = new Text("Echange", font, 24);
+    build = new Text("Construction", font, 24);
+
+    ButtonPassTurn->setPosition(WIDTH - scrennGap - ButtonPassTurn->getGlobalBounds().width, LENGTH - scrennGap -  ButtonPassTurn->getGlobalBounds().height);
+    passTurn->setOrigin(passTurn->getGlobalBounds().width/2, passTurn->getGlobalBounds().height/2);
+    passTurn->setPosition(ButtonPassTurn->getGlobalBounds().width/2, ButtonPassTurn->getGlobalBounds().height/2);
+
+    //-----------------------Button---------------------------
+
 }
 
 void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2, Player player3, Player player4){
@@ -385,6 +401,8 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     }
     vectorSpriteCards.clear();
 
+    target.draw(*ButtonPassTurn);
+    target.draw(*passTurn);
 }
 
 
@@ -396,11 +414,15 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     player4VP->setString(to_string(player4.victoryPoints));
         
     for(int i = 0; i<5; i++){
-        vectorTextRessource.at(i).setString(to_string(player1.resources.at(i).Number));
+        vectorTextRessource.at(i).setString(to_string(player1.resources.at(i).number));
     }
-
+    int sommeResources1 = 0, sommeResources2 = 0, sommeResources3 = 0, sommeResources4 = 0;
     for(int i = 0; i<5; i++){
-        vectorTextRessource.at(i).setString(to_string(player1.resources.at(i).Number));
+        vectorTextRessource.at(i).setString(to_string(player1.resources.at(i).number));
+        sommeResources1 += player1.resources.at(i).number;
+        sommeResources2 += player2.resources.at(i).number;
+        sommeResources3 += player3.resources.at(i).number;
+        sommeResources4 += player4.resources.at(i).number;
     }
 
     player1NumberCards->setString(to_string(player1.resources.size()));
