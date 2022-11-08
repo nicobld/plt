@@ -16,7 +16,18 @@ Map::Map(){
         0, 0, 16, 8, 8, 15, 0,
     };
 
+    int temp_token_grid[49] = {
+        0, 0, 0, 0, 0, 0, 0,
+          0, 0, 1, 2, 3, 0, 0,
+        0, 0, 5, 6, 7, 8, 0,
+          0, 9, 10, 11, 12, 13, 0,
+        0, 0, 14, 15, 16, 17, 0,
+          0, 0, 18, 19, 20, 0, 0,
+        0, 0, 0, 0, 0, 0, 0,
+    };
+
     memcpy(grid, temp_grid, sizeof(int)*49);
+    memcpy(tokengrid, temp_token_grid, sizeof(int)*49);
 }
 
 }
