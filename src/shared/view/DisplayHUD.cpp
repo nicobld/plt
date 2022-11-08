@@ -283,9 +283,16 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     player4NumberRoads->setOrigin(player4NumberRoads->getGlobalBounds().width, 0);
     player4NumberRoads->setPosition(spritePlayer4NumberRoads->getPosition().x -10 , spritePlayer4NumberRoads->getPosition().y);
 
-    
-
     //-----------------playerNumberRoads----------------------
+
+    //--------------------player1Cards------------------------
+    /*
+    Texture developmentCards;
+    developmentCards.loadFromFile("../res/developmentCards.png");
+    developmentCards.setSmooth(true);
+    */
+
+    //--------------------player1Cards------------------------
 
 }
 
@@ -350,6 +357,31 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     target.draw(*player2NumberRoads);
     target.draw(*player3NumberRoads);
     target.draw(*player4NumberRoads);
+
+
+
+
+    Texture developmentCards;
+    developmentCards.loadFromFile("../res/developmentCards.png");
+    developmentCards.setSmooth(true);
+
+    std::vector<int> cardsPlayer1(10);
+    cardsPlayer1.at(0) = 2;
+    cardsPlayer1.at(0) = 3;
+    
+    std::vector<Sprite> vectorSpriteCards(10);
+    int ecart = 0;
+    for(int i = cardsPlayer1.size()-1; i > 0; i--){
+
+        Sprite *spriteCard = new Sprite(developmentCards, IntRect(154 * cardsPlayer1.at(i), 0, 154, 234));
+        spriteCard->setPosition(100-ecart, 500);
+        vectorSpriteCards.at(i) = *spriteCard;
+        ecart += 20;
+    }
+
+    for(int i= 0; i<9; i++){
+        target.draw(vectorSpriteCards.at(i));
+    }
 }
 
 
@@ -373,6 +405,32 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     player2NumberKnights->setString(to_string(player2.knightNumber));
     player3NumberKnights->setString(to_string(player3.knightNumber));
     player4NumberKnights->setString(to_string(player4.knightNumber));
+
+    player1NumberRoads->setString("0");
+    player2NumberRoads->setString("0");
+    player3NumberRoads->setString("0");
+    player4NumberRoads->setString("0");
+
+    //--------------------player1Cards------------------------
+    /*
+    Texture developmentCards;
+    developmentCards.loadFromFile("../res/developmentCards.png");
+    developmentCards.setSmooth(true);
+
+    std::vector<int> cardsPlayer1(10);
+    cardsPlayer1.at(0) = 2;
+    cardsPlayer1.at(0) = 3;
+    
+    std::vector<Sprite> vectorSpriteCards(10);
+    
+    for(int i = 0; i < cardsPlayer1.size(); i++){
+
+        Sprite *spriteCard = new Sprite(developmentCards, IntRect(154 * cardsPlayer1.at(i), 0, 154, 234));
+        vectorSpriteCards.at(i) = *spriteCard;
+    }
+    
+   */
+    //--------------------player1Cards------------------------
 
 }
 

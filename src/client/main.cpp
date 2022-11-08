@@ -20,8 +20,8 @@ int main(int argc,char* argv[])
     cout << "===============| Catan |===============" << endl;
 
     // création de la fenêtre
-    int WIDTH = 1280;
-    int LENGTH = 720;
+    int WIDTH = 1920;
+    int LENGTH = 1080;
     RenderWindow window(VideoMode(WIDTH, LENGTH), "Catan");
 
     State state;
@@ -45,7 +45,7 @@ int main(int argc,char* argv[])
         return -1;
     tileMap.setOrigin((8*114)/2, 719/2);
     tileMap.setPosition(WIDTH/2, 30 + LENGTH/2);
-    tileMap.setScale(Vector2f(0.9, 0.9));
+    tileMap.setScale(Vector2f(0.85, 0.85));
 
 
     
