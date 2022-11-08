@@ -1,6 +1,5 @@
 #include "Map.h"
 #include <cstring>
-#include <iostream>
 
 namespace state{
 
@@ -28,6 +27,12 @@ Map::Map(){
 
     memcpy(grid, temp_grid, sizeof(int)*49);
     memcpy(tokengrid, temp_token_grid, sizeof(int)*49);
+
+    buildings.push_back(Building(PlayerRed, City));
+    buildings.back().position = std::make_tuple(std::make_tuple(2,2), std::make_tuple(2,1), std::make_tuple(3,2));
+
+    buildings.push_back(Building(PlayerBlue, Colony));
+    buildings.back().position = std::make_tuple(std::make_tuple(3,3), std::make_tuple(3,4), std::make_tuple(4,4));
 }
 
 }
