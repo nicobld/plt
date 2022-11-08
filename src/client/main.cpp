@@ -53,6 +53,7 @@ int main(int argc,char* argv[])
         //HUD.display(window);
         window.draw(*stateView.tileMap);
         stateView.displayHUD->render(window, state.players[0], state.players[1], state.players[2], state.players[3]);
+        stateView.render(window);
 
         // fin de la frame courante, affichage de tout ce qu'on a dessiné
         window.display();
