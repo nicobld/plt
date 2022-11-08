@@ -357,8 +357,7 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     target.draw(*player3NumberRoads);
     target.draw(*player4NumberRoads);
 
-
-    for(int i= 0; i< player1.developments.size(); i++){
+    for(int i = 0; i < player1.developments.size(); i++){
         target.draw(vectorSpriteCards.at(i));
     }
 
@@ -372,14 +371,14 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     player3VP->setString(to_string(player3.victoryPoints));
     player4VP->setString(to_string(player4.victoryPoints));
 
-    player1NumberCards->setString("0");
-    player2NumberCards->setString("0");
-    player3NumberCards->setString("0");
-    player4NumberCards->setString("0");
+    player1NumberCards->setString(to_string(player1.resources.size()));
+    player2NumberCards->setString(to_string(player2.resources.size()));
+    player3NumberCards->setString(to_string(player3.resources.size()));
+    player4NumberCards->setString(to_string(player4.resources.size()));
 
-    player2NumberDevelopments->setString("0");
-    player3NumberDevelopments->setString("0");
-    player4NumberDevelopments->setString("0");
+    player2NumberDevelopments->setString(to_string(player2.developments.size()));
+    player3NumberDevelopments->setString(to_string(player3.developments.size()));
+    player4NumberDevelopments->setString(to_string(player4.developments.size()));
 
     player1NumberKnights->setString(to_string(player1.knightNumber));
     player2NumberKnights->setString(to_string(player2.knightNumber));
@@ -392,14 +391,17 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     player4NumberRoads->setString("0");
 
     //--------------------player1Cards------------------------
-    int ecart = 0;
+    int ecart = 80;
+    int compteur = 1;
     for(int i = player1.developments.size()-1; i >= 0; i--){
-    Sprite(icon, IntRect(9*74, 0, 74, 58));
+        //Sprite spriteCard(developmentCards, IntRect(154 * (player1.developments.at(i).developmentType + 2), 0, 154, 234));
+        //spriteCard.setPosition(100-ecart, 500);
+        //vectorSpriteCards.push_back(spriteCard);
 
-        Sprite *spriteCard = new Sprite(developmentCards, IntRect(154 * (player1.developments.at(i).developmentType + 2), 0, 154, 234));
-        spriteCard->setPosition(100-ecart, 500);
-        vectorSpriteCards.at(i) = *spriteCard;
-        ecart += 20;
+        vectorSpriteCards.push_back(Sprite(developmentCards, IntRect(155 * (player1.developments.at(i).developmentType + 2), 0, 155, 234)));
+        vectorSpriteCards.back().setScale(Vector2f(1.2, 1.2));
+        vectorSpriteCards.back().setPosition( 30 + (player1.developments.size() - compteur)*( 155- ecart), 455);
+        compteur++;
     }
     //--------------------player1Cards------------------------
 
