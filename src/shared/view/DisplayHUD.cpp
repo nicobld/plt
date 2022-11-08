@@ -422,6 +422,10 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     int ecart = 80;
     int compteur = 1;
     for(int i = player1.developments.size()-1; i >= 0; i--){
+        //Sprite spriteCard(developmentCards, IntRect(154 * (player1.developments.at(i).developmentType + 2), 0, 154, 234));
+        //spriteCard.setPosition(100-ecart, 500);
+        //vectorSpriteCards.push_back(spriteCard);
+
         vectorSpriteCards.push_back(Sprite(developmentCards, IntRect(155 * (player1.developments.at(i).developmentType + 2), 0, 155, 234)));
         vectorSpriteCards.back().setScale(Vector2f(1.2, 1.2));
         vectorSpriteCards.back().setPosition( 30 + (player1.developments.size() - compteur)*( 155- ecart), 455);
