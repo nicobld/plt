@@ -7,8 +7,8 @@ StateView::StateView(state::State& state) : state(state){
     int width = 1280;
     int height = 720;
     displayHUD = new DisplayHUD(width, height, state.players[0], state.players[1], state.players[2], state.players[3]);
-    renderPieces = new RenderPieces();
     tileMap = new TileMap();
+    renderPieces = new RenderPieces(state, tileMap->m_vertices);
 
     if (!tileMap->load("../res/tiles.png", sf::Vector2u(114, 131), state.map.grid, 7, 7))
         exit(0);

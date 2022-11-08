@@ -2,6 +2,6 @@
 
 using namespace view;
 
-RenderPieces::RenderPieces(){
+RenderPieces::RenderPieces(state::State& state, sf::VertexArray& tile_vertices){
     thief = new sf::Sprite();
 }
