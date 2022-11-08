@@ -2,6 +2,11 @@
 
 namespace state{
 
-Development::Development(bool keep, DevelopmentType developmentType): keep(keep), developmentType(developmentType) {}
+Development::Development(DevelopmentType developmentType): developmentType(developmentType) {
+    if (developmentType == Knight || developmentType == VictoryPointsCard)
+        keep = true;
+    else
+        keep = false;
+}
 
 }
