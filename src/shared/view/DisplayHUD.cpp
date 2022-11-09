@@ -35,26 +35,41 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
      //------------------playerSquare--------------------------
 
-    playerSquare.loadFromFile("../res/square.png");
+    playerSquare.loadFromFile("../res/squares.png");
     playerSquare.setSmooth(true);
 
     spritePlayer1Square =  new Sprite(playerSquare,IntRect(0, 0, 504, 204));
     spritePlayer1Square->setScale(Vector2f(0.9, 0.9));
     spritePlayer1Square->setPosition(scrennGap, -120);
 
-    spritePlayer2Square = new Sprite(playerSquare, IntRect(400, 227, widthSquare, lengthSquare));
+    spritePlayer2Square = new Sprite(playerSquare, IntRect(widthSquare*3, 205, widthSquare, lengthSquare));
     spritePlayer2Square->setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer2Square->setPosition(WIDTH - scrennGap - 3*(widthSquare*scaleSquare) - 2*squareGap, heigthSqaure);
 
-    spritePlayer3Square = new Sprite(playerSquare, IntRect(0, 227, widthSquare, lengthSquare));
+    spritePlayer3Square = new Sprite(playerSquare, IntRect(widthSquare*1, 205, widthSquare, lengthSquare));
     spritePlayer3Square->setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer3Square->setPosition(WIDTH - scrennGap - 2*(widthSquare*scaleSquare) - squareGap, heigthSqaure);
 
-    spritePlayer4Square = new Sprite(playerSquare, IntRect(200, 227, widthSquare, lengthSquare));
+    spritePlayer4Square = new Sprite(playerSquare, IntRect(widthSquare*2, 205, widthSquare, lengthSquare));
     spritePlayer4Square->setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer4Square->setPosition(WIDTH - scrennGap -widthSquare*scaleSquare, heigthSqaure);
 
     //------------------playerSquare--------------------------
+
+    //----------------playerRessources-----------------------
+
+    spriteRessourceSquare = new Sprite(playerSquare, IntRect(widthSquare*4, 205, 309, 52));
+    spriteRessourceSquare->setPosition(scrennGap, spritePlayer1Square->getGlobalBounds().height + spritePlayer1Square->getPosition().y + 20);
+    spriteRessourceSquare->setScale(Vector2f(1.3, 1.3));
+    for(int i = 0; i<5; i++){
+        vectorSpriteRessource.push_back(Sprite(icon, IntRect(i*74, 0, 74, 58)));
+        vectorSpriteRessource.back().setScale(Vector2f(0.5, 0.5));
+        vectorSpriteRessource.back().setPosition(spriteRessourceSquare->getPosition().x + 40 + i*75, spriteRessourceSquare->getPosition().y + spriteRessourceSquare->getGlobalBounds().height/2 - 13);
+
+        //vectorTextRessource.push_back(Text())
+    }
+    
+    //----------------playerRessources-----------------------
 
     //-------------------playerName---------------------------
 
@@ -303,6 +318,11 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     target.draw(*spritePlayer2Square);
     target.draw(*spritePlayer3Square);
     target.draw(*spritePlayer4Square);
+
+    target.draw(*spriteRessourceSquare);
+    for(int i = 0; i<5; i++){
+        target.draw(vectorSpriteRessource.at(i));
+    }
    
     target.draw(*player1Name);
     target.draw(*player2Name);
@@ -394,10 +414,6 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     int ecart = 80;
     int compteur = 1;
     for(int i = player1.developments.size()-1; i >= 0; i--){
-        //Sprite spriteCard(developmentCards, IntRect(154 * (player1.developments.at(i).developmentType + 2), 0, 154, 234));
-        //spriteCard.setPosition(100-ecart, 500);
-        //vectorSpriteCards.push_back(spriteCard);
-
         vectorSpriteCards.push_back(Sprite(developmentCards, IntRect(155 * (player1.developments.at(i).developmentType + 2), 0, 155, 234)));
         vectorSpriteCards.back().setScale(Vector2f(1.2, 1.2));
         vectorSpriteCards.back().setPosition( 30 + (player1.developments.size() - compteur)*( 155- ecart), 455);
