@@ -7,7 +7,7 @@ Position::Position() {
     y = 0;
 }
 
-Position::Position(int x, int y) : x(x), y(y) {}
+Position::Position(int y, int x) : x(x), y(y) {}
 
 Position operator+(Position pos1, Position pos2){
     return Position(pos1.x + pos2.x, pos1.y + pos2.y);
