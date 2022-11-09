@@ -326,7 +326,7 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
         target.draw(vectorSpriteRessource.at(i));
         target.draw(vectorTextRessource.at(i));
     }
-   
+
     target.draw(*player1Name);
     target.draw(*player2Name);
     target.draw(*player3Name);
@@ -383,6 +383,7 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     for(int i = 0; i < player1.developments.size(); i++){
         target.draw(vectorSpriteCards.at(i));
     }
+    vectorSpriteCards.clear();
 
 }
 
@@ -421,13 +422,6 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     int ecart = 80;
     int compteur = 1;
     for(int i = player1.developments.size()-1; i >= 0; i--){
-<<<<<<< HEAD
-=======
-        //Sprite spriteCard(developmentCards, IntRect(154 * (player1.developments.at(i).developmentType + 2), 0, 154, 234));
-        //spriteCard.setPosition(100-ecart, 500);
-        //vectorSpriteCards.push_back(spriteCard);
-
->>>>>>> features development cards finie
         vectorSpriteCards.push_back(Sprite(developmentCards, IntRect(155 * (player1.developments.at(i).developmentType + 2), 0, 155, 234)));
         vectorSpriteCards.back().setScale(Vector2f(1.2, 1.2));
         vectorSpriteCards.back().setPosition( 30 + (player1.developments.size() - compteur)*( 155- ecart), 455);
