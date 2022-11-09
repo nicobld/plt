@@ -326,7 +326,7 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
         target.draw(vectorSpriteRessource.at(i));
         target.draw(vectorTextRessource.at(i));
     }
-
+    
     target.draw(*player1Name);
     target.draw(*player2Name);
     target.draw(*player3Name);
