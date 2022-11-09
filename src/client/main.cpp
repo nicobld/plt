@@ -29,7 +29,6 @@ int main(int argc,char* argv[])
     state.players.push_back(Player("Xu", PlayerYellow));
     state.players.push_back(Player("Stephane", PlayerGreen));
 
-
     state.players.at(0).developments.push_back(Development(Knight));
     state.players.at(0).developments.push_back(Development(VictoryPointsCard));
     state.players.at(0).developments.push_back(Development(Monopoly));
