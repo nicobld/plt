@@ -56,6 +56,23 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
     //------------------playerSquare--------------------------
 
+    //----------------playerRessources-----------------------
+
+    spriteRessourceSquare = new Sprite(playerSquare, IntRect(widthSquare*4, 205, 309, 52));
+    spriteRessourceSquare->setPosition(scrennGap, spritePlayer1Square->getGlobalBounds().height + spritePlayer1Square->getPosition().y + 20);
+    spriteRessourceSquare->setScale(Vector2f(1.31, 1.3));
+    for(int i = 0; i<5; i++){
+        vectorSpriteRessource.push_back(Sprite(icon, IntRect(i*74, 0, 74, 58)));
+        vectorSpriteRessource.back().setScale(Vector2f(0.5, 0.5));
+        vectorSpriteRessource.back().setPosition(spriteRessourceSquare->getPosition().x + 40 + i*80, spriteRessourceSquare->getPosition().y + spriteRessourceSquare->getGlobalBounds().height/2 - 13);
+
+        vectorTextRessource.push_back(Text(to_string(player1.resources.at(i).Number), font, 24));
+        vectorTextRessource.back().setPosition(vectorSpriteRessource.back().getPosition().x - 20, vectorSpriteRessource.back().getPosition().y);
+        vectorTextRessource.back().setFillColor(Color(0,0,0));
+    }
+    
+    //----------------playerRessources-----------------------
+
     //-------------------playerName---------------------------
 
     player1Name = new Text(player1.name, font, 24);
@@ -303,6 +320,12 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     target.draw(*spritePlayer2Square);
     target.draw(*spritePlayer3Square);
     target.draw(*spritePlayer4Square);
+
+    target.draw(*spriteRessourceSquare);
+    for(int i = 0; i<5; i++){
+        target.draw(vectorSpriteRessource.at(i));
+        target.draw(vectorTextRessource.at(i));
+    }
    
     target.draw(*player1Name);
     target.draw(*player2Name);
@@ -371,7 +394,11 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     player2VP->setString(to_string(player2.victoryPoints));
     player3VP->setString(to_string(player3.victoryPoints));
     player4VP->setString(to_string(player4.victoryPoints));
-    
+        
+    for(int i = 0; i<5; i++){
+        vectorTextRessource.at(i).setString(to_string(player1.resources.at(i).Number));
+    }
+
     for(int i = 0; i<5; i++){
         vectorTextRessource.at(i).setString(to_string(player1.resources.at(i).Number));
     }
