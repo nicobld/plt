@@ -33,6 +33,15 @@ int main(int argc,char* argv[])
     state.players.at(0).developments.push_back(Development(VictoryPointsCard));
     state.players.at(0).developments.push_back(Development(Monopoly));
 
+    state.players.at(0).resources.at(0).Number = 2;
+    state.players.at(0).resources.at(1).Number = 3;
+    state.players.at(0).resources.at(4).Number = 1;
+    state.players.at(1).resources.at(4).Number = 1;
+    state.players.at(3).resources.at(4).Number = 5;
+
+
+    
+
     StateView stateView(state);
 
     
