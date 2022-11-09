@@ -35,22 +35,22 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
      //------------------playerSquare--------------------------
 
-    playerSquare.loadFromFile("../res/square.png");
+    playerSquare.loadFromFile("../res/squares.png");
     playerSquare.setSmooth(true);
 
     spritePlayer1Square =  new Sprite(playerSquare,IntRect(0, 0, 504, 204));
     spritePlayer1Square->setScale(Vector2f(0.9, 0.9));
     spritePlayer1Square->setPosition(scrennGap, -120);
 
-    spritePlayer2Square = new Sprite(playerSquare, IntRect(400, 227, widthSquare, lengthSquare));
+    spritePlayer2Square = new Sprite(playerSquare, IntRect(widthSquare*3, 205, widthSquare, lengthSquare));
     spritePlayer2Square->setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer2Square->setPosition(WIDTH - scrennGap - 3*(widthSquare*scaleSquare) - 2*squareGap, heigthSqaure);
 
-    spritePlayer3Square = new Sprite(playerSquare, IntRect(0, 227, widthSquare, lengthSquare));
+    spritePlayer3Square = new Sprite(playerSquare, IntRect(widthSquare*1, 205, widthSquare, lengthSquare));
     spritePlayer3Square->setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer3Square->setPosition(WIDTH - scrennGap - 2*(widthSquare*scaleSquare) - squareGap, heigthSqaure);
 
-    spritePlayer4Square = new Sprite(playerSquare, IntRect(200, 227, widthSquare, lengthSquare));
+    spritePlayer4Square = new Sprite(playerSquare, IntRect(widthSquare*2, 205, widthSquare, lengthSquare));
     spritePlayer4Square->setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer4Square->setPosition(WIDTH - scrennGap -widthSquare*scaleSquare, heigthSqaure);
 
