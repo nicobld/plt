@@ -29,35 +29,14 @@ int main(int argc,char* argv[])
     state.players.push_back(Player("Xu", PlayerYellow));
     state.players.push_back(Player("Stephane", PlayerGreen));
 
-<<<<<<< HEAD
+
     state.players.at(0).developments.push_back(Development(Knight));
     state.players.at(0).developments.push_back(Development(VictoryPointsCard));
     state.players.at(0).developments.push_back(Development(Monopoly));
-=======
-    Player player1("Jonah", PlayerRed);
-    Player player2("Nicolas", PlayerBlue);
-    Player player3("Xu", PlayerOrange);
-    Player player4("Stephane", PlayerWhite);
-
-    player1.victoryPoints = 10;
-    player1.knightNumber = 3;
-     
-    player1.developments.push_back(Development(1, Knight));
-    player1.developments.push_back(Development(1, VictoryPointsCard));
-    player1.developments.push_back(Development(1, VictoryPointsCard));
-
-    DisplayHUD HUD(WIDTH, LENGTH, player1, player2, player3, player4);
-
-    cout << "Player : " << player1.name << endl;
-    cout << "Victory Point : " << player1.victoryPoints << endl;
 
 
-    if (!tileMap.load("../res/tiles.png", sf::Vector2u(114, 131), state.map.grid, 7, 7))
-        return -1;
-    tileMap.setOrigin((8*114)/2, 719/2);
-    tileMap.setPosition(WIDTH/2, 30 + LENGTH/2);
-    tileMap.setScale(Vector2f(0.9, 0.9));
->>>>>>> features development cards finie
+    DisplayHUD HUD(width, height, state.players.at(0), state.players.at(1), state.players.at(2), state.players.at(3));
+
 
     StateView stateView(state);
 
