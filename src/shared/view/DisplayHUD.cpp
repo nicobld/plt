@@ -342,7 +342,7 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
         target.draw(vectorSpriteRessource.at(i));
         target.draw(vectorTextRessource.at(i));
     }
-   
+
     target.draw(*player1Name);
     target.draw(*player2Name);
     target.draw(*player3Name);
@@ -412,10 +412,7 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     player2VP->setString(to_string(player2.victoryPoints));
     player3VP->setString(to_string(player3.victoryPoints));
     player4VP->setString(to_string(player4.victoryPoints));
-        
-    for(int i = 0; i<5; i++){
-        vectorTextRessource.at(i).setString(to_string(player1.resources.at(i).number));
-    }
+    
     int sommeResources1 = 0, sommeResources2 = 0, sommeResources3 = 0, sommeResources4 = 0;
     for(int i = 0; i<5; i++){
         vectorTextRessource.at(i).setString(to_string(player1.resources.at(i).number));
@@ -425,10 +422,10 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
         sommeResources4 += player4.resources.at(i).number;
     }
 
-    player1NumberCards->setString(to_string(player1.resources.size()));
-    player2NumberCards->setString(to_string(player2.resources.size()));
-    player3NumberCards->setString(to_string(player3.resources.size()));
-    player4NumberCards->setString(to_string(player4.resources.size()));
+    player1NumberCards->setString(to_string(sommeResources1));
+    player2NumberCards->setString(to_string(sommeResources2));
+    player3NumberCards->setString(to_string(sommeResources3));
+    player4NumberCards->setString(to_string(sommeResources4));
 
     player2NumberDevelopments->setString(to_string(player2.developments.size()));
     player3NumberDevelopments->setString(to_string(player3.developments.size()));
