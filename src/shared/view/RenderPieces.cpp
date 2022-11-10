@@ -6,7 +6,7 @@ using namespace view;
 using namespace std;
 using namespace state;
 
-RenderPieces::RenderPieces(state::State state, sf::VertexArray& tile_vertices){
+RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
     thief = new sf::Sprite();
     buildingTexture.loadFromFile("../res/pieces.png");
     buildingTexture.setSmooth(true);

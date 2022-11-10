@@ -21,6 +21,12 @@ Player::Player(std::string name, PlayerColor playerColor) : name(name), playerCo
     for (i = 0; i < 15; i++){
         roads.push_back(Road(playerColor));
     }
+
+    resources.push_back(Resource(Lumber));
+    resources.push_back(Resource(Brick));
+    resources.push_back(Resource(Grain));
+    resources.push_back(Resource(Wool));
+    resources.push_back(Resource(Ore));
 }
 
 }
