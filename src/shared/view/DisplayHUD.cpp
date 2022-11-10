@@ -322,7 +322,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
     ButtonPassTurn->setPosition(WIDTH - scrennGap - ButtonPassTurn->getGlobalBounds().width, LENGTH - scrennGap -  ButtonPassTurn->getGlobalBounds().height);
     passTurn->setOrigin(passTurn->getGlobalBounds().width/2, passTurn->getGlobalBounds().height/2);
-    passTurn->setPosition(ButtonPassTurn->getGlobalBounds().width/2, ButtonPassTurn->getGlobalBounds().height/2);
+    passTurn->setPosition(ButtonPassTurn->getPosition().x + ButtonPassTurn->getGlobalBounds().width/2, ButtonPassTurn->getGlobalBounds().height/2 + ButtonPassTurn->getPosition().y - 8);
 
     //-----------------------Button---------------------------
 
