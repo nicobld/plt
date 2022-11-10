@@ -310,6 +310,22 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
     //--------------------player1Cards------------------------
 
+    //-----------------------Button---------------------------
+
+    Sprite * buttonPassTurn = new Sprite(playerSquare, IntRect(1009, 205, 199, 48));
+    Sprite * buttonExchange = new Sprite(playerSquare, IntRect(1009 + 199, 205, 199, 48));
+    Sprite * buttonBuild = new Sprite(playerSquare, IntRect(1009 + 199*2, 205, 199, 48));
+
+    Text * PassTurn = new Text("Passer son tour", font, 24);
+    Text * Exchange = new Text("Echange", font, 24);
+    Text * Build = new Text("Construction", font, 24);
+
+    buttonPassTurn->setPosition(WIDTH - scrennGap - buttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap -  buttonPassTurn->getGlobalBounds().height);
+    PassTurn->setOrigin(PassTurn->getGlobalBounds().width/2, PassTurn->getGlobalBounds().height/2);
+    PassTurn->setPosition(buttonPassTurn->getGlobalBounds().width/2, buttonPassTurn->getGlobalBounds().height/2);
+
+    //-----------------------Button---------------------------
+
 }
 
 void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2, Player player3, Player player4){
