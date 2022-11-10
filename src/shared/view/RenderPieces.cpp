@@ -19,9 +19,10 @@ RenderPieces::RenderPieces(state::State state, sf::VertexArray& tile_vertices){
     //creer les tokens pour placer sur les tiles
     for(int i = 0; i < 49; i++){
         if(state.map.tokengrid[i] != 0){
-            tokens.push_back(sf::Text(std::to_string(state.map.tokengrid[i]), font, 48));
+            tokens.push_back(sf::Text(std::to_string(state.map.tokengrid[i]), font, 60));
             tokens.back().setOrigin(tokens.back().getGlobalBounds().width/2, tokens.back().getGlobalBounds().height/2);
-            tokens.back().setPosition(tile_vertices[i*12].position + sf::Vector2f(0, 65)); //65 = hauteur d'un tile/2
+            tokens.back().setPosition(tile_vertices[i*12].position + sf::Vector2f(0, 55)); //65 = hauteur d'un tile/2
+            tokens.back().setColor(sf::Color(255, 255, 255, 190));
         }
     }
 }
@@ -30,7 +31,7 @@ void RenderPieces::update(state::State state){
     buildings.clear();
     //ajout des sprite buildings
     for(state::Building b : state.map.buildings){
-        buildings.push_back(sf::Sprite(buildingTexture, sf::IntRect((b.buildingType * 4 + b.playerColor)*39, 0, 38, 37)));
+        buildings.push_back(sf::Sprite(buildingTexture, sf::IntRect((b.buildingType * 4 + b.playerColor)*37, 0, 37, 37)));
     }
 
     int roadOffset = 0;
@@ -63,7 +64,18 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
 
     std::array<Position, 3>* array;
     sf::Vector2f centre1, centre2, centre3;
+    std::array<Position, 2>* array2;
     int i;
+
+    for(i = 0; i < roads.size(); i++){
+        array2 = &state.map.roads[i].position;
+        centre1 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65); //on trouve les 2 centres des tiles
+        centre2 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
+        roads[i].setPosition((centre1.x + centre2.x)/2, (centre1.y + centre2.y)/2); //leur moyenne donne le centre de leur arrete commune pour placer la route
+        roads[i].setOrigin(28, 29);
+
+        target.draw(roads[i]);
+    }
 
     for(i = 0; i < buildings.size(); i++){
         array = &state.map.buildings[i].position;
@@ -76,17 +88,6 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
         target.draw(buildings[i]);
     }
 
-    std::array<Position, 2>* array2;
-
-    for(i = 0; i < roads.size(); i++){
-        array2 = &state.map.roads[i].position;
-        centre1 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65); //on trouve les 2 centres des tiles
-        centre2 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
-        roads[i].setPosition((centre1.x + centre2.x)/2, (centre1.y + centre2.y)/2); //leur moyenne donne le centre de leur arrete commune pour placer la route
-        roads[i].setOrigin(28, 29);
-
-        target.draw(roads[i]);
-    }
 
     for(int i = 0; i < tokens.size(); i++){
         target.draw(tokens[i]);
