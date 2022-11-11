@@ -131,7 +131,6 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
     std::array<Position, 3>* array;
     sf::Vector2f centre1, centre2, centre3;
     std::array<Position, 2>* array2;
-    float portRotation;
     int i;
 
     for(i = 0; i < roads.size(); i++){
