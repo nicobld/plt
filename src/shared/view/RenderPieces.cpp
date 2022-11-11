@@ -7,12 +7,18 @@ using namespace std;
 using namespace state;
 
 RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
-    thief = new sf::Sprite();
     buildingTexture.loadFromFile("../res/pieces.png");
     roadTexture.loadFromFile("../res/roads.png");
     portTexture.loadFromFile("../res/port.png");
 
     font.loadFromFile("../res/poppins.ttf");
+
+    //Thief
+    sf::Texture* thiefTexture = new sf::Texture();
+    thiefTexture->loadFromFile("../res/thief.png");
+    thief = new sf::Sprite(*thiefTexture, sf::IntRect(0, 0, 128, 128));
+    thief->setOrigin(128/2, 128/2);
+    thief->setScale(0.75, 0.75);
 
     //creer les tokens pour placer sur les tiles
     for(int i = 0; i < 49; i++){
@@ -135,6 +141,13 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
         target.draw(roads[i]);
     }
 
+    
+    for (i = 0; i < ports.size(); i++){
+        target.draw(portIcons[i]);
+        target.draw(portTexts[i]);
+        target.draw(ports[i]);
+    }
+
     for(i = 0; i < buildings.size(); i++){
         array = &state.map.buildings[i].position;
         centre1 = (tile_vertices)[(((*array)[0].x + (*array)[0].y*7))*12].position + sf::Vector2f(0, 65); //on trouve les 3 centres des tiles
@@ -146,16 +159,12 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
         target.draw(buildings[i]);
     }
 
-    for (i = 0; i < ports.size(); i++){
-        target.draw(portIcons[i]);
-        target.draw(portTexts[i]);
-        target.draw(ports[i]);
-    }
-
-    
 
 
     for(int i = 0; i < tokens.size(); i++){
         target.draw(tokens[i]);
     }
+
+    thief->setPosition(tile_vertices[(state.map.thief.position.x + state.map.thief.position.y*7)*12].position + sf::Vector2f(0, 65));
+    target.draw(*thief);
 }

@@ -39,6 +39,12 @@ Map::Map(){
     memcpy(grid, temp_grid, sizeof(int)*49);
     memcpy(tokengrid, temp_token_grid, sizeof(int)*49);
 
+    //Thief
+
+    thief.position = Position(3, 3);
+
+    //Buildings
+
     buildings.push_back(Building(PlayerRed, City));
     buildings.back().position = {Position(1, 1), Position(2, 1), Position(2, 2)};
 
