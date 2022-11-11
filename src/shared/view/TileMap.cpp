@@ -1,6 +1,8 @@
 #include "TileMap.h"
 #include <iostream>
 
+#define RESIZE 1.0f //NE PAS UTILISER MARCHE PAS
+
 using namespace view;
 
 bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height){
@@ -66,19 +68,9 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
                         break;
                 }
 
-                // hex[0].position = sf::Vector2f((i + 0.5 + j%2 * 0.5) * tileSize.x, j*0.75 * tileSize.y);
-                // hex[1].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x, (j*0.75 + 0.25) * tileSize.y);
-                // hex[2].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x, (j*0.75 + 0.75) * tileSize.y);
-                // hex[3].position = sf::Vector2f((i + 0.5 + j%2 * 0.5) * tileSize.x, (j*0.75 + 1) * tileSize.y);
-                // hex[4].position = sf::Vector2f((i + j%2 * 0.5) * tileSize.x, (j*0.75 + 0.75) * tileSize.y);
-                // hex[5].position = sf::Vector2f((i + j%2 * 0.5) * tileSize.x, (j*0.75 + 0.25) * tileSize.y);
-
-                // hex[0].texCoords = sf::Vector2f((tileNumber + 0.5) * tileSize.x, 0);
-                // hex[1].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.25 * tileSize.y);
-                // hex[2].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.75 * tileSize.y);
-                // hex[3].texCoords = sf::Vector2f((tileNumber + 0.5) * tileSize.x, 1 * tileSize.y);
-                // hex[4].texCoords = sf::Vector2f(tileNumber * tileSize.x, 0.75 * tileSize.y);
-                // hex[5].texCoords = sf::Vector2f(tileNumber * tileSize.x, 0.25 * tileSize.y);
+                hex[0].position *= RESIZE;
+                hex[1].position *= RESIZE;
+                hex[2].position *= RESIZE;
             }
         }
     return true;

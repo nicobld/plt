@@ -17,16 +17,33 @@ Map::Map(){
 
     int temp_token_grid[49] = {
         0, 0, 0, 0, 0, 0, 0,
-          0, 0, 1, 2, 3, 0, 0,
-        0, 0, 5, 6, 7, 8, 0,
-          0, 9, 10, 11, 12, 13, 0,
-        0, 0, 14, 15, 16, 17, 0,
-          0, 0, 18, 19, 20, 0, 0,
+          0, 0, 10, 2, 9, 0, 0,
+        0, 0, 12, 6, 4, 10, 0,
+          0, 9, 11, 0, 3, 8, 0,
+        0, 0, 8, 3, 4, 5, 0,
+          0, 0, 5, 6, 11, 0, 0,
         0, 0, 0, 0, 0, 0, 0,
     };
 
+    //debug grid
+    // int temp_token_grid[49] = {
+    //     00, 10, 20, 30, 40, 50, 60,
+    //       01, 11, 21, 31, 41, 51, 61,
+    //     02, 12, 22, 32, 42, 52, 62,
+    //       03, 13, 23, 33, 43, 53, 63,
+    //     04, 14, 24, 34, 44, 54, 64,
+    //       05, 15, 25, 35, 45, 55, 65,
+    //     06, 16, 26, 36, 46, 56, 66,
+    // };
+
     memcpy(grid, temp_grid, sizeof(int)*49);
     memcpy(tokengrid, temp_token_grid, sizeof(int)*49);
+
+    //Thief
+
+    thief.position = Position(3, 3);
+
+    //Buildings
 
     buildings.push_back(Building(PlayerRed, City));
     buildings.back().position = {Position(1, 1), Position(2, 1), Position(2, 2)};
@@ -48,6 +65,20 @@ Map::Map(){
 
     roads.push_back(Road(PlayerRed));
     roads.back().position = {Position(1, 3), Position(2, 3)};
+
+    // Ports
+
+    ports.push_back(Port(3, Nothing));
+    ports.back().position = {Position(2, 0), Position(2, 1)};
+    
+    ports.push_back(Port(2, Grain, 4, 0, 3, 1));
+    ports.push_back(Port(2, Lumber, 1, 2, 2, 2));
+    ports.push_back(Port(2, Brick, 1, 4, 2, 4));
+    ports.push_back(Port(3, Nothing, 2, 6, 2, 5));
+    ports.push_back(Port(3, Nothing, 4, 6, 3, 5));
+    ports.push_back(Port(2, Wool, 5, 5, 5, 4));
+    ports.push_back(Port(3, Nothing, 6, 3, 5, 3));
+    ports.push_back(Port(2, Ore, 5, 1, 5, 2));
 }
 
 }
