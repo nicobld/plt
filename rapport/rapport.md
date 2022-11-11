@@ -77,6 +77,9 @@ Pour définir la position des objets sur la map, on leur donne un attribut de ty
 
 <img src="images/jeu.png">
 
+Pour le rendu du jeu, nous avons décidé de garder certains éléments orignaux comme la dispositon de la carte et les cartes dévelopements, nous nous sommes cependant séparés des cartes ressources au profit d'un chiffre associé à une icône, les joueurs auront un suivi en temps réel du nombre de chevaliers possédes par les autres ainsi que de leur nombre de routes continues.
+Les rerssources graphiques actuelles notament pour la carte sont temporaire car elles étaient plsu claires dans la réalisation de nos tests.
+
 Les classes:
 
 <img src="view.png">
@@ -100,3 +103,6 @@ On se servira de cette liste de vertex plus tard pour placer tout le reste des o
 ### RenderPieces
 
 La classe RenderPieces s'occupe de render les pièces qui se placent sur la map comme les batiments, les routes. Il faudra donc convertir la position de chaque pièce depuis State, vers des positions en pixels sur l'écran. Pour faire ceci on utilise la VertexArray de notre tilemap, c'est la liste des vertex, pour placer les pièces au bon endroit en fonction des tiles.
+
+### DisplayHUD  
+la classe DisplayHUD sert à afficher les éléments correspondant aux informations auxquelles le joueur doit avoir accès. Le constructeur permet de les initialiser, une méthode render sera appelé dans notre fichier principal afin de les dessiner. Enfin une méthode update permettra de mettre à jour les éléments comme le nombre de cartes que possède le joueur.
