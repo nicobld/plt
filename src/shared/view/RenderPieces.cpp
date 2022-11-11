@@ -2,11 +2,15 @@
 #include <cmath>
 #include <string>
 
+#define RESIZE 1 //NE PAS UTILISER MARCHE PAS
+
 using namespace view;
 using namespace std;
 using namespace state;
 
-RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
+RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
+    this->tile_vertices = tile_vertices;
+
     buildingTexture.loadFromFile("../res/pieces.png");
     roadTexture.loadFromFile("../res/roads.png");
     portTexture.loadFromFile("../res/port.png");
@@ -18,15 +22,18 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
     thiefTexture->loadFromFile("../res/thief.png");
     thief = new sf::Sprite(*thiefTexture, sf::IntRect(0, 0, 128, 128));
     thief->setOrigin(128/2, 128/2);
-    thief->setScale(0.75, 0.75);
+
+    thief->setScale(0.75*RESIZE, 0.75*RESIZE);
 
     //creer les tokens pour placer sur les tiles
     for(int i = 0; i < 49; i++){
         if(state.map.tokengrid[i] != 0){
             tokens.push_back(sf::Text(std::to_string(state.map.tokengrid[i]), font, 60));
             tokens.back().setOrigin(tokens.back().getGlobalBounds().width/2, tokens.back().getGlobalBounds().height/2);
-            tokens.back().setPosition(tile_vertices[i*12].position + sf::Vector2f(0, 55)); //65 = hauteur d'un tile/2
+            tokens.back().setPosition((*tile_vertices)[i*12].position + sf::Vector2f(0, 55)); //65 = hauteur d'un tile/2
             tokens.back().setColor(sf::Color(255, 255, 255, 190));
+            
+            tokens.back().setScale(RESIZE, RESIZE);
         }
     }
 
@@ -40,7 +47,8 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
         portTexts.push_back(sf::Text(to_string(port.exchangeRate), font, 18));
         portTexts.back().setColor(sf::Color(255, 255, 255));
         portIcons.push_back(sf::Sprite(*iconTexture, sf::IntRect((port.resourceType<5?port.resourceType:7)*74, 0, 74, 58)));
-        portIcons.back().setScale(0.27, 0.27);
+
+        portIcons.back().setScale(0.27*RESIZE, 0.27*RESIZE);
     }
         
     sf::Vector2f v;
@@ -54,15 +62,17 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
 
         if (state.map.grid[(*array2)[0].x + (*array2)[0].y*7] > state.map.grid[(*array2)[1].x + (*array2)[1].y*7]){
             //port.position[0] is the beach
-            centre1 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
-            centre2 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
+            centre1 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
+            centre2 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
         } else {
             //port.position[1] is the beach
-            centre1 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
-            centre2 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
+            centre1 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
+            centre2 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
         }
         ports[i].setPosition(centre1.x, centre1.y);
         ports[i].setOrigin(portTexture.getSize().x/2, portTexture.getSize().y/2);
+
+        ports[i].setScale(RESIZE, RESIZE);
 
         v = centre1 - centre2;
         if (centre1.y == centre2.y){
@@ -93,10 +103,20 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
 }
 
 void RenderPieces::update(state::State state){
+    sf::Vector2f centre1, centre2, centre3;
+    
+
     buildings.clear();
     //ajout des sprite buildings
     for(state::Building b : state.map.buildings){
         buildings.push_back(sf::Sprite(buildingTexture, sf::IntRect((b.buildingType * 4 + b.playerColor)*37, 0, 37, 37)));
+
+        centre1 = (*tile_vertices)[((b.position[0].x + b.position[0].y*7))*12].position + sf::Vector2f(0, 65); //on trouve les 3 centres des tiles
+        centre2 = (*tile_vertices)[((b.position[1].x + b.position[1].y*7))*12].position + sf::Vector2f(0, 65);
+        centre3 = (*tile_vertices)[((b.position[2].x + b.position[2].y*7))*12].position + sf::Vector2f(0, 65);
+        buildings.back().setPosition((centre1.x + centre2.x + centre3.x)/3, (centre1.y + centre2.y + centre3.y)/3); //moyenne sur les centres pour avoir la pointe qu'il faut pour placer le building
+        buildings.back().setOrigin(19, 18.5);
+        buildings.back().setScale(RESIZE, RESIZE);
     }
 
     int roadOffset = 0;
@@ -122,27 +142,26 @@ void RenderPieces::update(state::State state){
             }
         }
         roads.push_back(sf::Sprite(roadTexture, sf::IntRect((r.playerColor + roadOffset) * 56, 0, 56, 58)));
+
+        centre1 = (*tile_vertices)[((r.position[0].x + r.position[0].y*7))*12].position + sf::Vector2f(0, 65); //on trouve les 2 centres des tiles
+        centre2 = (*tile_vertices)[((r.position[1].x + r.position[1].y*7))*12].position + sf::Vector2f(0, 65);
+        roads.back().setPosition((centre1.x + centre2.x)/2, (centre1.y + centre2.y)/2); //leur moyenne donne le centre de leur arrete commune pour placer la route
+        roads.back().setOrigin(28, 29);
+        roads.back().setScale(RESIZE, RESIZE);
     }
+
+        
+    thief->setPosition((*tile_vertices)[(state.map.thief.position.x + state.map.thief.position.y*7)*12].position + sf::Vector2f(0, 65));
 }
 
-void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::VertexArray& tile_vertices){
-    update(state);
+void RenderPieces::render(state::State state, sf::RenderTarget& target){
+    update(state); //pour l'instant on update à chaque render
 
-    std::array<Position, 3>* array;
-    sf::Vector2f centre1, centre2, centre3;
-    std::array<Position, 2>* array2;
     int i;
 
     for(i = 0; i < roads.size(); i++){
-        array2 = &state.map.roads[i].position;
-        centre1 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65); //on trouve les 2 centres des tiles
-        centre2 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
-        roads[i].setPosition((centre1.x + centre2.x)/2, (centre1.y + centre2.y)/2); //leur moyenne donne le centre de leur arrete commune pour placer la route
-        roads[i].setOrigin(28, 29);
-
         target.draw(roads[i]);
     }
-
     
     for (i = 0; i < ports.size(); i++){
         target.draw(ports[i]);
@@ -151,22 +170,12 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
     }
 
     for(i = 0; i < buildings.size(); i++){
-        array = &state.map.buildings[i].position;
-        centre1 = (tile_vertices)[(((*array)[0].x + (*array)[0].y*7))*12].position + sf::Vector2f(0, 65); //on trouve les 3 centres des tiles
-        centre2 = (tile_vertices)[(((*array)[1].x + (*array)[1].y*7))*12].position + sf::Vector2f(0, 65);
-        centre3 = (tile_vertices)[(((*array)[2].x + (*array)[2].y*7))*12].position + sf::Vector2f(0, 65);
-        buildings[i].setPosition((centre1.x + centre2.x + centre3.x)/3, (centre1.y + centre2.y + centre3.y)/3); //moyenne sur les centres pour avoir la pointe qu'il faut pour placer le building
-        buildings[i].setOrigin(19, 18.5);
-
         target.draw(buildings[i]);
     }
-
-
 
     for(int i = 0; i < tokens.size(); i++){
         target.draw(tokens[i]);
     }
 
-    thief->setPosition(tile_vertices[(state.map.thief.position.x + state.map.thief.position.y*7)*12].position + sf::Vector2f(0, 65));
     target.draw(*thief);
 }

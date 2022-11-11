@@ -10,12 +10,12 @@ StateView::StateView(state::State& state) : state(state){
     tileMap = new TileMap();
     tileMap->load("../res/tiles.png", sf::Vector2u(114, 131), state.map.grid, 7, 7);
 
-    renderPieces = new RenderPieces(state, tileMap->m_vertices);
+    renderPieces = new RenderPieces(state, &tileMap->m_vertices);
     // tileMap->setOrigin((8*114)/2, 719/2);
     // tileMap->setPosition(width/2, 30 + height/2);
     // tileMap->setScale(sf::Vector2f(0.9, 0.9));
 }
 
 void StateView::render(sf::RenderTarget& target){
-    renderPieces->render(state, target, tileMap->m_vertices);
+    renderPieces->render(state, target);
 }
