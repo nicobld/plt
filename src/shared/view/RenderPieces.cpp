@@ -9,10 +9,8 @@ using namespace state;
 RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
     thief = new sf::Sprite();
     buildingTexture.loadFromFile("../res/pieces.png");
-    buildingTexture.setSmooth(true);
-
     roadTexture.loadFromFile("../res/roads.png");
-    roadTexture.setSmooth(true);
+    portTexture.loadFromFile("../res/port.png");
 
     font.loadFromFile("../res/poppins.ttf");
 
@@ -24,6 +22,11 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
             tokens.back().setPosition(tile_vertices[i*12].position + sf::Vector2f(0, 55)); //65 = hauteur d'un tile/2
             tokens.back().setColor(sf::Color(255, 255, 255, 190));
         }
+    }
+
+    //initialisation des ports
+    for (int i = 0; i < state.map.ports.size(); i++){
+        ports.push_back(sf::Sprite(portTexture, sf::IntRect(0, 0, 128, 128)));
     }
 }
 
@@ -38,6 +41,7 @@ void RenderPieces::update(state::State state){
     roads.clear();
     //ajout des sprite road en fonction de la direction des road
     for(state::Road r : state.map.roads){
+        //on calcule la disposition des 2 tiles pour savoir quelle direction est leur arrete commune
         if(r.position[0].y == r.position[1].y){
             roadOffset = 0;
         }
@@ -65,6 +69,7 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
     std::array<Position, 3>* array;
     sf::Vector2f centre1, centre2, centre3;
     std::array<Position, 2>* array2;
+    float portRotation;
     int i;
 
     for(i = 0; i < roads.size(); i++){
@@ -86,6 +91,43 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
         buildings[i].setOrigin(19, 18.5);
 
         target.draw(buildings[i]);
+    }
+
+    sf::Vector2f v;
+
+    for(i = 0; i < ports.size(); i++){
+        array2 = &state.map.ports[i].position;
+
+        if (state.map.grid[(*array2)[0].x + (*array2)[0].y*7] > state.map.grid[(*array2)[1].x + (*array2)[1].y*7]){
+            //port.position[0] is the beach
+            centre1 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
+            centre2 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
+        } else {
+            //port.position[1] is the beach
+            centre1 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
+            centre2 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
+        }
+        ports[i].setPosition(centre1.x, centre1.y);
+        ports[i].setOrigin(portTexture.getSize().x/2, portTexture.getSize().y/2);
+
+        v = centre1 - centre2;
+        if (centre1.y == centre2.y){
+            if (v.x > 0)
+                portRotation = 180;
+            else
+                portRotation = 0;
+            
+        } else if (v.x > 0 && v.y > 0)
+            portRotation = 240;
+        else if (v.x > 0 && v.y < 0)
+            portRotation = 120;
+        else if (v.x < 0 && v.y > 0)
+            portRotation = 300;
+        else
+            portRotation = 60;
+
+        ports[i].setRotation(portRotation);
+        target.draw(ports[i]);
     }
 
 
