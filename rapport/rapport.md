@@ -61,6 +61,10 @@ Le premier joueur qui durant son tour atteint __10 points de victoire__ ou plus 
 <img src="state.png">
 
 ### Positionnement
+Pour définir la position des hexagones, on procède comme ceci
+
+<img src="images/hexa.png" width=200>
+
 La classe Position fait référence à un hexagone (ou tile) sur la map. La map est définie par un tableau de taille 49 qui décrit le tile qu'il y a à chaque position. Par exemple 0 pour aucun tile, 1 pour le tile foret etc.
 
 <img src="images/grid.png" width=128>
@@ -70,6 +74,10 @@ On a un grid équivalent pour placer les tokens du jeu qui se placent sur la gri
 Pour définir la position des objets sur la map, on leur donne un attribut de type array qui contient plusieurs Positions, donc qui fait référence à plusieurs tiles. La position sera donc l'intersection des tiles. Par exemple, une route doit être placée sur une arrête, qui est définie par l'intersection de 2 tiles. Une ville est placée sur un pic, qui est l'intersection de 3 tiles.
 
 ## Rendu 
+
+<img src="images/jeu.png">
+
+Les classes:
 
 <img src="view.png">
 
@@ -91,4 +99,4 @@ On se servira de cette liste de vertex plus tard pour placer tout le reste des o
 
 ### RenderPieces
 
-La classe RenderPieces s'occupe de render les pièces qui se placent sur la map. Il faudra donc convertir la position de chaque pièce depuis State, vers des positions en pixels sur l'écran.
+La classe RenderPieces s'occupe de render les pièces qui se placent sur la map comme les batiments, les routes. Il faudra donc convertir la position de chaque pièce depuis State, vers des positions en pixels sur l'écran. Pour faire ceci on utilise la VertexArray de notre tilemap, c'est la liste des vertex, pour placer les pièces au bon endroit en fonction des tiles.
