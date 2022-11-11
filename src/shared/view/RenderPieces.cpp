@@ -25,9 +25,62 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
     }
 
     //initialisation des ports
-    for (int i = 0; i < state.map.ports.size(); i++){
+
+    sf::Texture* iconTexture = new sf::Texture();
+    iconTexture->loadFromFile("../res/icons.png");
+
+    for (Port port : state.map.ports){
         ports.push_back(sf::Sprite(portTexture, sf::IntRect(0, 0, 128, 128)));
+        portTexts.push_back(sf::Text(to_string(port.exchangeRate) + ":1", font, 24));
+        portIcons.push_back(sf::Sprite(*iconTexture, sf::IntRect((port.resourceType<5?port.resourceType:7)*74, 0, 74, 58)));
+        portIcons.back().setScale(0.5, 0.5);
     }
+        
+    sf::Vector2f v;
+    sf::Vector2f centre1, centre2;
+    std::array<Position, 2>* array2;
+    float portRotation;
+
+    for(int i = 0; i < ports.size(); i++){
+        array2 = &state.map.ports[i].position;
+
+        if (state.map.grid[(*array2)[0].x + (*array2)[0].y*7] > state.map.grid[(*array2)[1].x + (*array2)[1].y*7]){
+            //port.position[0] is the beach
+            centre1 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
+            centre2 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
+        } else {
+            //port.position[1] is the beach
+            centre1 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
+            centre2 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
+        }
+        ports[i].setPosition(centre1.x, centre1.y);
+        ports[i].setOrigin(portTexture.getSize().x/2, portTexture.getSize().y/2);
+
+        v = centre1 - centre2;
+        if (centre1.y == centre2.y){
+            if (v.x > 0)
+                portRotation = 180;
+            else
+                portRotation = 0;
+            
+        } else if (v.x > 0 && v.y > 0)
+            portRotation = 240;
+        else if (v.x > 0 && v.y < 0)
+            portRotation = 120;
+        else if (v.x < 0 && v.y > 0)
+            portRotation = 300;
+        else
+            portRotation = 60;
+
+        ports[i].setRotation(portRotation);
+
+        portIcons[i].setPosition(centre1 + sf::Vector2f(0, 0));
+        portIcons[i].setOrigin(74/2, 58/2);
+
+        portTexts[i].setPosition(centre1 - sf::Vector2f(0, 30));
+        portTexts[i].setOrigin(portTexts[i].getGlobalBounds().width/2, portTexts[i].getGlobalBounds().height/2);
+    }
+
 }
 
 void RenderPieces::update(state::State state){
@@ -93,42 +146,13 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
         target.draw(buildings[i]);
     }
 
-    sf::Vector2f v;
-
-    for(i = 0; i < ports.size(); i++){
-        array2 = &state.map.ports[i].position;
-
-        if (state.map.grid[(*array2)[0].x + (*array2)[0].y*7] > state.map.grid[(*array2)[1].x + (*array2)[1].y*7]){
-            //port.position[0] is the beach
-            centre1 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
-            centre2 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
-        } else {
-            //port.position[1] is the beach
-            centre1 = (tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
-            centre2 = (tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
-        }
-        ports[i].setPosition(centre1.x, centre1.y);
-        ports[i].setOrigin(portTexture.getSize().x/2, portTexture.getSize().y/2);
-
-        v = centre1 - centre2;
-        if (centre1.y == centre2.y){
-            if (v.x > 0)
-                portRotation = 180;
-            else
-                portRotation = 0;
-            
-        } else if (v.x > 0 && v.y > 0)
-            portRotation = 240;
-        else if (v.x > 0 && v.y < 0)
-            portRotation = 120;
-        else if (v.x < 0 && v.y > 0)
-            portRotation = 300;
-        else
-            portRotation = 60;
-
-        ports[i].setRotation(portRotation);
+    for (i = 0; i < ports.size(); i++){
+        target.draw(portIcons[i]);
+        target.draw(portTexts[i]);
         target.draw(ports[i]);
     }
+
+    
 
 
     for(int i = 0; i < tokens.size(); i++){
