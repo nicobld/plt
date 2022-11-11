@@ -79,6 +79,7 @@ Pour définir la position des objets sur la map, on leur donne un attribut de ty
 
 Pour le rendu du jeu, nous avons décidé de garder certains éléments orignaux comme la dispositon de la carte et les cartes dévelopements, nous nous sommes cependant séparés des cartes ressources au profit d'un chiffre associé à une icône, les joueurs auront un suivi en temps réel du nombre de chevaliers possédes par les autres ainsi que de leur nombre de routes continues.
 Les rerssources graphiques actuelles notament pour la carte sont temporaire car elles étaient plsu claires dans la réalisation de nos tests.
+L'affichage se fait de deux manières diiférentes avec d'un côté l'HUD (heads-up display) qui sont des informations situées sur les côtés de l'écran et "fixe". De l'autre, on y retrouve l'affichage de la carte composée d'hexagones et des différents éléments placés dessus.
 
 Les classes:
 
