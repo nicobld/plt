@@ -6,6 +6,10 @@
     1. [Règles du jeu](#règles-du-jeu)
     2. [Ressources](#ressources)
 
+2. [__Etats__](#etats)
+
+3. [__Rendu__](#rendu)
+
 ## __Présentation Générale__
 
 ### __Règles du jeu__
@@ -52,44 +56,39 @@ Points de Victoire :
 
 Le premier joueur qui durant son tour atteint __10 points de victoire__ ou plus remporte la partie.
 
-### __Ressources__
+## Etats du jeu
 
-Premier aperçu de l’interface en jeu ci dessous :
+<img src="state.png">
 
-<!--- ![alt text](images/rendu.png) --->
-<img src="images/rendu.png" width="500"/>
+### Positionnement
+La classe Position fait référence à un hexagone (ou tile) sur la map. La map est définie par un tableau de taille 49 qui décrit le tile qu'il y a à chaque position. Par exemple 0 pour aucun tile, 1 pour le tile foret etc.
 
-Les terrains :
+<img src="images/grid.png" width=128>
 
-<img src="../res/terrains.png" width="500"/>
+On a un grid équivalent pour placer les tokens du jeu qui se placent sur la grille
 
-les terrains plages :
+Pour définir la position des objets sur la map, on leur donne un attribut de type array qui contient plusieurs Positions, donc qui fait référence à plusieurs tiles. La position sera donc l'intersection des tiles. Par exemple, une route doit être placée sur une arrête, qui est définie par l'intersection de 2 tiles. Une ville est placée sur un pic, qui est l'intersection de 3 tiles.
 
-<img src="../res/terrainBeachBoat.png" width="500"/>
+## Rendu 
 
-Les éléments du plateau :
+<img src="view.png">
 
-<img src="../res/buildings.png" width="500"/>
+On décompose le rendu en 3 classes de rendu principales :
 
-Les ressources :
+### TileMap
 
-<img src="../res/textures.png" width="500"/>
+La tilemap s'occupe de placer les tiles sur l'écran, en créant une entité qui contient une liste de vertex placés à l'écran. On lui dit ensuite quelle primitive on choisi, c'est à dire ce que fera le GPU avec tout ces points. Par exemple si on choisi la primitive lines, on aura 1 ligne qui relie chaque paire de points.
 
+Cette méthode évite la création d'un sprite par tile et permet au jeu de render plus vite la map. On aura enfaite 1 seul appel à la fonction draw() pour toute la map.
 
-### __Diagramme de classes__
+Dans notre cas, on remarque qu'un hexagone est constitué de 4 triangles.
 
-<img src="images/state.png"/>
+<img src="images/hex.png" width=150>
 
-Pour définir les images de chaque objet, on définit un attribut statique.
+On choisi donc une primitive triangle, et il y aura 12 vertex à placer pour former 4 triangles. Les vertex seront donc dans les coins de l'hexagone.
 
-#### __A gauche, les classes en rapport avec les cartes__
-<img src="images/state0.png"/>
+On se servira de cette liste de vertex plus tard pour placer tout le reste des objets sur la map.
 
-#### __Au milieu, les classes en rapport avec le jeu et la map__
-<img src="images/state1.png"/>
+### RenderPieces
 
-Pour les tiles, on utilise une méthode appelée "Type Object", qui consiste à définir un type de tile par une instance globale TileType, qui ne seront pas directement utilisés, mais référencés par les tiles que l'on crééra.
-On fait ceci parce que ça évite de créer beaucoup de classes pour chaque type de tile.
-
-#### __A droite, les classes en rapport avec le joueur et les constructions__
-<img src="images/state2.png"/>
+La classe RenderPieces s'occupe de render les pièces qui se placent sur la map. Il faudra donc convertir la position de chaque pièce depuis State, vers des positions en pixels sur l'écran.
