@@ -36,8 +36,9 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
     iconTexture->loadFromFile("../res/icons.png");
 
     for (Port port : state.map.ports){
-        ports.push_back(sf::Sprite(portTexture, sf::IntRect(0, 0, 128, 128)));
+        ports.push_back(sf::Sprite(portTexture, sf::IntRect(0, 0, 114, 114)));
         portTexts.push_back(sf::Text(to_string(port.exchangeRate) + ":1", font, 24));
+        portTexts.back().setColor(sf::Color(0, 0, 0));
         portIcons.push_back(sf::Sprite(*iconTexture, sf::IntRect((port.resourceType<5?port.resourceType:7)*74, 0, 74, 58)));
         portIcons.back().setScale(0.5, 0.5);
     }
@@ -83,7 +84,7 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
         portIcons[i].setPosition(centre1 + sf::Vector2f(0, 0));
         portIcons[i].setOrigin(74/2, 58/2);
 
-        portTexts[i].setPosition(centre1 - sf::Vector2f(0, 30));
+        portTexts[i].setPosition(centre1 - sf::Vector2f(0, 0));
         portTexts[i].setOrigin(portTexts[i].getGlobalBounds().width/2, portTexts[i].getGlobalBounds().height/2);
     }
 
@@ -143,9 +144,9 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target, sf::Vert
 
     
     for (i = 0; i < ports.size(); i++){
+        target.draw(ports[i]);
         target.draw(portIcons[i]);
         target.draw(portTexts[i]);
-        target.draw(ports[i]);
     }
 
     for(i = 0; i < buildings.size(); i++){
