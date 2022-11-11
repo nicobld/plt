@@ -56,7 +56,7 @@ Points de Victoire :
 
 Le premier joueur qui durant son tour atteint __10 points de victoire__ ou plus remporte la partie.
 
-## Etats du jeu
+## __Etats__
 
 <img src="state.png">
 
