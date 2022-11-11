@@ -1,5 +1,5 @@
 #include "RenderPieces.h"
-#include <iostream>
+#include <cmath>
 #include <string>
 
 using namespace view;
@@ -37,16 +37,17 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
 
     for (Port port : state.map.ports){
         ports.push_back(sf::Sprite(portTexture, sf::IntRect(0, 0, 114, 114)));
-        portTexts.push_back(sf::Text(to_string(port.exchangeRate) + ":1", font, 24));
-        portTexts.back().setColor(sf::Color(0, 0, 0));
+        portTexts.push_back(sf::Text(to_string(port.exchangeRate), font, 18));
+        portTexts.back().setColor(sf::Color(255, 255, 255));
         portIcons.push_back(sf::Sprite(*iconTexture, sf::IntRect((port.resourceType<5?port.resourceType:7)*74, 0, 74, 58)));
-        portIcons.back().setScale(0.5, 0.5);
+        portIcons.back().setScale(0.27, 0.27);
     }
         
     sf::Vector2f v;
     sf::Vector2f centre1, centre2;
     std::array<Position, 2>* array2;
     float portRotation;
+    const float degToRad = 3.1415/180;
 
     for(int i = 0; i < ports.size(); i++){
         array2 = &state.map.ports[i].position;
@@ -81,10 +82,11 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray& tile_vertices){
 
         ports[i].setRotation(portRotation);
 
-        portIcons[i].setPosition(centre1 + sf::Vector2f(0, 0));
+        portIcons[i].setPosition(centre1 + sf::Vector2f(-cos((360-portRotation)*degToRad)*20, sin((360-portRotation)*degToRad)*20));
         portIcons[i].setOrigin(74/2, 58/2);
 
-        portTexts[i].setPosition(centre1 - sf::Vector2f(0, 0));
+
+        portTexts[i].setPosition(portIcons[i].getPosition() - sf::Vector2f(17, 5));
         portTexts[i].setOrigin(portTexts[i].getGlobalBounds().width/2, portTexts[i].getGlobalBounds().height/2);
     }
 

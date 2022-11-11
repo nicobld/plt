@@ -74,7 +74,7 @@ Map::Map(){
     ports.push_back(Port(3, Grain));
     ports.back().position = {Position(6, 2), Position(5, 3)};
 
-    ports.push_back(Port(2, Wool));
+    ports.push_back(Port(2, Brick));
     ports.back().position = {Position(6, 4), Position(5, 3)};
 
     ports.push_back(Port(2, Wool));
@@ -83,7 +83,7 @@ Map::Map(){
     ports.push_back(Port(2, Wool));
     ports.back().position = {Position(0, 3), Position(1, 3)};
 
-    ports.push_back(Port(2, Wool));
+    ports.push_back(Port(3, Brick));
     ports.back().position = {Position(1, 3), Position(1, 2)};
 
     ports.push_back(Port(4, Nothing));
