@@ -312,17 +312,19 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
     //-----------------------Button---------------------------
 
-    ButtonPassTurn = new Sprite(playerSquare, IntRect(1009, 205, 199, 48));
-    ButtonExhchange = new Sprite(playerSquare, IntRect(1009 + 199, 205, 199, 48));
-    ButtonBuild = new Sprite(playerSquare, IntRect(1009 + 199*2, 205, 199, 48));
+    buttonPassTurn = new Sprite(playerSquare, IntRect(1009, 205, 199, 48));
+    buttonExhchange = new Sprite(playerSquare, IntRect(1009 + 199, 205, 199, 48));
+    buttonBuild = new Sprite(playerSquare, IntRect(1009 + 199*2, 205, 199, 48));
 
     passTurn = new Text("Passer son tour", font, 24);
     exchange = new Text("Echange", font, 24);
     build = new Text("Construction", font, 24);
 
-    ButtonPassTurn->setPosition(WIDTH - scrennGap - ButtonPassTurn->getGlobalBounds().width, LENGTH - scrennGap -  ButtonPassTurn->getGlobalBounds().height);
+    buttonPassTurn->setPosition(WIDTH - scrennGap - buttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap -  buttonPassTurn->getGlobalBounds().height);
     passTurn->setOrigin(passTurn->getGlobalBounds().width/2, passTurn->getGlobalBounds().height/2);
-    passTurn->setPosition(ButtonPassTurn->getPosition().x + ButtonPassTurn->getGlobalBounds().width/2, ButtonPassTurn->getGlobalBounds().height/2 + ButtonPassTurn->getPosition().y - 8);
+    passTurn->setPosition(buttonPassTurn->getPosition().x + buttonPassTurn->getGlobalBounds().width/2, buttonPassTurn->getGlobalBounds().height/2 + buttonPassTurn->getPosition().y - 8);
+
+
 
     //-----------------------Button---------------------------
 
@@ -401,7 +403,7 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     }
     vectorSpriteCards.clear();
 
-    target.draw(*ButtonPassTurn);
+    target.draw(*buttonPassTurn);
     target.draw(*passTurn);
 }
 
