@@ -311,10 +311,11 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     //--------------------player1Cards------------------------
 
     //-----------------------Button---------------------------
+    int ecartBouton = 60;
 
-    buttonPassTurn = new Sprite(playerSquare, IntRect(1009, 205, 199, 48));
-    buttonExhchange = new Sprite(playerSquare, IntRect(1009 + 199, 205, 199, 48));
-    buttonBuild = new Sprite(playerSquare, IntRect(1009 + 199*2, 205, 199, 48));
+    buttonPassTurn = new Sprite(playerSquare, IntRect(1010, 205, 199, 48));
+    buttonExhchange = new Sprite(playerSquare, IntRect(1010 + 199, 205, 199, 48));
+    buttonBuild = new Sprite(playerSquare, IntRect(1011 + 199*2, 205, 199, 48));
 
     passTurn = new Text("Passer son tour", font, 24);
     exchange = new Text("Echange", font, 24);
@@ -324,6 +325,13 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     passTurn->setOrigin(passTurn->getGlobalBounds().width/2, passTurn->getGlobalBounds().height/2);
     passTurn->setPosition(buttonPassTurn->getPosition().x + buttonPassTurn->getGlobalBounds().width/2, buttonPassTurn->getGlobalBounds().height/2 + buttonPassTurn->getPosition().y - 8);
 
+    buttonExhchange->setPosition(WIDTH - scrennGap - buttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap -  buttonPassTurn->getGlobalBounds().height - ecartBouton);
+    exchange->setOrigin(exchange->getGlobalBounds().width/2, exchange->getGlobalBounds().height/2);
+    exchange->setPosition(buttonExhchange->getPosition().x + buttonExhchange->getGlobalBounds().width/2, buttonExhchange->getGlobalBounds().height/2 + buttonExhchange->getPosition().y - 4); 
+
+    buttonBuild->setPosition(WIDTH - scrennGap - buttonBuild->getGlobalBounds().width, LENGTH - scrennGap -  buttonBuild->getGlobalBounds().height - ecartBouton*2);
+    build->setOrigin(build->getGlobalBounds().width/2, build->getGlobalBounds().height/2);
+    build->setPosition(buttonBuild->getPosition().x + buttonBuild->getGlobalBounds().width/2, buttonBuild->getGlobalBounds().height/2 + buttonBuild->getPosition().y - 8); 
 
 
     //-----------------------Button---------------------------
@@ -404,7 +412,11 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     vectorSpriteCards.clear();
 
     target.draw(*buttonPassTurn);
+    target.draw(*buttonExhchange);
+    target.draw(*buttonBuild);
     target.draw(*passTurn);
+    target.draw(*exchange);
+    target.draw(*build);
 }
 
 
@@ -438,10 +450,28 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     player3NumberKnights->setString(to_string(player3.knightNumber));
     player4NumberKnights->setString(to_string(player4.knightNumber));
 
+        if(player1.hasLargestArmy)
+            player1NumberKnights->setFillColor(Color(red));
+        if(player2.hasLargestArmy)
+            player2NumberKnights->setFillColor(Color(red));
+        if(player3.hasLargestArmy)
+            player3NumberKnights->setFillColor(Color(red));
+        if(player4.hasLargestArmy)
+            player4NumberKnights->setFillColor(Color(red));
+
     player1NumberRoads->setString("0");
     player2NumberRoads->setString("0");
     player3NumberRoads->setString("0");
     player4NumberRoads->setString("0");
+
+        if(player1.hasLongestRoad)
+            player1NumberRoads->setFillColor(Color(red));
+        if(player2.hasLongestRoad)
+            player2NumberRoads->setFillColor(Color(red));
+        if(player3.hasLongestRoad)
+            player3NumberRoads->setFillColor(Color(red));
+        if(player4.hasLongestRoad)
+            player4NumberRoads->setFillColor(Color(red));
 
     //--------------------player1Cards------------------------
     int ecart = 80;
