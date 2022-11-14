@@ -1,5 +1,6 @@
 #include "TileMap.h"
 #include <iostream>
+#include <cmath>
 
 #define RESIZE 1.0f //NE PAS UTILISER MARCHE PAS
 
@@ -36,8 +37,10 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
                 //on tourne dans le sens d'une montre pour chercher les 2 prochains points
                 switch (k){
                     case 0:
-                        hex[1].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x + offsetX, (j*0.75 + 0.25) * tileSize.y + offsetY);
+                        hex[1].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x + offsetX , (j*0.75 + 0.25) * tileSize.y + offsetY);
                         hex[2].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x + offsetX, (j*0.75 + 0.75) * tileSize.y + offsetY);
+
+                        
 
                         hex[1].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.25 * tileSize.y);
                         hex[2].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.75 * tileSize.y);
@@ -68,11 +71,41 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
                         break;
                 }
 
+                /*
+                hex[0].position.x *= cos(M_PI/4)/2;
+                hex[1].position.x *= cos(M_PI/4)/2;
+                hex[2].position.x *= cos(M_PI/4)/2;
+                hex[0].texCoords.x *= cos(M_PI/4)/2;
+                hex[1].texCoords.x *= cos(M_PI/4)/2;
+                hex[2].texCoords.x *= cos(M_PI/4)/2;
+
+                hex[0].position.y *= sin(M_PI/4)/2;
+                hex[1].position.y *= sin(M_PI/4)/2;
+                hex[2].position.y *= sin(M_PI/4)/2;
+                hex[0].texCoords.y *= sin(M_PI/4)/2;
+                hex[0].texCoords.y *= sin(M_PI/4)/2;
+                hex[0].texCoords.y *= sin(M_PI/4)/2;
+                */
+                int xp, yp, xt, yt;
+                float w = 2, h = 2; 
+                for(int i=0; i<3; i++){
+                    xp = hex[i].position.x, yp = hex[i].position.y, xt = hex[i].texCoords.x, yt = hex[i].texCoords.y;
+                    hex[i].position.x = xp * 0.5 * w + yp * -0.5 * w;
+                    hex[i].position.y = xp * 0.25 * h + yp * 0.25 * h;
+                    //hex[i].texCoords.x = xt * 0.5 * w + yt * -0.5 * w;
+                    //hex[i].texCoords.y = xt * 0.25 * h + yt * 0.25 * h;
+                }
+
                 hex[0].position *= RESIZE;
                 hex[1].position *= RESIZE;
                 hex[2].position *= RESIZE;
             }
         }
+
+        std::cout <<"texcorrds1 : " << m_vertices[0].texCoords.x << "   | texcorrds1 : "  << m_vertices[0].texCoords.y <<std::endl;
+        std::cout <<"texcorrds2 : " << m_vertices[1].texCoords.x << "   | texcorrds2 : "  << m_vertices[1].texCoords.y <<std::endl;
+        std::cout <<"texcorrds3 : " << m_vertices[2].texCoords.x << "   | texcorrds3 : "  << m_vertices[2].texCoords.y <<std::endl;
+
     return true;
 }
 
