@@ -24,16 +24,27 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
     thief->setOrigin(128/2, 128/2);
 
     thief->setScale(0.75*RESIZE, 0.75*RESIZE);
-
     //creer les tokens pour placer sur les tiles
+    vector<sf::Texture> * textureTokens = new vector<sf::Texture>();
+    vector<sf::Sprite> * spriteTokens = new vector<sf::Sprite>();
     for(int i = 0; i < 49; i++){
         if(state.map.tokengrid[i] != 0){
             tokens.push_back(sf::Text(std::to_string(state.map.tokengrid[i]), font, 60));
             tokens.back().setOrigin(tokens.back().getGlobalBounds().width/2, tokens.back().getGlobalBounds().height/2);
-            tokens.back().setPosition((*tile_vertices)[i*12].position + sf::Vector2f(0, 55)); //65 = hauteur d'un tile/2
+            tokens.back().setPosition((*tile_vertices)[i*12].position + sf::Vector2f(-65, 32.5)); //65 = hauteur d'un tile/2
             tokens.back().setColor(sf::Color(255, 255, 255, 190));
             
-            tokens.back().setScale(RESIZE, RESIZE);
+            //tokens.back().setScale(RESIZE, RESIZE);
+            
+            //transformation isometrique
+
+            // textureTokens->push_back(sf::Texture());
+            // textureTokens->back().update(tokens.back());
+
+
+            //tokens.back().rotate(45);
+            tokens.back().scale(sf::Vector2f(1.0, 0.5));
+            
         }
     }
 
@@ -49,6 +60,7 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
         portIcons.push_back(sf::Sprite(*iconTexture, sf::IntRect((port.resourceType<5?port.resourceType:7)*74, 0, 74, 58)));
 
         portIcons.back().setScale(0.27*RESIZE, 0.27*RESIZE);
+
     }
         
     sf::Vector2f v;
@@ -92,6 +104,10 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
 
         ports[i].setRotation(portRotation);
 
+        //transformation isometrique
+        // ports[i].rotate(45);
+        // ports[i].scale(sf::Vector2f(1.0, 0.5));
+
         portIcons[i].setPosition(centre1 + sf::Vector2f(-cos((360-portRotation)*degToRad)*20, sin((360-portRotation)*degToRad)*20));
         portIcons[i].setOrigin(74/2, 58/2);
 
@@ -111,9 +127,9 @@ void RenderPieces::update(state::State state){
     for(state::Building b : state.map.buildings){
         buildings.push_back(sf::Sprite(buildingTexture, sf::IntRect((b.buildingType * 4 + b.playerColor)*37, 0, 37, 37)));
 
-        centre1 = (*tile_vertices)[((b.position[0].x + b.position[0].y*7))*12].position + sf::Vector2f(0, 65); //on trouve les 3 centres des tiles
-        centre2 = (*tile_vertices)[((b.position[1].x + b.position[1].y*7))*12].position + sf::Vector2f(0, 65);
-        centre3 = (*tile_vertices)[((b.position[2].x + b.position[2].y*7))*12].position + sf::Vector2f(0, 65);
+        centre1 = (*tile_vertices)[((b.position[0].x + b.position[0].y*7))*12].position + sf::Vector2f(-65, 32.5); //on trouve les 3 centres des tiles
+        centre2 = (*tile_vertices)[((b.position[1].x + b.position[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
+        centre3 = (*tile_vertices)[((b.position[2].x + b.position[2].y*7))*12].position + sf::Vector2f(-65, 32.5);
         buildings.back().setPosition((centre1.x + centre2.x + centre3.x)/3, (centre1.y + centre2.y + centre3.y)/3); //moyenne sur les centres pour avoir la pointe qu'il faut pour placer le building
         buildings.back().setOrigin(19, 18.5);
         buildings.back().setScale(RESIZE, RESIZE);

@@ -12,8 +12,8 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
         return false;
 
     //offset to place map in the middle
-    int offsetX = 1280/7;
-    int offsetY = 0;
+    int offsetX = 250;
+    int offsetY = -300;
 
     // on redimensionne le tableau de vertex pour qu'il puisse contenir tout le niveau
     m_vertices.setPrimitiveType(sf::Triangles);
@@ -70,30 +70,12 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
                         hex[2].texCoords = sf::Vector2f(tileNumber * tileSize.x, 0.25 * tileSize.y);
                         break;
                 }
-
-                /*
-                hex[0].position.x *= cos(M_PI/4)/2;
-                hex[1].position.x *= cos(M_PI/4)/2;
-                hex[2].position.x *= cos(M_PI/4)/2;
-                hex[0].texCoords.x *= cos(M_PI/4)/2;
-                hex[1].texCoords.x *= cos(M_PI/4)/2;
-                hex[2].texCoords.x *= cos(M_PI/4)/2;
-
-                hex[0].position.y *= sin(M_PI/4)/2;
-                hex[1].position.y *= sin(M_PI/4)/2;
-                hex[2].position.y *= sin(M_PI/4)/2;
-                hex[0].texCoords.y *= sin(M_PI/4)/2;
-                hex[0].texCoords.y *= sin(M_PI/4)/2;
-                hex[0].texCoords.y *= sin(M_PI/4)/2;
-                */
-                int xp, yp, xt, yt;
-                float w = 2, h = 2; 
+                
+                int xp, yp;
                 for(int i=0; i<3; i++){
-                    xp = hex[i].position.x, yp = hex[i].position.y, xt = hex[i].texCoords.x, yt = hex[i].texCoords.y;
-                    hex[i].position.x = xp * 0.5 * w + yp * -0.5 * w;
-                    hex[i].position.y = xp * 0.25 * h + yp * 0.25 * h;
-                    //hex[i].texCoords.x = xt * 0.5 * w + yt * -0.5 * w;
-                    //hex[i].texCoords.y = xt * 0.25 * h + yt * 0.25 * h;
+                    xp = hex[i].position.x, yp = hex[i].position.y;
+                    hex[i].position.x = xp - yp;
+                    hex[i].position.y = xp * 0.5 + yp * 0.5;
                 }
 
                 hex[0].position *= RESIZE;
