@@ -13,7 +13,7 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
 
     buildingTexture.loadFromFile("../res/pieces.png");
     roadTexture.loadFromFile("../res/roads.png");
-    portTexture.loadFromFile("../res/port.png");
+    portTexture.loadFromFile("../res/portIso.png");
 
     font.loadFromFile("../res/poppins.ttf");
 
@@ -25,8 +25,8 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
 
     thief->setScale(0.75*RESIZE, 0.75*RESIZE);
     //creer les tokens pour placer sur les tiles
-    vector<sf::Texture> * textureTokens = new vector<sf::Texture>();
-    vector<sf::Sprite> * spriteTokens = new vector<sf::Sprite>();
+    sf::Texture* textureTokens = new sf::Texture;
+    textureTokens->loadFromFile("../res/piecesNumbersIso.png");
     for(int i = 0; i < 49; i++){
         if(state.map.tokengrid[i] != 0){
             tokens.push_back(sf::Text(std::to_string(state.map.tokengrid[i]), font, 60));
@@ -38,12 +38,14 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
             
             //transformation isometrique
 
-            // textureTokens->push_back(sf::Texture());
-            // textureTokens->back().update(tokens.back());
-
-
-            //tokens.back().rotate(45);
-            tokens.back().scale(sf::Vector2f(1.0, 0.5));
+            spriteTokens.push_back(sf::Sprite(*textureTokens, sf::IntRect(93*state.map.tokengrid[i], 0, 93, 74)));
+            spriteTokens.back().setOrigin(93/2, 74/2);
+            spriteTokens.back().setPosition((*tile_vertices)[i*12].position + sf::Vector2f(-65, 32.5));
+            spriteTokens.back().setColor(sf::Color(255, 255, 255, 128));
+            spriteTokens.back().scale(sf::Vector2f(1.3, 1.3));
+            //spriteTokens.back().rotate(45);
+            //spriteTokens.back().scale(sf::Vector2f(2.0, 2.0));
+            //spriteTokens.back().scale(sf::Vector2f(1.0, 3.0));
             
         }
     }
@@ -74,12 +76,12 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
 
         if (state.map.grid[(*array2)[0].x + (*array2)[0].y*7] > state.map.grid[(*array2)[1].x + (*array2)[1].y*7]){
             //port.position[0] is the beach
-            centre1 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
-            centre2 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
+            centre1 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(-65, 32.5);
+            centre2 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
         } else {
             //port.position[1] is the beach
-            centre1 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(0, 65);
-            centre2 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(0, 65);
+            centre1 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
+            centre2 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(-65, 32.5);
         }
         ports[i].setPosition(centre1.x, centre1.y);
         ports[i].setOrigin(portTexture.getSize().x/2, portTexture.getSize().y/2);
@@ -190,7 +192,8 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target){
     }
 
     for(int i = 0; i < tokens.size(); i++){
-        target.draw(tokens[i]);
+        //target.draw(tokens[i]);
+        target.draw(spriteTokens.at(i));
     }
 
     target.draw(*thief);
