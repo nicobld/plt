@@ -2,12 +2,13 @@
 
 namespace engine{
 
-    Command::Command(){
-        
-    }
+Command::Command(){
+    
+}
 
-    bool Command::execute(engine::Engine*){
+bool Command::execute(state::State*){
+    return true;
+}
 
-    }
 }
 
