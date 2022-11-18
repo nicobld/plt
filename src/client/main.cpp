@@ -101,7 +101,7 @@ int main(int argc,char* argv[])
 
         Engine engine;
 
-        PlaceBuildingCommand command(PlayerRed, {Position(1, 3), Position(1, 2), Position(0, 3)});
+        PlaceBuildingCommand command(PlayerRed, {Position(1, 3), Position(1, 2), Position(0, 3)}, City);
         cout << command.execute(&state) << endl;
         
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
