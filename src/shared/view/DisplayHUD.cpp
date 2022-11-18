@@ -409,7 +409,7 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     for(int i = 0; i < player1.developments.size(); i++){
         target.draw(vectorSpriteCards.at(i));
     }
-    vectorSpriteCards.clear();
+    
 
     target.draw(*buttonPassTurn);
     target.draw(*buttonExhchange);
@@ -476,6 +476,7 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     //--------------------player1Cards------------------------
     int ecart = 80;
     int compteur = 1;
+    vectorSpriteCards.clear();
     for(int i = player1.developments.size()-1; i >= 0; i--){
         vectorSpriteCards.push_back(Sprite(developmentCards, IntRect(155 * (player1.developments.at(i).developmentType + 2), 0, 155, 234)));
         vectorSpriteCards.back().setScale(Vector2f(1.2, 1.2));

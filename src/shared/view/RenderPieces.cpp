@@ -1,6 +1,7 @@
 #include "RenderPieces.h"
 #include <cmath>
 #include <string>
+#include <iostream>
 
 #define RESIZE 1 //NE PAS UTILISER MARCHE PAS
 
@@ -12,8 +13,9 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
     this->tile_vertices = tile_vertices;
 
     buildingTexture.loadFromFile("../res/pieces.png");
-    roadTexture.loadFromFile("../res/roads.png");
+    roadTexture.loadFromFile("../res/roadsIso.png");
     portTexture.loadFromFile("../res/portIso.png");
+    
 
     font.loadFromFile("../res/poppins.ttf");
 
@@ -159,17 +161,21 @@ void RenderPieces::update(state::State state){
                 roadOffset = 4;
             }
         }
-        roads.push_back(sf::Sprite(roadTexture, sf::IntRect((r.playerColor + roadOffset) * 56, 0, 56, 58)));
+        roads.push_back(sf::Sprite(roadTexture, sf::IntRect((r.playerColor + roadOffset) * 64, 0, 64, 32)));
+        roads.back().setScale(sf::Vector2f(1.5, 1.5));
+        roads.back().setOrigin(roads.back().getGlobalBounds().width/2, roads.back().getGlobalBounds().height/2);
 
-        centre1 = (*tile_vertices)[((r.position[0].x + r.position[0].y*7))*12].position + sf::Vector2f(0, 65); //on trouve les 2 centres des tiles
-        centre2 = (*tile_vertices)[((r.position[1].x + r.position[1].y*7))*12].position + sf::Vector2f(0, 65);
+        centre1 = (*tile_vertices)[((r.position[0].x + r.position[0].y*7))*12].position + sf::Vector2f(-45, 45); //on trouve les 2 centres des tiles
+        centre2 = (*tile_vertices)[((r.position[1].x + r.position[1].y*7))*12].position + sf::Vector2f(-45, 45);
+        
+        //cout << "x : " << centre1.x << "y : " << centre1.y << endl;
+
         roads.back().setPosition((centre1.x + centre2.x)/2, (centre1.y + centre2.y)/2); //leur moyenne donne le centre de leur arrete commune pour placer la route
-        roads.back().setOrigin(28, 29);
-        roads.back().setScale(RESIZE, RESIZE);
+        //roads.back().setScale(RESIZE, RESIZE);
     }
 
         
-    thief->setPosition((*tile_vertices)[(state.map.thief.position.x + state.map.thief.position.y*7)*12].position + sf::Vector2f(0, 65));
+    thief->setPosition((*tile_vertices)[(state.map.thief.position.x + state.map.thief.position.y*7)*12].position + sf::Vector2f(-65, 32.5));
 }
 
 void RenderPieces::render(state::State state, sf::RenderTarget& target){
@@ -182,9 +188,9 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target){
     }
     
     for (i = 0; i < ports.size(); i++){
-        target.draw(ports[i]);
-        target.draw(portIcons[i]);
-        target.draw(portTexts[i]);
+        //target.draw(ports[i]);
+        //target.draw(portIcons[i]);
+        //target.draw(portTexts[i]);
     }
 
     for(i = 0; i < buildings.size(); i++){
@@ -193,7 +199,7 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target){
 
     for(int i = 0; i < tokens.size(); i++){
         //target.draw(tokens[i]);
-        target.draw(spriteTokens.at(i));
+        //target.draw(spriteTokens.at(i));
     }
 
     target.draw(*thief);
