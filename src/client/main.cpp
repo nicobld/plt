@@ -8,12 +8,14 @@
 // Fin test SFML
 
 #include <state.h>
+#include <engine.h>
 #include <view.h>
 
 using namespace std;
 using namespace state;
 using namespace view;
 using namespace sf;
+using namespace engine;
 
 int main(int argc,char* argv[])
 {
@@ -36,6 +38,7 @@ int main(int argc,char* argv[])
         sf::RenderWindow window(sf::VideoMode(width, height), "Catan");
 
         State state;
+
         state.players.push_back(Player("Jonah", PlayerRed));
         state.players.push_back(Player("Nicolas", PlayerBlue));
         state.players.push_back(Player("Xu", PlayerYellow));
@@ -87,7 +90,22 @@ int main(int argc,char* argv[])
     return 0;
     }
 
+// test d'engine sur la pioche
+    else if(strcmp(argv[1], "eng") == 0){
+
+        State state;
+        Engine engine;
+
+        DrawCardCommand drawCommand(state.turn);
+
+        if(drawCommand.execute(state) ==  true){
+            cout << "oui" << endl;
+        }
+        
+    }
+
     else if(!strncmp(argv[1], "engine", 6)){
+
         cout << "===============| Catan |===============" << endl;
     }
 }
