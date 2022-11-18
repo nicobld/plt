@@ -67,7 +67,7 @@ Map::Map(){
     roads.back().position = {Position(1, 3), Position(2, 3)};
 
     // Ports
-
+    
     ports.push_back(Port(3, Nothing));
     ports.back().position = {Position(2, 0), Position(2, 1)};
     
@@ -79,6 +79,15 @@ Map::Map(){
     ports.push_back(Port(2, Wool, 5, 5, 5, 4));
     ports.push_back(Port(3, Nothing, 6, 3, 5, 3));
     ports.push_back(Port(2, Ore, 5, 1, 5, 2));
+}
+
+int Map::getBuilding(std::array<Position, 3> position){
+	for (int i = 0; i < buildings.size(); i++){
+		if (buildings[i].position == position){
+			return i;
+		}
+	}
+	return -1;
 }
 
 }

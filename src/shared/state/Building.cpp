@@ -11,4 +11,6 @@ Building::Building(PlayerColor playerColor, BuildingType buildingType, int x1, i
     position[2].y = y3;
 }
 
+Building::Building(PlayerColor playerColor, BuildingType buildingType, std::array<Position, 3> position): 
+    playerColor(playerColor), buildingType(buildingType), position(position) {}
 }
