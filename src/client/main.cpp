@@ -106,6 +106,9 @@ int main(int argc,char* argv[])
 
         PlaceBuildingCommand command2(PlayerRed, {Position(1, 3), Position(1, 2), Position(0, 3)}, Colony);
         command2.execute(&state);
+
+        PlaceRoadCommand command3(PlayerBlue, {Position(1, 1), Position(2, 1)});
+        cout << command3.execute(&state) << endl;
         
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
