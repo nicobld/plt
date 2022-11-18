@@ -9,4 +9,7 @@ Port::Port(int exchangeRate, ResourceType resourceType, int x1, int y1, int x2, 
     position[1].y = y2;
 }
 
+Port::Port(int exchangeRate, ResourceType resourceType, std::array<Position, 2>): exchangeRate(exchangeRate), resourceType(resourceType), position(position) {
+}
+
 }

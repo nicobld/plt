@@ -29,4 +29,13 @@ Player::Player(std::string name, PlayerColor playerColor) : name(name), playerCo
     resources.push_back(Resource(Ore));
 }
 
+int Player::getBuilding(BuildingType buildingType){
+    for (int i = 0; i < buildings.size(); i++){
+        if (buildings[i].buildingType == buildingType){
+            return i;
+        }
+    }
+    return -1;
+}
+
 }

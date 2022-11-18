@@ -9,4 +9,7 @@ Road::Road(PlayerColor playerColor, int x1, int y1, int x2, int y2) : playerColo
     position[1].y = y2;
 }
 
+Road::Road(PlayerColor playerColor, std::array<Position, 2> position) : playerColor(playerColor), position(position) {
+}
+
 }
