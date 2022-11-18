@@ -3,7 +3,7 @@
 
 using namespace state;
 
-namespace engine{
+namespace engine {
 
 Engine::Engine(){
     std::cout << "Engine launched" << std::endl;
