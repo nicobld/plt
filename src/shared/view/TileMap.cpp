@@ -13,8 +13,8 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
     back.setTexture(*backgroundHex);
     back.setTextureRect(sf::IntRect(0,0,1920, 1080));
     back.setOrigin(back.getGlobalBounds().width/2, back.getGlobalBounds().height/2);
-    back.setPosition(1280/2, 720/2 + 20);
-    back.setScale(sf::Vector2f(0.55, 0.55));
+    back.setPosition(1280/2 + 20, 720/2 + 30);
+    back.setScale(sf::Vector2f(0.6, 0.6));
 
     
     // on charge la texture du tileset

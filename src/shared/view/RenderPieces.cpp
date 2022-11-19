@@ -14,7 +14,7 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
 
     buildingTexture.loadFromFile("../res/pieces.png");
     roadTexture.loadFromFile("../res/roadsIso.png");
-    portTexture.loadFromFile("../res/portIso.png");
+    portTexture.loadFromFile("../res/portIso2.png");
     
 
     font.loadFromFile("../res/poppins.ttf");
@@ -56,69 +56,117 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
 
     sf::Texture* iconTexture = new sf::Texture();
     iconTexture->loadFromFile("../res/icons.png");
+    sf::Vector2f centre1;
+    
+    for (int i=0; i<state.map.ports.size(); i++){
+        if(state.map.ports[i].position[0].x < state.map.ports[i].position[1].x){
+            if(state.map.ports[i].position[0].y < state.map.ports[i].position[1].y){
+               ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*0, 0, 115, 60))); 
+            }
+            else if(state.map.ports[i].position[0].y > state.map.ports[i].position[1].y){
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*1, 0, 115, 60)));
+            }
+            else if(state.map.ports[i].position[0].y = state.map.ports[i].position[1].y){
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*3, 0, 115, 60)));
+            }
+        }
+        else if(state.map.ports[i].position[0].x > state.map.ports[i].position[1].x){
+            if(state.map.ports[i].position[0].y < state.map.ports[i].position[1].y){
+               ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*1, 0, 115, 60))); 
+            }
+            else if(state.map.ports[i].position[0].y > state.map.ports[i].position[1].y){
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*4, 0, 115, 60)));
+            }
+            else if(state.map.ports[i].position[0].y = state.map.ports[i].position[1].y){
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*5, 0, 115, 60)));
+            }
+        }
+        else if(state.map.ports[i].position[0].x = state.map.ports[i].position[1].x){
+            if(state.map.ports[i].position[0].y < state.map.ports[i].position[1].y){
+               ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*3, 0, 115, 60))); 
+            }
+            else if(state.map.ports[i].position[0].y > state.map.ports[i].position[1].y){
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*4, 0, 115, 60)));
+            }
+            else if(state.map.ports[i].position[0].y = state.map.ports[i].position[1].y){
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*5, 0, 115, 60)));
+            }
+        }
+       
 
-    for (Port port : state.map.ports){
-        ports.push_back(sf::Sprite(portTexture, sf::IntRect(0, 0, 114, 114)));
-        portTexts.push_back(sf::Text(to_string(port.exchangeRate), font, 18));
+        centre1 = (*tile_vertices)[(state.map.ports[i].position[0].x + state.map.ports[i].position[0].y*7)*12].position + sf::Vector2f(-65, 32.5);
+        
+        ports.back().setScale(sf::Vector2f(1.5, 1.5));
+        ports.back().setOrigin(ports.back().getGlobalBounds().width/2, ports.back().getGlobalBounds().height/2);
+        ports.back().setPosition(centre1.x, centre1.y);
+       
+        portTexts.push_back(sf::Text(to_string(state.map.ports[i].exchangeRate), font, 18));
         portTexts.back().setColor(sf::Color(255, 255, 255));
-        portIcons.push_back(sf::Sprite(*iconTexture, sf::IntRect((port.resourceType<5?port.resourceType:7)*74, 0, 74, 58)));
+        portIcons.push_back(sf::Sprite(*iconTexture, sf::IntRect((state.map.ports[i].resourceType<5?state.map.ports[i].resourceType:7)*74, 0, 74, 58)));
 
         portIcons.back().setScale(0.27*RESIZE, 0.27*RESIZE);
 
-    }
-        
-    sf::Vector2f v;
-    sf::Vector2f centre1, centre2;
-    std::array<Position, 2>* array2;
-    float portRotation;
-    const float degToRad = 3.1415/180;
-
-    for(int i = 0; i < ports.size(); i++){
-        array2 = &state.map.ports[i].position;
-
-        if (state.map.grid[(*array2)[0].x + (*array2)[0].y*7] > state.map.grid[(*array2)[1].x + (*array2)[1].y*7]){
-            //port.position[0] is the beach
-            centre1 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(-65, 32.5);
-            centre2 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
-        } else {
-            //port.position[1] is the beach
-            centre1 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
-            centre2 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(-65, 32.5);
-        }
-        ports[i].setPosition(centre1.x, centre1.y);
-        ports[i].setOrigin(portTexture.getSize().x/2, portTexture.getSize().y/2);
-
-        ports[i].setScale(RESIZE, RESIZE);
-
-        v = centre1 - centre2;
-        if (centre1.y == centre2.y){
-            if (v.x > 0)
-                portRotation = 180;
-            else
-                portRotation = 0;
-            
-        } else if (v.x > 0 && v.y > 0)
-            portRotation = 240;
-        else if (v.x > 0 && v.y < 0)
-            portRotation = 120;
-        else if (v.x < 0 && v.y > 0)
-            portRotation = 300;
-        else
-            portRotation = 60;
-
-        ports[i].setRotation(portRotation);
-
-        //transformation isometrique
-        // ports[i].rotate(45);
-        // ports[i].scale(sf::Vector2f(1.0, 0.5));
-
-        portIcons[i].setPosition(centre1 + sf::Vector2f(-cos((360-portRotation)*degToRad)*20, sin((360-portRotation)*degToRad)*20));
         portIcons[i].setOrigin(74/2, 58/2);
 
 
         portTexts[i].setPosition(portIcons[i].getPosition() - sf::Vector2f(17, 5));
         portTexts[i].setOrigin(portTexts[i].getGlobalBounds().width/2, portTexts[i].getGlobalBounds().height/2);
+        
+
     }
+        
+    // sf::Vector2f v;
+    // sf::Vector2f centre1, centre2;
+    // std::array<Position, 2>* array2;
+    // float portRotation;
+    // const float degToRad = 3.1415/180;
+
+    // for(int i = 0; i < ports.size(); i++){
+    //     array2 = &state.map.ports[i].position;
+
+    //     if (state.map.grid[(*array2)[0].x + (*array2)[0].y*7] > state.map.grid[(*array2)[1].x + (*array2)[1].y*7]){
+    //         //port.position[0] is the beach
+    //         centre1 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(-65, 32.5);
+    //         centre2 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
+    //     } else {
+    //         //port.position[1] is the beach
+    //         centre1 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
+    //         centre2 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(-65, 32.5);
+    //     }
+    //     ports[i].setPosition(centre1.x, centre1.y);
+    //     ports[i].setOrigin(portTexture.getSize().x/2, portTexture.getSize().y/2);
+
+    //     ports[i].setScale(RESIZE, RESIZE);
+
+    //     v = centre1 - centre2;
+    //     if (centre1.y == centre2.y){
+    //         if (v.x > 0)
+    //             portRotation = 180;
+    //         else
+    //             portRotation = 0;
+            
+    //     } else if (v.x > 0 && v.y > 0)
+    //         portRotation = 240;
+    //     else if (v.x > 0 && v.y < 0)
+    //         portRotation = 120;
+    //     else if (v.x < 0 && v.y > 0)
+    //         portRotation = 300;
+    //     else
+    //         portRotation = 60;
+
+    //     ports[i].setRotation(portRotation);
+
+    //     //transformation isometrique
+    //     // ports[i].rotate(45);
+    //     // ports[i].scale(sf::Vector2f(1.0, 0.5));
+
+    //     portIcons[i].setPosition(centre1 + sf::Vector2f(-cos((360-portRotation)*degToRad)*20, sin((360-portRotation)*degToRad)*20));
+    //     portIcons[i].setOrigin(74/2, 58/2);
+
+
+    //     portTexts[i].setPosition(portIcons[i].getPosition() - sf::Vector2f(17, 5));
+    //     portTexts[i].setOrigin(portTexts[i].getGlobalBounds().width/2, portTexts[i].getGlobalBounds().height/2);
+    // }
 
 }
 
@@ -137,6 +185,7 @@ void RenderPieces::update(state::State state){
         buildings.back().setPosition((centre1.x + centre2.x + centre3.x)/3, (centre1.y + centre2.y + centre3.y)/3); //moyenne sur les centres pour avoir la pointe qu'il faut pour placer le building
         buildings.back().setOrigin(19, 18.5);
         buildings.back().setScale(RESIZE, RESIZE);
+        //cout << "x : " << buildings.back().getPosition().x << "  |  y : " << buildings.back().getPosition().y << endl;
     }
 
     int roadOffset = 0;
@@ -188,7 +237,7 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target){
     }
     
     for (i = 0; i < ports.size(); i++){
-        //target.draw(ports[i]);
+        target.draw(ports[i]);
         //target.draw(portIcons[i]);
         //target.draw(portTexts[i]);
     }
@@ -198,7 +247,7 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target){
     }
 
     for(int i = 0; i < tokens.size(); i++){
-        //target.draw(tokens[i]);
+        target.draw(tokens[i]);
         //target.draw(spriteTokens.at(i));
     }
 
