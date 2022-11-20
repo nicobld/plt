@@ -27,6 +27,21 @@ Map::Map(){
     };
     */
 
+<<<<<<< HEAD
+=======
+    int temp_token_grid[49] = {
+        0, 0, 0, 0, 0, 0, 0,
+          0, 0, 10, 2, 9, 0, 0,
+        0, 0, 12, 6, 4, 10, 0,
+          0, 9, 11, 0, 3, 8, 0,
+        0, 0, 8, 3, 4, 5, 0,
+          0, 0, 5, 6, 11, 0, 0,
+        0, 0, 0, 0, 0, 0, 0,
+    };
+
+
+    //debug grid
+>>>>>>> Finition ajout feature port
     // int temp_token_grid[49] = {
     //     0, 0, 0, 0, 0, 0, 0,
     //       0, 0, 10, 2, 9, 0, 0,
@@ -108,18 +123,25 @@ Map::Map(){
 	roads.push_back(Road(PlayerRed,2,3,2,4));
 
     // Ports
+<<<<<<< HEAD
     
     ports.push_back(Port(3, Nothing));
     ports.back().position = {Position(2, 0), Position(2, 1)};
+=======
+
+    // ports.push_back(Port(3, Nothing));
+    // ports.back().position = {Position(2, 0), Position(2, 1)};
+>>>>>>> Finition ajout feature port
     
+    ports.push_back(Port(3, Nothing, 2, 0, 2, 1));
     ports.push_back(Port(2, Grain, 4, 0, 3, 1));
-    ports.push_back(Port(2, Lumber, 1, 2, 2, 2));
-    ports.push_back(Port(2, Brick, 1, 4, 2, 4));
-    ports.push_back(Port(3, Nothing, 2, 6, 2, 5));
-    ports.push_back(Port(3, Nothing, 4, 6, 3, 5));
-    ports.push_back(Port(2, Wool, 5, 5, 5, 4));
-    ports.push_back(Port(3, Nothing, 6, 3, 5, 3));
     ports.push_back(Port(2, Ore, 5, 1, 5, 2));
+    ports.push_back(Port(3, Nothing, 6, 3, 5, 3));
+    ports.push_back(Port(3, Wool, 5, 5, 5, 4));
+    ports.push_back(Port(2, Nothing, 4, 6, 3, 5));
+    ports.push_back(Port(3, Nothing, 2, 6, 2, 5));
+    ports.push_back(Port(2, Brick, 1, 4, 2, 4));
+    ports.push_back(Port(2, Lumber, 1, 2, 2, 2));
 }
 
 int Map::getBuilding(std::array<Position, 3> position){

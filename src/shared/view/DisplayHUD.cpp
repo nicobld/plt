@@ -474,7 +474,8 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
             player4NumberRoads->setFillColor(Color(red));
 
     //--------------------player1Cards------------------------
-    int ecart = 80;
+    int ecart = 100;
+    ecart = ecart + 5 *player1.developments.size()-1;
     int compteur = 1;
     vectorSpriteCards.clear();
     for(int i = player1.developments.size()-1; i >= 0; i--){
