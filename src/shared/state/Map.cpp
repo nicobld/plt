@@ -37,6 +37,7 @@ Map::Map(){
         0, 0, 0, 0, 0, 0, 0,
     };
 
+
     //debug grid
     // int temp_token_grid[49] = {
     //     00, 10, 20, 30, 40, 50, 60,
@@ -80,17 +81,18 @@ Map::Map(){
 
     // Ports
 
-    ports.push_back(Port(3, Nothing));
-    ports.back().position = {Position(2, 0), Position(2, 1)};
+    // ports.push_back(Port(3, Nothing));
+    // ports.back().position = {Position(2, 0), Position(2, 1)};
     
+    ports.push_back(Port(3, Nothing, 2, 0, 2, 1));
     ports.push_back(Port(2, Grain, 4, 0, 3, 1));
-    ports.push_back(Port(2, Lumber, 1, 2, 2, 2));
-    ports.push_back(Port(2, Brick, 1, 4, 2, 4));
-    ports.push_back(Port(3, Nothing, 2, 6, 2, 5));
-    ports.push_back(Port(3, Nothing, 4, 6, 3, 5));
-    ports.push_back(Port(2, Wool, 5, 5, 5, 4));
-    ports.push_back(Port(3, Nothing, 6, 3, 5, 3));
     ports.push_back(Port(2, Ore, 5, 1, 5, 2));
+    ports.push_back(Port(3, Nothing, 6, 3, 5, 3));
+    ports.push_back(Port(3, Wool, 5, 5, 5, 4));
+    ports.push_back(Port(2, Nothing, 4, 6, 3, 5));
+    ports.push_back(Port(3, Nothing, 2, 6, 2, 5));
+    ports.push_back(Port(2, Brick, 1, 4, 2, 4));
+    ports.push_back(Port(2, Lumber, 1, 2, 2, 2));
 }
 
 }

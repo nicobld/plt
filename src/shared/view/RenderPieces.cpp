@@ -57,62 +57,85 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
     sf::Texture* iconTexture = new sf::Texture();
     iconTexture->loadFromFile("../res/icons.png");
     sf::Vector2f centre1;
+    int offsetX, offsetY;
     
     for (int i=0; i<state.map.ports.size(); i++){
+
         if(state.map.ports[i].position[0].x < state.map.ports[i].position[1].x){
             if(state.map.ports[i].position[0].y < state.map.ports[i].position[1].y){
-               ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*0, 0, 115, 60))); 
+               ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*1, 0, 115, 60))); 
+                offsetX = -30;
+                offsetY = -60;
             }
             else if(state.map.ports[i].position[0].y > state.map.ports[i].position[1].y){
-                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*1, 0, 115, 60)));
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*5, 0, 115, 60)));
+                offsetX = -90;
+                offsetY = -15;
             }
-            else if(state.map.ports[i].position[0].y = state.map.ports[i].position[1].y){
+            else if(state.map.ports[i].position[0].y == state.map.ports[i].position[1].y){
                 ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*3, 0, 115, 60)));
+                offsetX = -50;
+                offsetY = -60;
             }
         }
         else if(state.map.ports[i].position[0].x > state.map.ports[i].position[1].x){
             if(state.map.ports[i].position[0].y < state.map.ports[i].position[1].y){
-               ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*1, 0, 115, 60))); 
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*4, 0, 115, 60))); 
+                offsetX = 20;
+                offsetY = -45;
             }
             else if(state.map.ports[i].position[0].y > state.map.ports[i].position[1].y){
-                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*4, 0, 115, 60)));
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*0, 0, 115, 60)));
+                offsetX = -30;
+                offsetY = 0;
             }
-            else if(state.map.ports[i].position[0].y = state.map.ports[i].position[1].y){
-                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*5, 0, 115, 60)));
+            else if(state.map.ports[i].position[0].y == state.map.ports[i].position[1].y){
+                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*2, 0, 115, 60)));
+                offsetX = 30;
+                offsetY = -30;
             }
         }
-        else if(state.map.ports[i].position[0].x = state.map.ports[i].position[1].x){
+        else if(state.map.ports[i].position[0].x == state.map.ports[i].position[1].x){
             if(state.map.ports[i].position[0].y < state.map.ports[i].position[1].y){
-               ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*3, 0, 115, 60))); 
-            }
+                if(state.map.ports[i].position[0].x == 5){
+                    ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*4, 0, 115, 60))); 
+                    offsetX = 20;
+                    offsetY = -45;
+                }
+                else {
+                    ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*1, 0, 115, 60))); 
+                    offsetX = -30;
+                    offsetY = -60;
+                }
+            }   
             else if(state.map.ports[i].position[0].y > state.map.ports[i].position[1].y){
-                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*4, 0, 115, 60)));
-            }
-            else if(state.map.ports[i].position[0].y = state.map.ports[i].position[1].y){
-                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*5, 0, 115, 60)));
+                if(state.map.ports[i].position[0].x == 2){
+                    ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*5, 0, 115, 60)));
+                    offsetX = -60;
+                    offsetY = -45; 
+                }
+                else {
+                    ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*0, 0, 115, 60)));
+                    offsetX = -30;
+                    offsetY = 0;
+                }
             }
         }
-       
-
-        centre1 = (*tile_vertices)[(state.map.ports[i].position[0].x + state.map.ports[i].position[0].y*7)*12].position + sf::Vector2f(-65, 32.5);
+        centre1 = (*tile_vertices)[(state.map.ports[i].position[0].x + state.map.ports[i].position[0].y*7)*12].position + sf::Vector2f(-25, 55);
         
         ports.back().setScale(sf::Vector2f(1.5, 1.5));
         ports.back().setOrigin(ports.back().getGlobalBounds().width/2, ports.back().getGlobalBounds().height/2);
         ports.back().setPosition(centre1.x, centre1.y);
        
+        portIcons.push_back(sf::Sprite(*iconTexture, sf::IntRect((state.map.ports[i].resourceType<5?state.map.ports[i].resourceType:7)*74, 0, 74, 58)));
+        portIcons.back().setScale(0.27*RESIZE, 0.27*RESIZE);
+        portIcons[i].setOrigin(74/2, 58/2);
+        portIcons[i].setPosition(centre1 + sf::Vector2f(offsetX, offsetY));
+
         portTexts.push_back(sf::Text(to_string(state.map.ports[i].exchangeRate), font, 18));
         portTexts.back().setColor(sf::Color(255, 255, 255));
-        portIcons.push_back(sf::Sprite(*iconTexture, sf::IntRect((state.map.ports[i].resourceType<5?state.map.ports[i].resourceType:7)*74, 0, 74, 58)));
-
-        portIcons.back().setScale(0.27*RESIZE, 0.27*RESIZE);
-
-        portIcons[i].setOrigin(74/2, 58/2);
-
-
         portTexts[i].setPosition(portIcons[i].getPosition() - sf::Vector2f(17, 5));
         portTexts[i].setOrigin(portTexts[i].getGlobalBounds().width/2, portTexts[i].getGlobalBounds().height/2);
-        
-
     }
         
     // sf::Vector2f v;
@@ -238,8 +261,8 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target){
     
     for (i = 0; i < ports.size(); i++){
         target.draw(ports[i]);
-        //target.draw(portIcons[i]);
-        //target.draw(portTexts[i]);
+        target.draw(portIcons[i]);
+        target.draw(portTexts[i]);
     }
 
     for(i = 0; i < buildings.size(); i++){
