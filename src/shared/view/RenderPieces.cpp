@@ -91,8 +91,8 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
             }
             else if(state.map.ports[i].position[0].y == state.map.ports[i].position[1].y){
                 ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*2, 0, 115, 60)));
-                offsetX = 30;
-                offsetY = -30;
+                offsetX = 15;
+                offsetY = -60;
             }
         }
         else if(state.map.ports[i].position[0].x == state.map.ports[i].position[1].x){
