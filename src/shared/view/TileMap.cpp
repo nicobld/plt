@@ -94,9 +94,9 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
             }
         }
 
-        std::cout <<"texcorrds1 : " << m_vertices[0].texCoords.x << "   | texcorrds1 : "  << m_vertices[0].texCoords.y <<std::endl;
-        std::cout <<"texcorrds2 : " << m_vertices[1].texCoords.x << "   | texcorrds2 : "  << m_vertices[1].texCoords.y <<std::endl;
-        std::cout <<"texcorrds3 : " << m_vertices[2].texCoords.x << "   | texcorrds3 : "  << m_vertices[2].texCoords.y <<std::endl;
+        // std::cout <<"texcorrds1 : " << m_vertices[0].texCoords.x << "   | texcorrds1 : "  << m_vertices[0].texCoords.y <<std::endl;
+        // std::cout <<"texcorrds2 : " << m_vertices[1].texCoords.x << "   | texcorrds2 : "  << m_vertices[1].texCoords.y <<std::endl;
+        // std::cout <<"texcorrds3 : " << m_vertices[2].texCoords.x << "   | texcorrds3 : "  << m_vertices[2].texCoords.y <<std::endl;
 
     return true;
 }
@@ -111,6 +111,5 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states)const{
     // et on dessine enfin le tableau de vertex
  
     target.draw(back);
-
     target.draw(m_vertices, states);
 }

@@ -16,39 +16,29 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
     roadTexture.loadFromFile("../res/roadsIso.png");
     portTexture.loadFromFile("../res/portIso2.png");
     
-
     font.loadFromFile("../res/poppins.ttf");
 
     //Thief
     sf::Texture* thiefTexture = new sf::Texture();
-    thiefTexture->loadFromFile("../res/thief.png");
+    thiefTexture->loadFromFile("../res/thiefIso.png");
     thief = new sf::Sprite(*thiefTexture, sf::IntRect(0, 0, 128, 128));
     thief->setOrigin(128/2, 128/2);
 
-    thief->setScale(0.75*RESIZE, 0.75*RESIZE);
+    thief->setScale(0.65*RESIZE, 0.65*RESIZE);
     //creer les tokens pour placer sur les tiles
     sf::Texture* textureTokens = new sf::Texture;
     textureTokens->loadFromFile("../res/piecesNumbersIso.png");
+
+    
     for(int i = 0; i < 49; i++){
         if(state.map.tokengrid[i] != 0){
-            tokens.push_back(sf::Text(std::to_string(state.map.tokengrid[i]), font, 60));
-            tokens.back().setOrigin(tokens.back().getGlobalBounds().width/2, tokens.back().getGlobalBounds().height/2);
-            tokens.back().setPosition((*tile_vertices)[i*12].position + sf::Vector2f(-65, 32.5)); //65 = hauteur d'un tile/2
-            tokens.back().setColor(sf::Color(255, 255, 255, 190));
-            
-            //tokens.back().setScale(RESIZE, RESIZE);
-            
-            //transformation isometrique
-
-            spriteTokens.push_back(sf::Sprite(*textureTokens, sf::IntRect(93*state.map.tokengrid[i], 0, 93, 74)));
-            spriteTokens.back().setOrigin(93/2, 74/2);
-            spriteTokens.back().setPosition((*tile_vertices)[i*12].position + sf::Vector2f(-65, 32.5));
-            spriteTokens.back().setColor(sf::Color(255, 255, 255, 128));
-            spriteTokens.back().scale(sf::Vector2f(1.3, 1.3));
-            //spriteTokens.back().rotate(45);
-            //spriteTokens.back().scale(sf::Vector2f(2.0, 2.0));
-            //spriteTokens.back().scale(sf::Vector2f(1.0, 3.0));
-            
+            if(!(state.map.thief.position.x == i%7  && state.map.thief.position.y == i/7)){    //vérifie s'il n'y a pas un voleur sur la case
+                tokens.push_back(sf::Text(std::to_string(state.map.tokengrid[i]), font, 60));
+                tokens.back().setOrigin(tokens.back().getGlobalBounds().width/2, tokens.back().getGlobalBounds().height/2);
+                tokens.back().setPosition((*tile_vertices)[i*12].position + sf::Vector2f(-65, 32.5) + sf::Vector2f(-5, -25)); //65 = hauteur d'un tile/2
+                tokens.back().setColor(sf::Color(255, 255, 215, 210));
+                //tokens.back().setScale(RESIZE, RESIZE);
+            }
         }
     }
 
@@ -60,7 +50,6 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
     int offsetX, offsetY;
     
     for (int i=0; i<state.map.ports.size(); i++){
-
         if(state.map.ports[i].position[0].x < state.map.ports[i].position[1].x){
             if(state.map.ports[i].position[0].y < state.map.ports[i].position[1].y){
                ports.push_back(sf::Sprite(portTexture, sf::IntRect(115*1, 0, 115, 60))); 
@@ -137,60 +126,6 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
         portTexts[i].setPosition(portIcons[i].getPosition() - sf::Vector2f(17, 5));
         portTexts[i].setOrigin(portTexts[i].getGlobalBounds().width/2, portTexts[i].getGlobalBounds().height/2);
     }
-        
-    // sf::Vector2f v;
-    // sf::Vector2f centre1, centre2;
-    // std::array<Position, 2>* array2;
-    // float portRotation;
-    // const float degToRad = 3.1415/180;
-
-    // for(int i = 0; i < ports.size(); i++){
-    //     array2 = &state.map.ports[i].position;
-
-    //     if (state.map.grid[(*array2)[0].x + (*array2)[0].y*7] > state.map.grid[(*array2)[1].x + (*array2)[1].y*7]){
-    //         //port.position[0] is the beach
-    //         centre1 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(-65, 32.5);
-    //         centre2 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
-    //     } else {
-    //         //port.position[1] is the beach
-    //         centre1 = (*tile_vertices)[(((*array2)[1].x + (*array2)[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
-    //         centre2 = (*tile_vertices)[(((*array2)[0].x + (*array2)[0].y*7))*12].position + sf::Vector2f(-65, 32.5);
-    //     }
-    //     ports[i].setPosition(centre1.x, centre1.y);
-    //     ports[i].setOrigin(portTexture.getSize().x/2, portTexture.getSize().y/2);
-
-    //     ports[i].setScale(RESIZE, RESIZE);
-
-    //     v = centre1 - centre2;
-    //     if (centre1.y == centre2.y){
-    //         if (v.x > 0)
-    //             portRotation = 180;
-    //         else
-    //             portRotation = 0;
-            
-    //     } else if (v.x > 0 && v.y > 0)
-    //         portRotation = 240;
-    //     else if (v.x > 0 && v.y < 0)
-    //         portRotation = 120;
-    //     else if (v.x < 0 && v.y > 0)
-    //         portRotation = 300;
-    //     else
-    //         portRotation = 60;
-
-    //     ports[i].setRotation(portRotation);
-
-    //     //transformation isometrique
-    //     // ports[i].rotate(45);
-    //     // ports[i].scale(sf::Vector2f(1.0, 0.5));
-
-    //     portIcons[i].setPosition(centre1 + sf::Vector2f(-cos((360-portRotation)*degToRad)*20, sin((360-portRotation)*degToRad)*20));
-    //     portIcons[i].setOrigin(74/2, 58/2);
-
-
-    //     portTexts[i].setPosition(portIcons[i].getPosition() - sf::Vector2f(17, 5));
-    //     portTexts[i].setOrigin(portTexts[i].getGlobalBounds().width/2, portTexts[i].getGlobalBounds().height/2);
-    // }
-
 }
 
 void RenderPieces::update(state::State state){
@@ -240,14 +175,13 @@ void RenderPieces::update(state::State state){
         centre1 = (*tile_vertices)[((r.position[0].x + r.position[0].y*7))*12].position + sf::Vector2f(-45, 45); //on trouve les 2 centres des tiles
         centre2 = (*tile_vertices)[((r.position[1].x + r.position[1].y*7))*12].position + sf::Vector2f(-45, 45);
         
-        //cout << "x : " << centre1.x << "y : " << centre1.y << endl;
 
         roads.back().setPosition((centre1.x + centre2.x)/2, (centre1.y + centre2.y)/2); //leur moyenne donne le centre de leur arrete commune pour placer la route
         //roads.back().setScale(RESIZE, RESIZE);
     }
 
         
-    thief->setPosition((*tile_vertices)[(state.map.thief.position.x + state.map.thief.position.y*7)*12].position + sf::Vector2f(-65, 32.5));
+    thief->setPosition((*tile_vertices)[(state.map.thief.position.x + state.map.thief.position.y*7)*12].position + sf::Vector2f(-65, 32.5) + sf::Vector2f(0, -20));
 }
 
 void RenderPieces::render(state::State state, sf::RenderTarget& target){
@@ -270,6 +204,7 @@ void RenderPieces::render(state::State state, sf::RenderTarget& target){
     }
 
     for(int i = 0; i < tokens.size(); i++){
+        
         target.draw(tokens[i]);
         //target.draw(spriteTokens.at(i));
     }

@@ -62,6 +62,21 @@ int main(int argc,char* argv[])
             // fermeture de la fenêtre lorsque l'utilisateur le souhaite
             if (event.type == Event::Closed)
                 window.close();
+
+                if (event.type == sf::Event::MouseButtonPressed){
+                    if (event.mouseButton.button == sf::Mouse::Right){
+                        std::cout << "the right button was pressed" << std::endl;
+                        std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                        std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+
+                        if(event.mouseButton.x > stateView.displayHUD->buttonPassTurn->getPosition().x &&
+                            event.mouseButton.y > stateView.displayHUD->buttonPassTurn->getPosition().y &&
+                            event.mouseButton.x < stateView.displayHUD->buttonPassTurn->getPosition().x + stateView.displayHUD->buttonPassTurn->getGlobalBounds().width &&
+                            event.mouseButton.y < stateView.displayHUD->buttonPassTurn->getPosition().y + stateView.displayHUD->buttonPassTurn->getGlobalBounds().height){
+                                stateView.displayHUD->buttonPassTurn->setTextureRect(IntRect(175*4 + 200, 258, 199, 48));
+                            }
+                    }
+}
         }
 
         // effacement de la fenêtre en noir
