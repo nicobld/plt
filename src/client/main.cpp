@@ -11,11 +11,20 @@
 #include <view.h>
 #include <engine.h>
 
+
+
 using namespace std;
 using namespace state;
 using namespace view;
 using namespace sf;
 using namespace engine;
+
+namespace engine {
+    std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::array<Position, 2> road);
+    int countMaxRoad(state::State* state, std::array<Position, 2> curPos);
+}
+
+
 
 int main(int argc,char* argv[])
 {
@@ -102,13 +111,14 @@ int main(int argc,char* argv[])
         Engine engine;
 
         PlaceBuildingCommand command(PlayerGreen, {Position(1, 3), Position(1, 2), Position(0, 3)}, City);
-        cout << command.execute(&state) << endl;
+        //cout << command.execute(&state) << endl;
 
-        PlaceBuildingCommand command2(PlayerRed, {Position(1, 3), Position(1, 2), Position(0, 3)}, Colony);
-        command2.execute(&state);
 
-        PlaceRoadCommand command3(PlayerBlue, {Position(1, 1), Position(2, 1)});
-        cout << command3.execute(&state) << endl;
+        cout << countMaxRoad(&state, {Position(2,2), Position(1,1)}) << endl;
+
+        //std::array<Position, 2> testRoad = findTilesRoadNeighbors(&state, {Position(2,2), Position(1,2)});
+
+        //cout << testRoad[0].x << " " << testRoad[0].y << endl << testRoad[1].x << " " << testRoad[1].y << endl;
         
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
