@@ -64,8 +64,8 @@ int main(int argc,char* argv[])
                 window.close();
 
                 if (event.type == sf::Event::MouseButtonPressed){
-                    if (event.mouseButton.button == sf::Mouse::Right){
-                        std::cout << "the right button was pressed" << std::endl;
+                    if (event.mouseButton.button == sf::Mouse::Left){
+                        std::cout << "the left button was pressed" << std::endl;
                         std::cout << "mouse x: " << event.mouseButton.x << std::endl;
                         std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 
@@ -74,9 +74,30 @@ int main(int argc,char* argv[])
                             event.mouseButton.x < stateView.displayHUD->buttonPassTurn->getPosition().x + stateView.displayHUD->buttonPassTurn->getGlobalBounds().width &&
                             event.mouseButton.y < stateView.displayHUD->buttonPassTurn->getPosition().y + stateView.displayHUD->buttonPassTurn->getGlobalBounds().height){
                                 stateView.displayHUD->buttonPassTurn->setTextureRect(IntRect(175*4 + 200, 258, 199, 48));
-                            }
+                                stateView.displayHUD->passTurn->setCharacterSize(22);
+                                stateView.displayHUD->passTurn->setOrigin(stateView.displayHUD->passTurn->getGlobalBounds().width/2, stateView.displayHUD->passTurn->getGlobalBounds().height/2);
+                                stateView.displayHUD->passTurn->setPosition(stateView.displayHUD->buttonPassTurn->getPosition().x + stateView.displayHUD->buttonPassTurn->getGlobalBounds().width/2, stateView.displayHUD->buttonPassTurn->getGlobalBounds().height/2 + stateView.displayHUD->buttonPassTurn->getPosition().y - 8);
+                        }
                     }
-}
+
+                }
+                if (event.type == sf::Event::MouseButtonReleased){
+                    if (event.mouseButton.button == sf::Mouse::Left){
+                        std::cout << "the left button was released" << std::endl;
+                        std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                        std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+
+                        if(event.mouseButton.x > stateView.displayHUD->buttonPassTurn->getPosition().x &&
+                            event.mouseButton.y > stateView.displayHUD->buttonPassTurn->getPosition().y &&
+                            event.mouseButton.x < stateView.displayHUD->buttonPassTurn->getPosition().x + stateView.displayHUD->buttonPassTurn->getGlobalBounds().width &&
+                            event.mouseButton.y < stateView.displayHUD->buttonPassTurn->getPosition().y + stateView.displayHUD->buttonPassTurn->getGlobalBounds().height){
+                                stateView.displayHUD->buttonPassTurn->setTextureRect(IntRect(175*4 + 0, 258, 199, 48));
+                                stateView.displayHUD->passTurn->setCharacterSize(24);
+                                stateView.displayHUD->passTurn->setOrigin(stateView.displayHUD->passTurn->getGlobalBounds().width/2, stateView.displayHUD->passTurn->getGlobalBounds().height/2);
+                                stateView.displayHUD->passTurn->setPosition(stateView.displayHUD->buttonPassTurn->getPosition().x + stateView.displayHUD->buttonPassTurn->getGlobalBounds().width/2, stateView.displayHUD->buttonPassTurn->getGlobalBounds().height/2 + stateView.displayHUD->buttonPassTurn->getPosition().y - 8);
+                        }
+                    }
+                }
         }
 
         // effacement de la fenêtre en noir
