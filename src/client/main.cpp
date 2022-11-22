@@ -93,10 +93,10 @@ int main(int argc,char* argv[])
 // test d'engine sur la pioche
     else if(strcmp(argv[1], "eng") == 0){
 
-        State state;
+        State* state;
         Engine engine;
 
-        DrawCardCommand drawCommand(state.turn);
+        DrawCardCommand drawCommand(state->turn);
 
         if(drawCommand.execute(state) ==  true){
             cout << "oui" << endl;
