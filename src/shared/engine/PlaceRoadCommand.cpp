@@ -101,34 +101,53 @@ void afficheTilePos(std::string s, Position pos){
     std::cout << "Tile pos : " << pos.x << ", " << pos.y << std::endl << std::endl;
 }
 
+
+
+bool hasVisitedRoad(std::array<Position, 2> road, std::vector<std::array<Position, 2>>& localVisitedRoads){
+    for (std::array<Position, 2> r : localVisitedRoads){
+        if (equalArrayPos(road, r)){
+            return true;
+        }
+    }
+    return false;
+}
+
 /*
 * On part d'une route qui est en extrémité
 */
-int countMaxRoad(state::State* state, std::array<Position, 2> curPos){
-    static int maxRoad = 1;
+int countMaxRoad(state::State* state, std::array<Position, 2> curPos, Position visitedRoadNeighbor, std::vector<std::array<Position,2>> lastLocalVisitedRoads){
     int localMaxRoad = 1;
+    std::vector<std::array<Position, 2>> localVisitedRoads;
     std::vector<Road>* roads = &(state->map.roads);
     std::array<Position, 2> tileNeighbors;
     Position nextTile;
     Position tempCurPos;
+    //int interMaxRoad;
+
+    localVisitedRoads.insert(std::end(localVisitedRoads), std::begin(lastLocalVisitedRoads), std::end(lastLocalVisitedRoads));
+
+    //localVisitedRoads.push_back({curPos[1], visitedRoadNeighbor}); //affreux, c'est le curPos d'avant l'intersection
+
+    localVisitedRoads.push_back(curPos);
 
     tileNeighbors = findTilesRoadNeighbors(state, curPos);
 
     if (tileNeighbors[1] == Position(0, 0))
         std::cout << "tileNeighbors error" << std::endl;
 
-    //on prend comme nextTile celui qui possède une route
-    if (hasRoad(state, {tileNeighbors[0], curPos[0]}) || hasRoad(state, {tileNeighbors[0], curPos[1]}))
+    //on prend comme nextTile celui qui possède une route et qui n'est pas celui qui à été noté par l'intersection
+    if ((hasRoad(state, {tileNeighbors[0], curPos[0]}) || hasRoad(state, {tileNeighbors[0], curPos[1]})) && !(visitedRoadNeighbor == tileNeighbors[0]))
         nextTile = tileNeighbors[0];
-    else
+    else if ((hasRoad(state, {tileNeighbors[1], curPos[0]}) || hasRoad(state, {tileNeighbors[1], curPos[1]})) && !(visitedRoadNeighbor == tileNeighbors[1]))
         nextTile = tileNeighbors[1];
+    else {
+        return 1;
+    }
 
     //tant qu'il y a exactement 1 route sur le chemin (pas d'intersection)
-    while (hasRoad(state, {nextTile, curPos[0]}) ^ hasRoad(state, {nextTile, curPos[1]})){
-        maxRoad++;
-
+    while ((hasRoad(state, {nextTile, curPos[0]}) ^ hasRoad(state, {nextTile, curPos[1]}))){
         if (hasRoad(state, {nextTile, curPos[0]})){
-            tempCurPos = curPos[1]; //on sauvegarde le curpos non choisi
+            tempCurPos = curPos[1]; //on sauvegarde le curPos non choisi
             curPos[1] = nextTile;
             tileNeighbors = findTilesRoadNeighbors(state, curPos);
             if (tileNeighbors[0] == tempCurPos)
@@ -145,9 +164,23 @@ int countMaxRoad(state::State* state, std::array<Position, 2> curPos){
             else 
                 nextTile = tileNeighbors[0];
         }
+
+        if (hasVisitedRoad(curPos, localVisitedRoads)){
+            return localMaxRoad;
+        }
+        localVisitedRoads.push_back(curPos);
+        localMaxRoad++;
     }
 
-    return maxRoad;
+    //intersection
+    if (hasRoad(state, {nextTile, curPos[0]}) && hasRoad(state, {nextTile, curPos[1]})){
+        if (hasVisitedRoad({nextTile, curPos[0]}, localVisitedRoads) || hasVisitedRoad({nextTile, curPos[1]}, localVisitedRoads)){
+            return localMaxRoad;
+        }
+        localMaxRoad += std::max(countMaxRoad(state, {nextTile, curPos[0]}, curPos[1], localVisitedRoads), countMaxRoad(state, {nextTile, curPos[1]}, curPos[0], localVisitedRoads));
+    }
+
+    return localMaxRoad;
 }
 
 }

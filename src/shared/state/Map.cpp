@@ -60,15 +60,35 @@ Map::Map(){
     roads.push_back(Road(PlayerRed));
     roads.back().position = {Position(1, 2), Position(2, 2)};
 
-    roads.push_back(Road(PlayerRed));
-    roads.back().position = {Position(1, 3), Position(2, 2)};
 
     roads.push_back(Road(PlayerRed));
     roads.back().position = {Position(1, 3), Position(2, 3)};
 
-    roads.push_back(Road(PlayerRed,2,4,1,3));
+    //roads.push_back(Road(PlayerRed,2,4,1,3));
     roads.push_back(Road(PlayerRed,2,4,2,3));
+    roads.push_back(Road(PlayerRed,2,3,3,4));
+    roads.push_back(Road(PlayerRed,2,3,3,3));
+    roads.push_back(Road(PlayerRed,2,3,3,2));
+    //roads.push_back(Road(PlayerRed,2,3,2,2));
+    roads.push_back(Road(PlayerRed,3,3,3,2));
+	roads.push_back(Road(PlayerRed,2,2,3,2));
+	roads.push_back(Road(PlayerRed,2,1,3,2));
+	roads.push_back(Road(PlayerRed,3,1,3,2));
+	roads.push_back(Road(PlayerRed,3,1,4,2));
+	roads.push_back(Road(PlayerRed,4,2,4,1));
+	//roads.push_back(Road(PlayerRed,3,1,4,1));
+	//roads.push_back(Road(PlayerRed,4,1,5,2));
 
+	roads.push_back(Road(PlayerRed,2,2,2,1));
+	roads.push_back(Road(PlayerRed,2,2,2,3));
+	//roads.push_back(Road(PlayerRed,3,2,4,2));
+	roads.push_back(Road(PlayerRed,1,3,2,2));
+	roads.push_back(Road(PlayerRed,1,3,0,3));
+	roads.push_back(Road(PlayerRed,1,3,1,2));
+	roads.push_back(Road(PlayerRed,1,3,1,4));
+	roads.push_back(Road(PlayerRed,1,3,2,4));
+	roads.push_back(Road(PlayerRed,3,2,4,2));
+	roads.push_back(Road(PlayerRed,1,2,1,1));
     // Ports
     
     ports.push_back(Port(3, Nothing));
