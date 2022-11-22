@@ -10,6 +10,7 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
     
     sf::Texture* backgroundHex = new sf::Texture();
     backgroundHex->loadFromFile("../res/hexagoneBack.png");
+    backgroundHex->setSmooth(true);
     back.setTexture(*backgroundHex);
     back.setTextureRect(sf::IntRect(0,0,1920, 1080));
     back.setOrigin(back.getGlobalBounds().width/2, back.getGlobalBounds().height/2);

@@ -154,7 +154,7 @@ void RenderPieces::update(state::State state){
         if(r.position[0].y == r.position[1].y){
             roadOffset = 0;
         }
-        else if(r.position[0].x%2 == 0){
+        else if(r.position[0].y%2 == 0){
             if(r.position[1] - r.position[0] == Position(0, -1) || r.position[1] - r.position[0] == Position(-1, 1)){
                 roadOffset = 8;
             } else if (r.position[1] - r.position[0] == Position(-1, -1) || r.position[1] - r.position[0] == Position(0, 1)){
