@@ -150,4 +150,32 @@ int countMaxRoad(state::State* state, std::array<Position, 2> curPos){
     return maxRoad;
 }
 
+
+std::vector<std::array<Position,2>> findEndRoads(state::State* state){
+    std::vector<std::array<Position,2>> endRoads;
+    std::vector<Road>* roads = &(state->map.roads);
+    std::array<Position, 2> tileNeighbors;
+    Position tempNeighbors;
+
+    for(int i = 0; i< roads->size(); i++){
+        tileNeighbors = findTilesRoadNeighbors(state, (*roads)[i].position);
+        std::cout << "route testé n° "<< i << std::endl;
+        if (!(hasRoad( state, {(*roads)[i].position[0],tileNeighbors[0]})) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[0]}))){
+            std::cout << "Test 1" << std::endl;
+            endRoads.push_back((*roads)[i].position);
+            afficheRoadPos("route avec extremité", endRoads.back());
+        }
+        else if(!(hasRoad( state, {(*roads)[i].position[0], tileNeighbors[1]})) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[1]}))){
+            std::cout << "Test 2" << std::endl;
+            //if(endRoads.back() != (*roads)[i].position){
+                std::cout << "elle n'y est pas deja" << std::endl;
+                endRoads.push_back((*roads)[i].position);
+                afficheRoadPos("route avec extremité", endRoads.back());
+            //}
+        }
+    }
+
+    return endRoads;
+}
+
 }
