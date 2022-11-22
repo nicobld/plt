@@ -21,7 +21,7 @@ using namespace engine;
 
 namespace engine {
     std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::array<Position, 2> road);
-    int countMaxRoad(state::State* state, std::array<Position, 2> curPos);
+    int countMaxRoad(state::State* state, std::array<Position, 2> curPos, Position visitedRoadNeighbor, std::vector<std::array<Position,2>> lastLocalVisitedRoads);
 }
 
 
@@ -114,7 +114,7 @@ int main(int argc,char* argv[])
         //cout << command.execute(&state) << endl;
 
 
-        cout << countMaxRoad(&state, {Position(2,2), Position(1,1)}) << endl;
+        printf("%d\n", countMaxRoad(&state, {Position(4,1), Position(4,2)}, Position(5,2), {}));
 
         //std::array<Position, 2> testRoad = findTilesRoadNeighbors(&state, {Position(2,2), Position(1,2)});
 
