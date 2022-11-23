@@ -5,6 +5,8 @@ using namespace state;
 
 namespace engine {
 
+int countMaxRoad(state::State* state, state::PlayerColor playerColor);
+
 const Position neighbors[2][6] = {
     {Position(+1,  0), Position(0, -1), Position(-1, -1), Position(-1,  0), Position(-1, +1), Position(0, +1)},
     {Position(+1,  0), Position(1, -1), Position(0, -1), Position(-1,  0), Position(0, +1), Position(1, +1)}
@@ -16,16 +18,20 @@ bool isNeighbor(Position pos1, Position pos2){
     if (pos == Position(0, 0))
         return true;
     for (int i = 0; i < 6; i++){
-        if (pos == neighbors[pos1.x % 2][i])
+        if (pos == neighbors[pos1.y % 2][i])
             return true;
     }
     return false;
 }
 
-PlaceRoadCommand::PlaceRoadCommand(state::PlayerColor playerColor, std::array<Position, 2> position):
-    playerColor(playerColor), position(position) {}
+PlaceRoadCommand::PlaceRoadCommand(state::PlayerColor playerColor, std::array<Position, 2> position): playerColor(playerColor), position(position) {}
+
 
 bool PlaceRoadCommand::execute(state::State* state) {
+    int maxRoad = 0;
+    int tempMaxRoad;
+    int bestPlayer = -1;
+
     //verifie player a des routes
     if (state->players[playerColor].roads.size() == 0) {
         std::cout << "Player has no roads to place" << std::endl;
@@ -53,6 +59,17 @@ bool PlaceRoadCommand::execute(state::State* state) {
     //place la route et retire la route au joueur
     state->map.roads.push_back(Road(playerColor, position));
     state->players[playerColor].roads.pop_back();
+
+    for (int i = 0; i < state->players.size(); i++){
+        state->players[i].hasLongestRoad = false;
+        if (maxRoad < (tempMaxRoad = countMaxRoad(state, state->players[i].playerColor))){
+            maxRoad = tempMaxRoad;
+            bestPlayer = i;
+        }
+    }
+    if (bestPlayer != -1){
+        state->players[bestPlayer].hasLongestRoad = true;
+    }
     return true;
 }
 
@@ -82,9 +99,9 @@ bool equalArrayPos(std::array<Position, 2> pos1, std::array<Position, 2> pos2){
 /*
 * return true if there is a road on the map at position pos
 */
-bool hasRoad(state::State* state, std::array<Position, 2> pos){
+bool hasRoad(state::State* state, std::array<Position, 2> pos, state::PlayerColor playerColor){
     for (Road road : state->map.roads){
-        if (equalArrayPos(road.position, pos))
+        if (equalArrayPos(road.position, pos) && road.playerColor == playerColor)
             return true;
     }
     return false;
@@ -115,7 +132,7 @@ bool hasVisitedRoad(std::array<Position, 2> road, std::vector<std::array<Positio
 /*
 * On part d'une route qui est en extrémité
 */
-int countMaxRoad(state::State* state, std::array<Position, 2> curPos, Position visitedRoadNeighbor, std::vector<std::array<Position,2>> lastLocalVisitedRoads){
+int countMaxRoadFromEnd(state::State* state, std::array<Position, 2> curPos, Position visitedRoadNeighbor, std::vector<std::array<Position,2>> lastLocalVisitedRoads, state::PlayerColor playerColor){
     int localMaxRoad = 1;
     std::vector<std::array<Position, 2>> localVisitedRoads;
     std::vector<Road>* roads = &(state->map.roads);
@@ -136,17 +153,17 @@ int countMaxRoad(state::State* state, std::array<Position, 2> curPos, Position v
         std::cout << "tileNeighbors error" << std::endl;
 
     //on prend comme nextTile celui qui possède une route et qui n'est pas celui qui à été noté par l'intersection
-    if ((hasRoad(state, {tileNeighbors[0], curPos[0]}) || hasRoad(state, {tileNeighbors[0], curPos[1]})) && !(visitedRoadNeighbor == tileNeighbors[0]))
+    if ((hasRoad(state, {tileNeighbors[0], curPos[0]}, playerColor) || hasRoad(state, {tileNeighbors[0], curPos[1]}, playerColor)) && !(visitedRoadNeighbor == tileNeighbors[0]))
         nextTile = tileNeighbors[0];
-    else if ((hasRoad(state, {tileNeighbors[1], curPos[0]}) || hasRoad(state, {tileNeighbors[1], curPos[1]})) && !(visitedRoadNeighbor == tileNeighbors[1]))
+    else if ((hasRoad(state, {tileNeighbors[1], curPos[0]}, playerColor) || hasRoad(state, {tileNeighbors[1], curPos[1]}, playerColor)) && !(visitedRoadNeighbor == tileNeighbors[1]))
         nextTile = tileNeighbors[1];
     else {
         return 1;
     }
 
     //tant qu'il y a exactement 1 route sur le chemin (pas d'intersection)
-    while ((hasRoad(state, {nextTile, curPos[0]}) ^ hasRoad(state, {nextTile, curPos[1]}))){
-        if (hasRoad(state, {nextTile, curPos[0]})){
+    while ((hasRoad(state, {nextTile, curPos[0]}, playerColor) ^ hasRoad(state, {nextTile, curPos[1]}, playerColor))){
+        if (hasRoad(state, {nextTile, curPos[0]}, playerColor)){
             tempCurPos = curPos[1]; //on sauvegarde le curPos non choisi
             curPos[1] = nextTile;
             tileNeighbors = findTilesRoadNeighbors(state, curPos);
@@ -155,7 +172,7 @@ int countMaxRoad(state::State* state, std::array<Position, 2> curPos, Position v
             else 
                 nextTile = tileNeighbors[0];
 
-        } else if (hasRoad(state, {nextTile, curPos[1]})){
+        } else if (hasRoad(state, {nextTile, curPos[1]}, playerColor)){
             tempCurPos = curPos[0];
             curPos[0] = nextTile;
             tileNeighbors = findTilesRoadNeighbors(state, curPos);
@@ -173,42 +190,48 @@ int countMaxRoad(state::State* state, std::array<Position, 2> curPos, Position v
     }
 
     //intersection
-    if (hasRoad(state, {nextTile, curPos[0]}) && hasRoad(state, {nextTile, curPos[1]})){
+    if (hasRoad(state, {nextTile, curPos[0]}, playerColor) && hasRoad(state, {nextTile, curPos[1]}, playerColor)){
         if (hasVisitedRoad({nextTile, curPos[0]}, localVisitedRoads) || hasVisitedRoad({nextTile, curPos[1]}, localVisitedRoads)){
             return localMaxRoad;
         }
-        localMaxRoad += std::max(countMaxRoad(state, {nextTile, curPos[0]}, curPos[1], localVisitedRoads), countMaxRoad(state, {nextTile, curPos[1]}, curPos[0], localVisitedRoads));
+        localMaxRoad += std::max(countMaxRoadFromEnd(state, {nextTile, curPos[0]}, curPos[1], localVisitedRoads, playerColor), countMaxRoadFromEnd(state, {nextTile, curPos[1]}, curPos[0], localVisitedRoads, playerColor));
     }
 
     return localMaxRoad;
 }
 
 
-std::vector<std::array<Position,2>> findEndRoads(state::State* state){
+std::vector<std::array<Position,2>> findEndRoads(state::State* state, state::PlayerColor playerColor){
     std::vector<std::array<Position,2>> endRoads;
     std::vector<Road>* roads = &(state->map.roads);
     std::array<Position, 2> tileNeighbors;
     Position tempNeighbors;
 
-    for(int i = 0; i< roads->size(); i++){
+    for(int i = 0; i < roads->size(); i++){
         tileNeighbors = findTilesRoadNeighbors(state, (*roads)[i].position);
-        std::cout << "route testé n° "<< i << std::endl;
-        if (!(hasRoad( state, {(*roads)[i].position[0],tileNeighbors[0]})) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[0]}))){
-            std::cout << "Test 1" << std::endl;
+        if (!(hasRoad( state, {(*roads)[i].position[0],tileNeighbors[0]}, playerColor)) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[0]}, playerColor))){
             endRoads.push_back((*roads)[i].position);
-            afficheRoadPos("route avec extremité", endRoads.back());
         }
-        else if(!(hasRoad( state, {(*roads)[i].position[0], tileNeighbors[1]})) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[1]}))){
-            std::cout << "Test 2" << std::endl;
-            //if(endRoads.back() != (*roads)[i].position){
-                std::cout << "elle n'y est pas deja" << std::endl;
-                endRoads.push_back((*roads)[i].position);
-                afficheRoadPos("route avec extremité", endRoads.back());
-            //}
+        else if(!(hasRoad( state, {(*roads)[i].position[0], tileNeighbors[1]}, playerColor)) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[1]}, playerColor))){
+            endRoads.push_back((*roads)[i].position);
         }
     }
 
     return endRoads;
+}
+
+
+int countMaxRoad(state::State* state, state::PlayerColor playerColor){
+    std::vector<std::array<Position,2>> endRoads = findEndRoads(state, playerColor);
+    int maxRoad = 0;
+    int tempMaxRoad;
+    for (std::array<Position,2> endRoad : endRoads){
+        if (maxRoad < (tempMaxRoad = countMaxRoadFromEnd(state, endRoad, Position(0,0), {}, playerColor))){
+            maxRoad = tempMaxRoad;
+        }
+    }
+
+    return maxRoad;
 }
 
 }

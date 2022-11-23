@@ -21,7 +21,8 @@ using namespace engine;
 
 namespace engine {
     std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::array<Position, 2> road);
-    int countMaxRoad(state::State* state, std::array<Position, 2> curPos, Position visitedRoadNeighbor, std::vector<std::array<Position,2>> lastLocalVisitedRoads);
+    int countMaxRoadFromEnd(state::State* state, std::array<Position, 2> curPos, Position visitedRoadNeighbor, std::vector<std::array<Position,2>> lastLocalVisitedRoads, state::PlayerColor playerColor);
+    int countMaxRoad(state::State* state, state::PlayerColor playerColor);
 }
 
 
@@ -109,16 +110,6 @@ int main(int argc,char* argv[])
         StateView stateView(state);
 
         Engine engine;
-
-        PlaceBuildingCommand command(PlayerGreen, {Position(1, 3), Position(1, 2), Position(0, 3)}, City);
-        //cout << command.execute(&state) << endl;
-
-
-        printf("%d\n", countMaxRoad(&state, {Position(4,1), Position(4,2)}, Position(5,2), {}));
-
-        //std::array<Position, 2> testRoad = findTilesRoadNeighbors(&state, {Position(2,2), Position(1,2)});
-
-        //cout << testRoad[0].x << " " << testRoad[0].y << endl << testRoad[1].x << " " << testRoad[1].y << endl;
         
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())

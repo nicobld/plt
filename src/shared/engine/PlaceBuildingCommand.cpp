@@ -5,10 +5,8 @@ using namespace state;
 
 namespace engine {
 
-PlaceBuildingCommand::PlaceBuildingCommand(state::PlayerColor playerColor, std::array<state::Position, 3> position, state::BuildingType buildingType) : 
-    playerColor(playerColor), position(position), buildingType(buildingType) {
-    commandID = PLACE_BUILDING;
-}
+PlaceBuildingCommand::PlaceBuildingCommand(state::PlayerColor playerColor, std::array<state::Position, 3> position, state::BuildingType buildingType):
+    playerColor(playerColor), position(position), buildingType(buildingType) {}
 
 bool PlaceBuildingCommand::execute(state::State* state) {
     //VERIFY
