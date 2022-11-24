@@ -65,7 +65,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
         vectorSpriteRessource.push_back(Sprite(icon, IntRect(i*74, 0, 74, 58)));
         vectorSpriteRessource.back().setScale(Vector2f(0.5, 0.5));
         vectorSpriteRessource.back().setPosition(spriteRessourceSquare->getPosition().x + 40 + i*80, spriteRessourceSquare->getPosition().y + spriteRessourceSquare->getGlobalBounds().height/2 - 13);
-
+        
         vectorTextRessource.push_back(Text(to_string(player1.resources.at(i).number), font, 24));
         vectorTextRessource.back().setPosition(vectorSpriteRessource.back().getPosition().x - 20, vectorSpriteRessource.back().getPosition().y);
         vectorTextRessource.back().setFillColor(Color(0,0,0));

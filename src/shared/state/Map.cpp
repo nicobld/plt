@@ -14,34 +14,9 @@ Map::Map(){
           0, 12, 3, 4, 1, 11, 0,
         0, 0, 16, 8, 8, 15, 0,
     };
-    
-   /*
-       int temp_grid[49] = {
-        0, 0, 7, 7, 7, 7, 0,
-          0, 7, 5, 1, 2, 7, 0,
-        0, 7, 4, 3, 1, 3, 7,
-          7, 4, 2, 6, 2, 5, 7,
-        0, 7, 2, 5, 4, 1, 7,
-          0, 7, 3, 4, 1, 7, 0,
-        0, 0, 7, 7, 7, 7, 0,
-    };
-    */
-
-<<<<<<< HEAD
-=======
-    int temp_token_grid[49] = {
-        0, 0, 0, 0, 0, 0, 0,
-          0, 0, 10, 2, 9, 0, 0,
-        0, 0, 12, 6, 4, 10, 0,
-          0, 9, 11, 0, 3, 8, 0,
-        0, 0, 8, 3, 4, 5, 0,
-          0, 0, 5, 6, 11, 0, 0,
-        0, 0, 0, 0, 0, 0, 0,
-    };
 
 
     //debug grid
->>>>>>> Finition ajout feature port
     // int temp_token_grid[49] = {
     //     0, 0, 0, 0, 0, 0, 0,
     //       0, 0, 10, 2, 9, 0, 0,
@@ -123,15 +98,9 @@ Map::Map(){
 	roads.push_back(Road(PlayerRed,2,3,2,4));
 
     // Ports
-<<<<<<< HEAD
     
     ports.push_back(Port(3, Nothing));
     ports.back().position = {Position(2, 0), Position(2, 1)};
-=======
-
-    // ports.push_back(Port(3, Nothing));
-    // ports.back().position = {Position(2, 0), Position(2, 1)};
->>>>>>> Finition ajout feature port
     
     ports.push_back(Port(3, Nothing, 2, 0, 2, 1));
     ports.push_back(Port(2, Grain, 4, 0, 3, 1));
