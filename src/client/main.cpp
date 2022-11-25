@@ -113,7 +113,6 @@ int main(int argc, char* argv[])
         state.players.push_back(Player("Stephane", PlayerGreen));
 
         Color sea(148, 240, 248);
-        window.clear(sea);
 
         Texture focusTexture;
         focusTexture.loadFromFile("../res/focus.png");
@@ -170,12 +169,12 @@ int main(int argc, char* argv[])
             }
 
             // effacement de la fenêtre en noir
-            window.clear(Color::Black);
+            window.clear(sea);
 
             // c'est ici qu'on dessine tout
             //HUD.display(window);
-            window.draw(*focus);
             window.draw(*stateView.tileMap);
+            window.draw(*focus);
             stateView.displayHUD->render(window, state.players[0], state.players[1], state.players[2], state.players[3]);
             stateView.render(window);
 
