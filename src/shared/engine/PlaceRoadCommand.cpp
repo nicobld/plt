@@ -28,7 +28,7 @@ PlaceRoadCommand::PlaceRoadCommand(state::PlayerColor playerColor, std::array<Po
 
 
 bool PlaceRoadCommand::execute(state::State* state) {
-    int maxRoad = 0;
+    int maxRoad = 5;
     int tempMaxRoad;
     int bestPlayer = -1;
 
@@ -45,6 +45,7 @@ bool PlaceRoadCommand::execute(state::State* state) {
         }
     }
 
+    //verifie s'il y a un route de la bonne couleur à côté
     bool foundRoad = false;
     for (Road r : state->map.roads){
         if (r.playerColor == playerColor){
@@ -53,7 +54,6 @@ bool PlaceRoadCommand::execute(state::State* state) {
             }
         }
     }
-
     if (!foundRoad) return false;
 
     //place la route et retire la route au joueur
@@ -66,6 +66,7 @@ bool PlaceRoadCommand::execute(state::State* state) {
             maxRoad = tempMaxRoad;
             bestPlayer = i;
         }
+        state->players[i].longestRoad = tempMaxRoad;
     }
     if (bestPlayer != -1){
         state->players[bestPlayer].hasLongestRoad = true;
@@ -208,12 +209,14 @@ std::vector<std::array<Position,2>> findEndRoads(state::State* state, state::Pla
     Position tempNeighbors;
 
     for(int i = 0; i < roads->size(); i++){
-        tileNeighbors = findTilesRoadNeighbors(state, (*roads)[i].position);
-        if (!(hasRoad( state, {(*roads)[i].position[0],tileNeighbors[0]}, playerColor)) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[0]}, playerColor))){
-            endRoads.push_back((*roads)[i].position);
-        }
-        else if(!(hasRoad( state, {(*roads)[i].position[0], tileNeighbors[1]}, playerColor)) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[1]}, playerColor))){
-            endRoads.push_back((*roads)[i].position);
+        if (roads->at(i).playerColor == playerColor){
+            tileNeighbors = findTilesRoadNeighbors(state, (*roads)[i].position);
+            if (!(hasRoad( state, {(*roads)[i].position[0],tileNeighbors[0]}, playerColor)) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[0]}, playerColor))){
+                endRoads.push_back((*roads)[i].position);
+            }
+            else if(!(hasRoad( state, {(*roads)[i].position[0], tileNeighbors[1]}, playerColor)) && !(hasRoad( state, {(*roads)[i].position[1], tileNeighbors[1]}, playerColor))){
+                endRoads.push_back((*roads)[i].position);
+            }
         }
     }
 

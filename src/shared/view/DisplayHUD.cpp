@@ -452,25 +452,25 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
 
         if(player1.hasLargestArmy)
             player1NumberKnights->setFillColor(Color(red));
-        if(player2.hasLargestArmy)
+        else if(player2.hasLargestArmy)
             player2NumberKnights->setFillColor(Color(red));
-        if(player3.hasLargestArmy)
+        else if(player3.hasLargestArmy)
             player3NumberKnights->setFillColor(Color(red));
-        if(player4.hasLargestArmy)
+        else if(player4.hasLargestArmy)
             player4NumberKnights->setFillColor(Color(red));
 
-    player1NumberRoads->setString("0");
-    player2NumberRoads->setString("0");
-    player3NumberRoads->setString("0");
-    player4NumberRoads->setString("0");
+    player1NumberRoads->setString(to_string(player1.longestRoad));
+    player2NumberRoads->setString(to_string(player2.longestRoad));
+    player3NumberRoads->setString(to_string(player3.longestRoad));
+    player4NumberRoads->setString(to_string(player4.longestRoad));
 
         if(player1.hasLongestRoad)
             player1NumberRoads->setFillColor(Color(red));
-        if(player2.hasLongestRoad)
+        else if(player2.hasLongestRoad)
             player2NumberRoads->setFillColor(Color(red));
-        if(player3.hasLongestRoad)
+        else if(player3.hasLongestRoad)
             player3NumberRoads->setFillColor(Color(red));
-        if(player4.hasLongestRoad)
+        else if(player4.hasLongestRoad)
             player4NumberRoads->setFillColor(Color(red));
 
     //--------------------player1Cards------------------------

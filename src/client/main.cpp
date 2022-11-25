@@ -38,6 +38,7 @@ int main(int argc, char* argv[])
     state.players.push_back(Player("Nicolas", PlayerBlue));
     state.players.push_back(Player("Xu", PlayerYellow));
     state.players.push_back(Player("Stephane", PlayerGreen));
+
     StateView stateView(state);
 
     if(argc == 1){
@@ -53,12 +54,6 @@ int main(int argc, char* argv[])
     }
     else if(!strncmp(argv[1], "render", 6)){
         cout << "===============| Catan |===============" << endl;
-
-        State state;
-        state.players.push_back(Player("Jonah", PlayerRed));
-        state.players.push_back(Player("Nicolas", PlayerBlue));
-        state.players.push_back(Player("Xu", PlayerYellow));
-        state.players.push_back(Player("Stephane", PlayerGreen));
 
         state.players.at(0).developments.push_back(Development(Knight));
         state.players.at(0).developments.push_back(Development(VictoryPointsCard));
@@ -107,11 +102,6 @@ int main(int argc, char* argv[])
     else if(!strncmp(argv[1], "engine", 6)){
         Engine engine;
 
-        state.players.push_back(Player("Jonah", PlayerRed));
-        state.players.push_back(Player("Nicolas", PlayerBlue));
-        state.players.push_back(Player("Xu", PlayerYellow));
-        state.players.push_back(Player("Stephane", PlayerGreen));
-
         Color sea(148, 240, 248);
 
         Texture focusTexture;
@@ -120,6 +110,18 @@ int main(int argc, char* argv[])
         focus->setScale(Vector2f(0.9, 0.9));
         focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
         focus->setPosition(width/2, height/2);
+
+        PlaceRoadCommand c0(PlayerRed, {Position(2,3), Position(1,3)});
+        c0.execute(&state);
+
+        PlaceBuildingCommand c1(PlayerRed, {Position(2,2), Position(2,3), Position(1,3)}, Colony);
+        c1.execute(&state);
+
+        PlaceBuildingCommand c2(PlayerRed, {Position(2,4), Position(2,3), Position(3,4)}, Colony);
+        c2.execute(&state);
+
+        PlaceBuildingCommand c3(PlayerRed, {Position(3,4), Position(2,3), Position(3,3)}, Colony);
+        c3.execute(&state);
         
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
