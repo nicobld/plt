@@ -9,17 +9,30 @@ using namespace state;
 
 namespace view{
 
-DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, Player& player3, Player& player4) {
+DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, state::Player& player1, state::Player& player2, state::Player& player3, state::Player& player4) {
 
     //init font and color
     if (!this->font.loadFromFile("../res/poppins.ttf")){
         cout << "Could not find the font " << "../res/poppins.ttf" << endl;
     }
 
+    this->player1 = &player1;
+    this->player2 = &player2;
+    this->player3 = &player3;
+    this->player4 = &player4;
+
     red = Color(181, 53, 53);
     green = Color(70, 157, 70);
     blue = Color(69, 98, 184);
     yellow = Color(182, 148, 82);
+
+    vector <sf::Color> colorPlayer;
+    colorPlayer.push_back(red);
+    colorPlayer.push_back(blue);
+    colorPlayer.push_back(yellow);
+    colorPlayer.push_back(green);
+
+    
     //-----------------------------------------
     int scrennGap = 30;
     int squareGap = 20;
@@ -38,19 +51,21 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     playerSquare.loadFromFile("../res/squares.png");
     playerSquare.setSmooth(true);
 
-    spritePlayer1Square =  new Sprite(playerSquare,IntRect(0, 0, 504, 204));
+
+
+    spritePlayer1Square =  new Sprite(playerSquare,IntRect(505*player1.playerColor, 0, 504, 204));
     spritePlayer1Square->setScale(Vector2f(0.9, 0.9));
     spritePlayer1Square->setPosition(scrennGap, -120);
 
-    spritePlayer2Square = new Sprite(playerSquare, IntRect(widthSquare*3, 205, widthSquare, lengthSquare));
+    spritePlayer2Square = new Sprite(playerSquare, IntRect(widthSquare*player2.playerColor, 205, widthSquare, lengthSquare));
     spritePlayer2Square->setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer2Square->setPosition(WIDTH - scrennGap - 3*(widthSquare*scaleSquare) - 2*squareGap, heigthSqaure);
 
-    spritePlayer3Square = new Sprite(playerSquare, IntRect(widthSquare*1, 205, widthSquare, lengthSquare));
+    spritePlayer3Square = new Sprite(playerSquare, IntRect(widthSquare*player3.playerColor, 205, widthSquare, lengthSquare));
     spritePlayer3Square->setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer3Square->setPosition(WIDTH - scrennGap - 2*(widthSquare*scaleSquare) - squareGap, heigthSqaure);
 
-    spritePlayer4Square = new Sprite(playerSquare, IntRect(widthSquare*2, 205, widthSquare, lengthSquare));
+    spritePlayer4Square = new Sprite(playerSquare, IntRect(widthSquare*player4.playerColor, 205, widthSquare, lengthSquare));
     spritePlayer4Square->setScale(Vector2f(scaleSquare, scaleSquare));
     spritePlayer4Square->setPosition(WIDTH - scrennGap -widthSquare*scaleSquare, heigthSqaure);
 
@@ -75,22 +90,24 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
     //-------------------playerName---------------------------
 
+
+
     player1Name = new Text(player1.name, font, 24);
-    player1Name->setFillColor(red);
+    player1Name->setFillColor(colorPlayer[player1.playerColor]);
     player1Name->setPosition(scrennGap + 25, 15);
 
     player2Name = new Text(player2.name, font, sizeFontIconsplayers);
-    player2Name->setFillColor(green);
+    player2Name->setFillColor(colorPlayer[player2.playerColor]);
     player2Name->setOrigin((player2Name->getGlobalBounds().width)/2, 0);
     player2Name->setPosition((spritePlayer2Square->getGlobalBounds().width)/2 + spritePlayer2Square->getPosition().x , 10);
 
     player3Name = new Text(player3.name, font, sizeFontIconsplayers);
-    player3Name->setFillColor(blue);
+    player3Name->setFillColor(colorPlayer[player3.playerColor]);
     player3Name->setOrigin((player3Name->getGlobalBounds().width)/2, 0);
     player3Name->setPosition((spritePlayer3Square->getGlobalBounds().width)/2 + spritePlayer3Square->getPosition().x , 10);
 
     player4Name = new Text(player4.name, font, sizeFontIconsplayers);
-    player4Name->setFillColor(yellow);
+    player4Name->setFillColor(colorPlayer[player4.playerColor]);
     player4Name->setOrigin((player4Name->getGlobalBounds().width)/2, 0);
     player4Name->setPosition((spritePlayer4Square->getGlobalBounds().width)/2 + spritePlayer4Square->getPosition().x , 10);
 
@@ -338,9 +355,9 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
 
 }
 
-void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2, Player player3, Player player4){
+void DisplayHUD::render(sf::RenderTarget& target){
     
-    update(player1, player2, player3, player4);
+    update();
 
     target.draw(*spritePlayer1Square);
     target.draw(*spritePlayer2Square);
@@ -406,7 +423,7 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
     target.draw(*player3NumberRoads);
     target.draw(*player4NumberRoads);
 
-    for(int i = 0; i < player1.developments.size(); i++){
+    for(int i = 0; i < player1->developments.size(); i++){
         target.draw(vectorSpriteCards.at(i));
     }
     
@@ -420,20 +437,20 @@ void DisplayHUD::render(sf::RenderTarget& target, Player player1, Player player2
 }
 
 
-void DisplayHUD::update(Player player1, Player player2, Player player3, Player player4){
+void DisplayHUD::update(){
     
-    player1VP->setString(to_string(player1.victoryPoints));
-    player2VP->setString(to_string(player2.victoryPoints));
-    player3VP->setString(to_string(player3.victoryPoints));
-    player4VP->setString(to_string(player4.victoryPoints));
+    player1VP->setString(to_string(player1->victoryPoints));
+    player2VP->setString(to_string(player2->victoryPoints));
+    player3VP->setString(to_string(player3->victoryPoints));
+    player4VP->setString(to_string(player4->victoryPoints));
     
     int sommeResources1 = 0, sommeResources2 = 0, sommeResources3 = 0, sommeResources4 = 0;
     for(int i = 0; i<5; i++){
-        vectorTextRessource.at(i).setString(to_string(player1.resources.at(i).number));
-        sommeResources1 += player1.resources.at(i).number;
-        sommeResources2 += player2.resources.at(i).number;
-        sommeResources3 += player3.resources.at(i).number;
-        sommeResources4 += player4.resources.at(i).number;
+        vectorTextRessource.at(i).setString(to_string(player1->resources.at(i).number));
+        sommeResources1 += player1->resources.at(i).number;
+        sommeResources2 += player2->resources.at(i).number;
+        sommeResources3 += player3->resources.at(i).number;
+        sommeResources4 += player4->resources.at(i).number;
     }
 
     player1NumberCards->setString(to_string(sommeResources1));
@@ -441,47 +458,47 @@ void DisplayHUD::update(Player player1, Player player2, Player player3, Player p
     player3NumberCards->setString(to_string(sommeResources3));
     player4NumberCards->setString(to_string(sommeResources4));
 
-    player2NumberDevelopments->setString(to_string(player2.developments.size()));
-    player3NumberDevelopments->setString(to_string(player3.developments.size()));
-    player4NumberDevelopments->setString(to_string(player4.developments.size()));
+    player2NumberDevelopments->setString(to_string(player2->developments.size()));
+    player3NumberDevelopments->setString(to_string(player3->developments.size()));
+    player4NumberDevelopments->setString(to_string(player4->developments.size()));
 
-    player1NumberKnights->setString(to_string(player1.knightNumber));
-    player2NumberKnights->setString(to_string(player2.knightNumber));
-    player3NumberKnights->setString(to_string(player3.knightNumber));
-    player4NumberKnights->setString(to_string(player4.knightNumber));
+    player1NumberKnights->setString(to_string(player1->knightNumber));
+    player2NumberKnights->setString(to_string(player2->knightNumber));
+    player3NumberKnights->setString(to_string(player3->knightNumber));
+    player4NumberKnights->setString(to_string(player4->knightNumber));
 
-        if(player1.hasLargestArmy)
+        if(player1->hasLargestArmy)
             player1NumberKnights->setFillColor(Color(red));
-        else if(player2.hasLargestArmy)
+        else if(player2->hasLargestArmy)
             player2NumberKnights->setFillColor(Color(red));
-        else if(player3.hasLargestArmy)
+        else if(player3->hasLargestArmy)
             player3NumberKnights->setFillColor(Color(red));
-        else if(player4.hasLargestArmy)
+        else if(player4->hasLargestArmy)
             player4NumberKnights->setFillColor(Color(red));
 
-    player1NumberRoads->setString(to_string(player1.longestRoad));
-    player2NumberRoads->setString(to_string(player2.longestRoad));
-    player3NumberRoads->setString(to_string(player3.longestRoad));
-    player4NumberRoads->setString(to_string(player4.longestRoad));
+    player1NumberRoads->setString(to_string(player1->longestRoad));
+    player2NumberRoads->setString(to_string(player2->longestRoad));
+    player3NumberRoads->setString(to_string(player3->longestRoad));
+    player4NumberRoads->setString(to_string(player4->longestRoad));
 
-        if(player1.hasLongestRoad)
+        if(player1->hasLongestRoad)
             player1NumberRoads->setFillColor(Color(red));
-        else if(player2.hasLongestRoad)
+        else if(player2->hasLongestRoad)
             player2NumberRoads->setFillColor(Color(red));
-        else if(player3.hasLongestRoad)
+        else if(player3->hasLongestRoad)
             player3NumberRoads->setFillColor(Color(red));
-        else if(player4.hasLongestRoad)
+        else if(player4->hasLongestRoad)
             player4NumberRoads->setFillColor(Color(red));
 
     //--------------------player1Cards------------------------
     int ecart = 100;
-    ecart = ecart + 5 *player1.developments.size()-1;
+    ecart = ecart + 5 *player1->developments.size()-1;
     int compteur = 1;
     vectorSpriteCards.clear();
-    for(int i = player1.developments.size()-1; i >= 0; i--){
-        vectorSpriteCards.push_back(Sprite(developmentCards, IntRect(155 * (player1.developments.at(i).developmentType + 2), 0, 155, 234)));
+    for(int i = player1->developments.size()-1; i >= 0; i--){
+        vectorSpriteCards.push_back(Sprite(developmentCards, IntRect(155 * (player1->developments.at(i).developmentType + 2), 0, 155, 234)));
         vectorSpriteCards.back().setScale(Vector2f(1.2, 1.2));
-        vectorSpriteCards.back().setPosition( 30 + (player1.developments.size() - compteur)*( 155- ecart), 455);
+        vectorSpriteCards.back().setPosition( 30 + (player1->developments.size() - compteur)*( 155- ecart), 455);
         compteur++;
     }
     //--------------------player1Cards------------------------

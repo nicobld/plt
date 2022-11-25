@@ -8,7 +8,7 @@ StateView::StateView(state::State& state) : state(state){
     int width = 1280;
     int height = 720;
     
-    displayHUD = new DisplayHUD(width, height, state.players[0], state.players[1], state.players[2], state.players[3]);
+    displayHUD = new DisplayHUD(width, height, state.players[1], state.players[2], state.players[3], state.players[0]);
     
     tileMap = new TileMap();
     tileMap->load("../res/tilesHexIso.png", sf::Vector2u(114, 131), state.map.grid, 7, 7);
