@@ -10,7 +10,7 @@ using namespace state;
 namespace view{
 
 MenuBuild::MenuBuild(state::Player& player1, TextureFolder* textureFolder){
-    menuTexture = textureFolder->getTexture("menu.png");
+    menuTexture = textureFolder->getTexture("menu");
     menuSprite = new Sprite(*menuTexture, IntRect(0, 0, 434, 268));
 }
 
