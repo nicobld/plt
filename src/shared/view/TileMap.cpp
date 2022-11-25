@@ -10,6 +10,7 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
     
     sf::Texture* backgroundHex = new sf::Texture();
     backgroundHex->loadFromFile("../res/hexagoneBack.png");
+    backgroundHex->setSmooth(true);
     back.setTexture(*backgroundHex);
     back.setTextureRect(sf::IntRect(0,0,1920, 1080));
     back.setOrigin(back.getGlobalBounds().width/2, back.getGlobalBounds().height/2);
@@ -94,9 +95,9 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
             }
         }
 
-        std::cout <<"texcorrds1 : " << m_vertices[0].texCoords.x << "   | texcorrds1 : "  << m_vertices[0].texCoords.y <<std::endl;
-        std::cout <<"texcorrds2 : " << m_vertices[1].texCoords.x << "   | texcorrds2 : "  << m_vertices[1].texCoords.y <<std::endl;
-        std::cout <<"texcorrds3 : " << m_vertices[2].texCoords.x << "   | texcorrds3 : "  << m_vertices[2].texCoords.y <<std::endl;
+        // std::cout <<"texcorrds1 : " << m_vertices[0].texCoords.x << "   | texcorrds1 : "  << m_vertices[0].texCoords.y <<std::endl;
+        // std::cout <<"texcorrds2 : " << m_vertices[1].texCoords.x << "   | texcorrds2 : "  << m_vertices[1].texCoords.y <<std::endl;
+        // std::cout <<"texcorrds3 : " << m_vertices[2].texCoords.x << "   | texcorrds3 : "  << m_vertices[2].texCoords.y <<std::endl;
 
     return true;
 }
@@ -111,6 +112,5 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states)const{
     // et on dessine enfin le tableau de vertex
  
     target.draw(back);
-
     target.draw(m_vertices, states);
 }

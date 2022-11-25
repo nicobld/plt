@@ -15,8 +15,6 @@ Map::Map(){
         0, 0, 16, 8, 8, 15, 0,
     };
 
-
-    //debug grid
     // int temp_token_grid[49] = {
     //     0, 0, 0, 0, 0, 0, 0,
     //       0, 0, 10, 2, 9, 0, 0,
@@ -43,7 +41,7 @@ Map::Map(){
 
     //Thief
 
-    thief.position = Position(3, 3);
+    thief.position = Position(4, 3);
 
     //Buildings
 

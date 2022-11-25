@@ -59,7 +59,7 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     //----------------playerRessources-----------------------
 
     spriteRessourceSquare = new Sprite(playerSquare, IntRect(widthSquare*4, 205, 309, 52));
-    spriteRessourceSquare->setPosition(scrennGap, spritePlayer1Square->getGlobalBounds().height + spritePlayer1Square->getPosition().y + 20);
+    spriteRessourceSquare->setPosition(scrennGap, spritePlayer1Square->getGlobalBounds().height + spritePlayer1Square->getPosition().y + 15);
     spriteRessourceSquare->setScale(Vector2f(1.31, 1.3));
     for(int i = 0; i<5; i++){
         vectorSpriteRessource.push_back(Sprite(icon, IntRect(i*74, 0, 74, 58)));
@@ -313,9 +313,9 @@ DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, Player& player1, Player& player2, 
     //-----------------------Button---------------------------
     int ecartBouton = 60;
 
-    buttonPassTurn = new Sprite(playerSquare, IntRect(1010, 205, 199, 48));
-    buttonExhchange = new Sprite(playerSquare, IntRect(1010 + 199, 205, 199, 48));
-    buttonBuild = new Sprite(playerSquare, IntRect(1011 + 199*2, 205, 199, 48));
+    buttonPassTurn = new Sprite(playerSquare, IntRect(widthSquare*4, 258, 199, 48));
+    buttonExhchange = new Sprite(playerSquare, IntRect(widthSquare*4 + 200*2, 258, 199, 48));
+    buttonBuild = new Sprite(playerSquare, IntRect(widthSquare*4 + 200*4, 258, 199, 48));
 
     passTurn = new Text("Passer son tour", font, 24);
     exchange = new Text("Echange", font, 24);
