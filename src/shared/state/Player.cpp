@@ -5,6 +5,7 @@ namespace state{
 Player::Player(std::string name, PlayerColor playerColor) : name(name), playerColor(playerColor) {
     int i;
     
+    playerState = STAND_BY;
     victoryPoints = 0;
     knightNumber = 0;
     hasLargestArmy = false;

@@ -148,6 +148,8 @@ int main(int argc, char* argv[])
                                 stateView.displayHUD->passTurn->setOrigin(stateView.displayHUD->passTurn->getGlobalBounds().width/2, stateView.displayHUD->passTurn->getGlobalBounds().height/2);
                                 stateView.displayHUD->passTurn->setPosition(stateView.displayHUD->buttonPassTurn->getPosition().x + stateView.displayHUD->buttonPassTurn->getGlobalBounds().width/2, stateView.displayHUD->buttonPassTurn->getGlobalBounds().height/2 + stateView.displayHUD->buttonPassTurn->getPosition().y - 8);
                         }
+                        else {
+                        }
                     }
 
                 }

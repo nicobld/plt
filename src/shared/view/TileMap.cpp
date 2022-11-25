@@ -4,7 +4,7 @@
 
 #define RESIZE 1.0f //NE PAS UTILISER MARCHE PAS
 
-using namespace view;
+namespace view {
 
 bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height){
     
@@ -51,8 +51,6 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
                         hex[1].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x + offsetX , (j*0.75 + 0.25) * tileSize.y + offsetY);
                         hex[2].position = sf::Vector2f((i + 1 + j%2 * 0.5) * tileSize.x + offsetX, (j*0.75 + 0.75) * tileSize.y + offsetY);
 
-                        
-
                         hex[1].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.25 * tileSize.y);
                         hex[2].texCoords = sf::Vector2f((tileNumber + 1) * tileSize.x, 0.75 * tileSize.y);
                         break;
@@ -95,10 +93,6 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
             }
         }
 
-        // std::cout <<"texcorrds1 : " << m_vertices[0].texCoords.x << "   | texcorrds1 : "  << m_vertices[0].texCoords.y <<std::endl;
-        // std::cout <<"texcorrds2 : " << m_vertices[1].texCoords.x << "   | texcorrds2 : "  << m_vertices[1].texCoords.y <<std::endl;
-        // std::cout <<"texcorrds3 : " << m_vertices[2].texCoords.x << "   | texcorrds3 : "  << m_vertices[2].texCoords.y <<std::endl;
-
     return true;
 }
 
@@ -113,4 +107,6 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states)const{
  
     target.draw(back);
     target.draw(m_vertices, states);
+}
+
 }
