@@ -26,7 +26,7 @@ bool ExchangePlayerCommand::verifiy(state::State* state){
 
                 cout << "ressource de la banque donné avant echange " << to_string(giving) << " : " << state->gameCards.resources[giving].number  << endl;
                 cout << "ressource de la banque reçu avant echange " << to_string(receiving) << " : " <<  state->gameCards.resources[receiving].number << endl;
-            if(playerReceiving.resources[giving].number >= min && state->gameCards.resources[receiving].number >= 2){
+            if(playerReceiving.resources[giving].number >= min && playersAsk[0].resources[receiving].number >= 2){
                 cout << "on peut faire l'échange" << endl;
                 return true;
             }
