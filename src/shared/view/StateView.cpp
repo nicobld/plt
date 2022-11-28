@@ -21,16 +21,13 @@ StateView::StateView(state::State& state) : state(state){
     
 
     std::cout << "avant menu" << std::endl;
-    MenuBuild menu1(state.players[0], textureFolder);
-    MenuBuild menu2(state.players[1], textureFolder);
-
+    for(int i = 0; i<4; i++){
+        menuBuilds->push_back(MenuBuild(state.players[i], textureFolder));
+    }
 
 }
 
 void StateView::render(sf::RenderTarget& target){
    //renderPieces->render(state, target);
-    
-    // menu1.render(target);
-    // menu2.render(target);
-
+    menuBuilds->back().render(target);
 }
