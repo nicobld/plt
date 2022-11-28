@@ -19,6 +19,7 @@ StateView::StateView(state::State& state) : state(state){
     // tileMap->setPosition(width/2, 30 + height/2);
     // tileMap->setScale(sf::Vector2f(0.9, 0.9));
     
+
     std::cout << "avant menu" << std::endl;
     MenuBuild menu1(state.players[0], textureFolder);
     MenuBuild menu2(state.players[1], textureFolder);
