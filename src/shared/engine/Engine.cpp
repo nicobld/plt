@@ -6,8 +6,26 @@ using namespace state;
 
 namespace engine {
 
-Engine::Engine(){
+Engine::Engine(state::State* state) : state(state) {
     std::cout << "Engine launched" << std::endl;
+}
+
+void Engine::addCommand(Command* command) {
+    commandQueue.push(command);
+}
+
+void Engine::update() {
+    for (int i = 0; i < commandQueue.size(); i++){
+        if (commandQueue.front()->verify(state)){
+            commandQueue.front()->execute(state);
+            std::cout << "Good command" << std::endl;
+        }
+        else 
+            std::cout << "Wrong command" << std::endl;
+        
+        delete commandQueue.front();
+        commandQueue.pop();
+    }
 }
 
 }

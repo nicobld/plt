@@ -66,7 +66,13 @@ std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::array<P
 namespace engine {
 
 PlaceBuildingCommand::PlaceBuildingCommand(state::PlayerColor playerColor, std::array<state::Position, 3> position, state::BuildingType buildingType):
-    playerColor(playerColor), position(position), buildingType(buildingType) {}
+    playerColor(playerColor), position(position), buildingType(buildingType) {
+}
+
+bool PlaceBuildingCommand::verify(state::State* state){
+    return true;
+}
+
 
 bool PlaceBuildingCommand::execute(state::State* state) {
     std::array<Position, 2> tempRoadPos;

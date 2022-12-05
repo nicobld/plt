@@ -59,4 +59,12 @@ ExchangePlayerCommand::ExchangePlayerCommand(){
 //     return false;   
 // }
 
+bool ExchangePlayerCommand::execute(state::State* state){
+    return true;
+}
+
+bool ExchangePlayerCommand::verify(state::State* state){
+    return true;
+}
+
 }

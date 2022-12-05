@@ -26,12 +26,7 @@ bool isNeighbor(Position pos1, Position pos2){
 
 PlaceRoadCommand::PlaceRoadCommand(state::PlayerColor playerColor, std::array<Position, 2> position): playerColor(playerColor), position(position) {}
 
-
-bool PlaceRoadCommand::execute(state::State* state) {
-    int maxRoad = 5;
-    int tempMaxRoad;
-    int bestPlayer = -1;
-
+bool PlaceRoadCommand::verify(state::State* state){
     //verifie player a des routes
     if (state->players[playerColor].roads.size() == 0) {
         std::cout << "Player has no roads to place" << std::endl;
@@ -45,7 +40,7 @@ bool PlaceRoadCommand::execute(state::State* state) {
         }
     }
 
-    //verifie s'il y a un route de la bonne couleur à côté
+    //verifie s'il y a une route de la bonne couleur à côté
     bool foundRoad = false;
     for (Road r : state->map.roads){
         if (r.playerColor == playerColor){
@@ -55,6 +50,14 @@ bool PlaceRoadCommand::execute(state::State* state) {
         }
     }
     if (!foundRoad) return false;
+
+    return true;
+}
+
+bool PlaceRoadCommand::execute(state::State* state) {
+    int maxRoad = 5;
+    int tempMaxRoad;
+    int bestPlayer = -1;
 
     //place la route et retire la route au joueur
     state->map.roads.push_back(Road(playerColor, position));
