@@ -56,16 +56,17 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
             hexagone.vertices[5].position = sf::Vector2f((i + j%2 * 0.5) * tileSize.x + offsetX, (j*0.75 + 0.25) * tileSize.y + offsetY);
             hexagone.vertices[5].texCoords = sf::Vector2f(tileNumber * tileSize.x, 0.25 * tileSize.y);
                 
-                int xp, yp;
-                for(int i = 0; i < 6; i++){
-                    xp = hexagone.vertices[i].position.x, yp = hexagone.vertices[i].position.y;
-                    hexagone.vertices[i].position.x = xp - yp;
-                    hexagone.vertices[i].position.y = xp * 0.5 + yp * 0.5;
-                }
-                
-                hexagone.insertVerticesMap(&m_vertices[(i + j * width) * 12]);
+            int xp, yp;
+            for(int i = 0; i < 6; i++){ //iso transformation
+                xp = hexagone.vertices[i].position.x, yp = hexagone.vertices[i].position.y;
+                hexagone.vertices[i].position.x = xp - yp;
+                hexagone.vertices[i].position.y = xp * 0.5 + yp * 0.5;
+            }
+            
+            //get the actual vertices into m_vertices
+            hexagone.insertVerticesMap(&m_vertices[(i + j * width) * 12]);
 
-                hexagones.push_back(hexagone);
+            hexagones.push_back(hexagone);
 
             }
         }

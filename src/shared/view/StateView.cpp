@@ -15,7 +15,7 @@ StateView::StateView(state::State& state) : state(state){
 
     
     
-    renderPieces = new RenderPieces(state, &tileMap->m_vertices);
+    renderPieces = new RenderPieces(state, &tileMap->hexagones);
     // tileMap->setOrigin((8*114)/2, 719/2);
     // tileMap->setPosition(width/2, 30 + height/2);
     // tileMap->setScale(sf::Vector2f(0.9, 0.9));

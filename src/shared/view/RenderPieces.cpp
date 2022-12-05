@@ -9,8 +9,7 @@ using namespace view;
 using namespace std;
 using namespace state;
 
-RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
-    this->tile_vertices = tile_vertices;
+RenderPieces::RenderPieces (state::State state, std::vector<Hexagone>* hexagones) : hexagones(hexagones) {
 
     buildingTexture.loadFromFile("../res/pieces.png");
     roadTexture.loadFromFile("../res/roadsIso.png");
@@ -35,7 +34,7 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
             if(!(state.map.thief.position.x == i%7  && state.map.thief.position.y == i/7)){    //vérifie s'il n'y a pas un voleur sur la case
                 tokens.push_back(sf::Text(std::to_string(state.map.tokengrid[i]), font, 60));
                 tokens.back().setOrigin(tokens.back().getGlobalBounds().width/2, tokens.back().getGlobalBounds().height/2);
-                tokens.back().setPosition((*tile_vertices)[i*12].position + sf::Vector2f(-65, 32.5) + sf::Vector2f(-5, -25)); //65 = hauteur d'un tile/2
+                tokens.back().setPosition(hexagones->at(i).vertices[0].position + sf::Vector2f(-65, 32.5) + sf::Vector2f(-5, -25)); //65 = hauteur d'un tile/2
                 tokens.back().setColor(sf::Color(255, 255, 215, 210));
                 //tokens.back().setScale(RESIZE, RESIZE);
             }
@@ -110,7 +109,7 @@ RenderPieces::RenderPieces (state::State state, sf::VertexArray* tile_vertices){
                 }
             }
         }
-        centre1 = (*tile_vertices)[(state.map.ports[i].position[0].x + state.map.ports[i].position[0].y*7)*12].position + sf::Vector2f(-25, 55);
+        centre1 = hexagones->at(state.map.ports[i].position[0].x + state.map.ports[i].position[0].y*7).vertices[0].position + sf::Vector2f(-25, 55);
         
         ports.back().setScale(sf::Vector2f(1.5, 1.5));
         ports.back().setOrigin(ports.back().getGlobalBounds().width/2, ports.back().getGlobalBounds().height/2);
@@ -137,9 +136,9 @@ void RenderPieces::update(state::State state){
     for(state::Building b : state.map.buildings){
         buildings.push_back(sf::Sprite(buildingTexture, sf::IntRect((b.buildingType * 4 + b.playerColor)*37, 0, 37, 37)));
 
-        centre1 = (*tile_vertices)[((b.position[0].x + b.position[0].y*7))*12].position + sf::Vector2f(-65, 32.5); //on trouve les 3 centres des tiles
-        centre2 = (*tile_vertices)[((b.position[1].x + b.position[1].y*7))*12].position + sf::Vector2f(-65, 32.5);
-        centre3 = (*tile_vertices)[((b.position[2].x + b.position[2].y*7))*12].position + sf::Vector2f(-65, 32.5);
+        centre1 = hexagones->at(b.position[0].x + b.position[0].y*7).vertices[0].position + sf::Vector2f(-65, 32.5); //on trouve les 3 centres des tiles
+        centre2 = hexagones->at(b.position[1].x + b.position[1].y*7).vertices[0].position + sf::Vector2f(-65, 32.5);
+        centre3 = hexagones->at(b.position[2].x + b.position[2].y*7).vertices[0].position + sf::Vector2f(-65, 32.5);
         buildings.back().setPosition((centre1.x + centre2.x + centre3.x)/3, (centre1.y + centre2.y + centre3.y)/3); //moyenne sur les centres pour avoir la pointe qu'il faut pour placer le building
         buildings.back().setOrigin(19, 18.5);
         buildings.back().setScale(RESIZE, RESIZE);
@@ -172,8 +171,8 @@ void RenderPieces::update(state::State state){
         roads.back().setScale(sf::Vector2f(1.5, 1.5));
         roads.back().setOrigin(roads.back().getGlobalBounds().width/2, roads.back().getGlobalBounds().height/2);
 
-        centre1 = (*tile_vertices)[((r.position[0].x + r.position[0].y*7))*12].position + sf::Vector2f(-45, 45); //on trouve les 2 centres des tiles
-        centre2 = (*tile_vertices)[((r.position[1].x + r.position[1].y*7))*12].position + sf::Vector2f(-45, 45);
+        centre1 = hexagones->at(r.position[0].x + r.position[0].y*7).vertices[0].position + sf::Vector2f(-45, 45); //on trouve les 2 centres des tiles
+        centre2 = hexagones->at(r.position[1].x + r.position[1].y*7).vertices[0].position + sf::Vector2f(-45, 45);
         
 
         roads.back().setPosition((centre1.x + centre2.x)/2, (centre1.y + centre2.y)/2); //leur moyenne donne le centre de leur arrete commune pour placer la route
@@ -181,7 +180,7 @@ void RenderPieces::update(state::State state){
     }
 
         
-    thief->setPosition((*tile_vertices)[(state.map.thief.position.x + state.map.thief.position.y*7)*12].position + sf::Vector2f(-65, 32.5) + sf::Vector2f(0, -20));
+    thief->setPosition(hexagones->at(state.map.thief.position.x + state.map.thief.position.y*7).vertices[0].position + sf::Vector2f(-65, 32.5) + sf::Vector2f(0, -20));
 }
 
 void RenderPieces::render(state::State state, sf::RenderTarget& target){
