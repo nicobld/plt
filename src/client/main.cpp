@@ -74,6 +74,7 @@ int main(int argc, char* argv[])
 
         StateView stateView(state);
 
+        
 
         Color sea(148, 240, 248);
 
@@ -87,7 +88,7 @@ int main(int argc, char* argv[])
         state.players.at(0).hasLargestArmy = 0;
         state.players.at(1).hasLargestArmy = 1;
 
-    
+       
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
         {
@@ -110,7 +111,6 @@ int main(int argc, char* argv[])
             window.draw(*focus);
             stateView.displayHUD->render(window);
             stateView.render(window);
-
             // fin de la frame courante, affichage de tout ce qu'on a dessiné
             window.display();
         }
