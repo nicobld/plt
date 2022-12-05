@@ -3,6 +3,8 @@
 
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Audio/Music.hpp>
 
 
 // Fin test SFML
@@ -31,6 +33,13 @@ int main(int argc, char* argv[])
 {
     int width = 1280;
     int height = 720;
+    // sf::Music music;
+
+    // music.openFromFile("../res/One-Bard-Band.ogg");
+
+    // music.setLoop(true);
+    // music.play();
+
     sf::RenderWindow window(sf::VideoMode(width, height), "Catan");
     State state;
     

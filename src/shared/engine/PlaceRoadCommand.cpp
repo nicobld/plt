@@ -55,7 +55,7 @@ bool PlaceRoadCommand::verify(state::State* state){
 }
 
 bool PlaceRoadCommand::execute(state::State* state) {
-    int maxRoad = 5;
+    int maxRoad = 4;
     int tempMaxRoad;
     int bestPlayer = -1;
 
