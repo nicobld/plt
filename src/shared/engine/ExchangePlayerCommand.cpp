@@ -4,8 +4,8 @@ namespace engine {
 
 ExchangePlayerCommand::ExchangePlayerCommand(){
     commandID = EXCHANGE_PLAYER;
-    this-givingNumner = givingNumber;
-    this-receivingNumner = receivingNumber;
+    this->givingNumner = givingNumber;
+    this->receivingNumner = receivingNumber;
     this->givingAsk = givingAsk;
     this->receivingAsk = receivingAsk;
     this playersAsk = playersAsk;
@@ -38,7 +38,7 @@ bool ExchangePlayerCommand::verifiyBeforePropose(state::State* state){
     return false;
 }
 
-bool ExchangePlayerCommand::verifiyAfterPoprose(state::State* state, state::¨Player playerAsk){
+bool ExchangePlayerCommand::verifiyAfterPoprose(state::State* state, state::Player playerAsk){
     cout << "ressource du joueur " << playerAsk.name << " donné avant echange " << to_string(giving) << " : " << playerAsk.resources[giving].number  << endl;
     cout << "ressource du joueur " << playerAsk.name << " reçu avant echange " << to_string(receiving) << " : " <<  playerAsk.resources[receiving].number << endl;
     if(playerAsk.resources[giving].number >= receivingNumber){
