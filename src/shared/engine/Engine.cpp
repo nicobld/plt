@@ -21,15 +21,20 @@ void Engine::update() {
 
         if (state->gameState == NORMAL_STATE){
             if (commandQueue.front()->playerColor == state->turn){
-                if (commandQueue.front()->commandID == EXCHANGE_RESPONSE_CMD); //ne rien faire
-                else if (commandQueue.front()->commandID == EXCHANGE_REQUEST_CMD){ //passer en exchange state
-                    saveExReqCmd = static_cast<ExchangeRequestCommand*>(commandQueue.front());
-                    state->gameState = EXCHANGE_REQUEST_STATE;
-                }
-                else if (commandQueue.front()->verify(state)){
+                if (commandQueue.front()->commandID != EXCHANGE_RESPONSE_CMD) {
+
+                if (commandQueue.front()->verify(state)){
+
+                    if (commandQueue.front()->commandID == EXCHANGE_REQUEST_CMD){ //passer en exchange state
+                        saveExReqCmd = static_cast<ExchangeRequestCommand*>(commandQueue.front());
+                        state->gameState = EXCHANGE_REQUEST_STATE;
+                    }
+
                     commandQueue.front()->execute(state);
-                } else {
+                
+                } else
                     std::cout << "Wrong command" << std::endl;
+
                 }
             } else {
                 std::cout << "Not your turn player " << commandQueue.front()->playerColor << std::endl;
@@ -39,7 +44,14 @@ void Engine::update() {
         else if (state->gameState == EXCHANGE_REQUEST_STATE){
             if (commandQueue.front()->commandID == EXCHANGE_RESPONSE_CMD){ //seulement accepter les reponses
                 if (commandQueue.front()->verify(state)){
-                    commandQueue.front()->execute(state);
+                    if(commandQueue.front()->execute(state) == true){
+                        state->gameState = NORMAL_STATE;
+                        for (int i = 0; i < state->players.size(); i++){
+                            if (state->players[i].playerColor != saveExReqCmd->playerColor){
+                                state->players[i].playerState = STAND_BY;
+                            }
+                        }
+                    }
                 } else {
                     std::cout << "Wrong command" << std::endl;
                 }

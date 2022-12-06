@@ -134,6 +134,9 @@ int main(int argc, char* argv[])
 
         Color sea(148, 240, 248);
 
+        state.players[PlayerRed].resources[Lumber].number = 0;
+        state.players[PlayerBlue].resources[Brick].number = 5;
+
         Texture focusTexture;
         focusTexture.loadFromFile("../res/focus.png");
         Sprite *focus = new Sprite(focusTexture);
@@ -247,8 +250,18 @@ int main(int argc, char* argv[])
                 engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,4)}));
                 engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,3)}));
                 engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(2,3),Position(2,4)}));
+
+
+                std::vector<state::PlayerColor> playerAsks = {PlayerBlue, PlayerGreen};
+                engine.addCommand(new ExchangeRequestCommand(Resource(state::Lumber, 2), Resource(state::Brick, 1), state::PlayerRed, playerAsks));
+
+                engine.addCommand(new ExchangeResponseCommand(Resource(state::Lumber, 2), Resource(state::Brick, 1), state::PlayerRed, PlayerBlue, true));
+
             }
             c = 3;
+
+        
+        
 
             //sleep(sf::seconds(1.0f));
             // c'est ici qu'on dessine tout

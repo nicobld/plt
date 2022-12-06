@@ -14,20 +14,19 @@ ExchangeRequestCommand::ExchangeRequestCommand(state::Resource givingResources, 
     this->playerAsks = playerAsks;
     this->playerColor = playerColor;
 
-    std::cout << "demande d'échange crée" << this->givingResources.resourceType << " -> " << this->receivingResources.resourceType << std::endl;
+    std::cout << "demande d'échange crée " << this->givingResources.resourceType << " -> " << this->receivingResources.resourceType << std::endl;
 }
 
 bool ExchangeRequestCommand::execute(state::State* state) {
-    if(verify(state)){
-        //state->players[playerAsk]
-        return true;
+    for(state::PlayerColor playerAsk : playerAsks){
+        state->players[playerAsk].playerState = state::EXCHANGE;
     }
-    return false;
+    return true;
 }
 
 bool ExchangeRequestCommand::verify(state::State* state){
-    std::cout << "ressource du joueur donné avant echange " << givingResources.resourceType << " : " << givingResources.number << std::endl;
-    std::cout << "ressource du joueur reçu avant echange " << receivingResources.resourceType << " : " << receivingResources.number << std::endl;
+    std::cout << "ressource de " << state->players[playerColor].name << " donné avant echange " << givingResources.resourceType << " : " << state->players[playerColor].resources[givingResources.resourceType].number << std::endl;
+    std::cout << "ressource de " << state->players[playerColor].name << " reçu avant echange " << receivingResources.resourceType << " : " << state->players[playerColor].resources[receivingResources.resourceType].number << std::endl;
     if(state->players[playerColor].resources[givingResources.resourceType].number >= givingResources.number){
         std::cout << "on peut proposer l'échange" << std::endl;
         return true;
