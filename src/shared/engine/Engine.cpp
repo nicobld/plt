@@ -8,7 +8,7 @@ namespace engine {
 
 Engine::Engine(state::State* state) : state(state) {
     std::cout << "Engine launched" << std::endl;
-    engineState = NORMAL;
+    engineState = NORMAL_STATE;
 }
 
 void Engine::addCommand(Command* command) {

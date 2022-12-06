@@ -6,7 +6,7 @@ using namespace std;
 namespace engine {
 
 ExchangeBankCommand::ExchangeBankCommand(state::PlayerColor playerColor , state::ResourceType  giving, state::ResourceType  receiving) {
-    commandID = EXCHANGE_BANK;
+    commandID = EXCHANGE_BANK_CMD;
     min = 4;
     this->giving = giving;
     this->receiving = receiving;

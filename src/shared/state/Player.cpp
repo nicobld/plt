@@ -10,6 +10,8 @@ Player::Player(std::string name, PlayerColor playerColor) : name(name), playerCo
     knightNumber = 0;
     hasLargestArmy = false;
     hasLongestRoad = false;
+    isBot = false;
+    difficulty = 0;
 
     for (i = 0; i < 5; i++){
         buildings.push_back(Building(playerColor, Colony));
