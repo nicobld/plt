@@ -18,11 +18,10 @@ ExchangeRequestCommand::ExchangeRequestCommand(state::Resource givingResources, 
 }
 
 bool ExchangeRequestCommand::execute(state::State* state) {
-    if(verify(state)){
-        //state->players[playerAsk]
-        return true;
+    for(state::PlayerColor playerAsk : playerAsks){
+        state->players[playerAsk].playerState = state::EXCHANGE;
     }
-    return false;
+    return true;
 }
 
 bool ExchangeRequestCommand::verify(state::State* state){
