@@ -8,6 +8,7 @@ namespace engine {
 
 Engine::Engine(state::State* state) : state(state) {
     std::cout << "Engine launched" << std::endl;
+    engineState = NORMAL;
 }
 
 void Engine::addCommand(Command* command) {
@@ -16,9 +17,11 @@ void Engine::addCommand(Command* command) {
 
 void Engine::update() {
     for (int i = 0; i < commandQueue.size(); i++){
-        if (commandQueue.front()->verify(state)){
-            commandQueue.front()->execute(state);
-            std::cout << "Good command" << std::endl;
+        if (commandQueue.front()->playerColor == state->turn){
+            if (commandQueue.front()->verify(state)){
+                commandQueue.front()->execute(state);
+                std::cout << "Good command" << std::endl;
+            }
         }
         else 
             std::cout << "Wrong command" << std::endl;
