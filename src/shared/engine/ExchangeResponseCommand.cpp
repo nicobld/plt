@@ -5,12 +5,13 @@
 namespace engine {
 
 ExchangeResponseCommand::ExchangeResponseCommand(state::Resource givingResources, state::Resource receivingResources, state::PlayerColor playerReceiving, state::PlayerColor playerColor, bool response){
-    commandID = EXCHANGE_RESPONSE_CMD;
+    commandID = EXCHANGE_RESPONSE_CMD; 
     
     this->givingResources = givingResources;
     this->receivingResources = receivingResources;
     this->playerReceiving = playerReceiving;
     this->playerColor = playerColor;
+
     this->response = response;
 
 }
