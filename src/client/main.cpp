@@ -73,15 +73,21 @@ int main(int argc, char* argv[])
         state.players.at(0).resources.at(0).number = 2;
         state.players.at(0).resources.at(1).number = 3;
         state.players.at(0).resources.at(4).number = 1;
-        
         state.players.at(1).resources.at(4).number = 1;
-        
         state.players.at(3).resources.at(4).number = 5;
-        
         state.players.at(0).knightNumber = 3;
         state.players.at(0).hasLargestArmy = 1;
 
         StateView stateView(state);
+        
+
+        //_____________test Menu____________
+
+        sf::Texture menuTexture;
+        menuTexture.loadFromFile("../res/meun.png");
+
+        MenuBuild* menuBuildP1 = new MenuBuild(menuTexture, PlayerRed); 
+
 
         
 
@@ -120,6 +126,13 @@ int main(int argc, char* argv[])
             window.draw(*focus);
             stateView.displayHUD->render(window);
             stateView.render(window);
+
+            //_________display Menu_____________
+
+            menuBuildP1->render(window);
+
+
+
             // fin de la frame courante, affichage de tout ce qu'on a dessiné
             window.display();
         }
