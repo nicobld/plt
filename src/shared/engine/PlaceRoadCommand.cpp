@@ -24,7 +24,16 @@ bool isNeighbor(Position pos1, Position pos2){
     return false;
 }
 
-PlaceRoadCommand::PlaceRoadCommand(state::PlayerColor playerColor, std::array<Position, 2> position): playerColor(playerColor), position(position) {}
+void afficheRoadPos(std::string s, std::array<Position, 2> curPos){
+    std::cout << s << std::endl;
+    std::cout << "Position 0 : " << curPos[0].x << ", " << curPos[0].y << std::endl;
+    std::cout << "Position 1 : " << curPos[1].x << ", " << curPos[1].y << std::endl << std::endl;
+}
+
+PlaceRoadCommand::PlaceRoadCommand(state::PlayerColor playerColor, std::array<Position, 2> position): position(position) {
+    this->playerColor = playerColor;
+    commandID = PLACE_ROAD_CMD;
+}
 
 bool PlaceRoadCommand::verify(state::State* state){
     //verifie player a des routes
@@ -54,6 +63,8 @@ bool PlaceRoadCommand::verify(state::State* state){
     return true;
 }
 
+
+
 bool PlaceRoadCommand::execute(state::State* state) {
     int maxRoad = 4;
     int tempMaxRoad;
@@ -74,6 +85,7 @@ bool PlaceRoadCommand::execute(state::State* state) {
     if (bestPlayer != -1){
         state->players[bestPlayer].hasLongestRoad = true;
     }
+    afficheRoadPos("COMMAND : Placed road at\n", position);
     return true;
 }
 
@@ -109,12 +121,6 @@ bool hasRoad(state::State* state, std::array<Position, 2> pos, state::PlayerColo
             return true;
     }
     return false;
-}
-
-void afficheRoadPos(std::string s, std::array<Position, 2> curPos){
-    std::cout << s << std::endl;
-    std::cout << "Position 0 : " << curPos[0].x << ", " << curPos[0].y << std::endl;
-    std::cout << "Position 1 : " << curPos[1].x << ", " << curPos[1].y << std::endl << std::endl;
 }
 
 void afficheTilePos(std::string s, Position pos){

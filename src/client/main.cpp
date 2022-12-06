@@ -42,6 +42,9 @@ int main(int argc, char* argv[])
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Catan");
     State state;
+
+    state.turn = PlayerRed;
+    state.gameState = NORMAL_STATE;
     
     state.players.push_back(Player("Jonah", PlayerRed));
     state.players.push_back(Player("Nicolas", PlayerBlue));
@@ -127,7 +130,7 @@ int main(int argc, char* argv[])
 
     else if(!strncmp(argv[1], "engine", 6)){
         Engine engine(&state);
-        int c = 0;
+        int c = 2;
 
         Color sea(148, 240, 248);
 
@@ -202,35 +205,52 @@ int main(int argc, char* argv[])
             // effacement de la fenêtre en noir
             window.clear(sea);
 
-            if (c == 2)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,1),Position(3,2)}));
-            else if (c == 3)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(3,4)}));
-            else if (c == 4)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,4)}));
-            else if (c == 5)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(4,4)}));
-            else if (c == 6)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,3)}));
-            else if (c == 7)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(5,4)}));
-            else if (c == 8)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-            else if (c == 9)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(4,4)}));
-            else if (c == 10)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-            else if (c == 11)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,5)}));
-            else if (c == 12)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,4)}));
-            else if (c == 13)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,3)}));
-            else if (c == 14)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(2,3),Position(2,4)}));
-            c++;
+            // if (c == 2)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,1),Position(3,2)}));
+            // else if (c == 3)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(3,4)}));
+            // else if (c == 4)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,4)}));
+            // else if (c == 5)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(4,4)}));
+            // else if (c == 6)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,3)}));
+            // else if (c == 7)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(5,4)}));
+            // else if (c == 8)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
+            // else if (c == 9)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(4,4)}));
+            // else if (c == 10)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
+            // else if (c == 11)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,5)}));
+            // else if (c == 12)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,4)}));
+            // else if (c == 13)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,3)}));
+            // else if (c == 14)
+            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(2,3),Position(2,4)}));
+            // c++;
 
-            sleep(sf::seconds(1.0f));
+            if (c == 2){
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,1),Position(3,2)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(3,4)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,4)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(4,4)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,3)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(5,4)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(4,4)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,5)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,4)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,3)}));
+                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(2,3),Position(2,4)}));
+            }
+            c = 3;
+
+            //sleep(sf::seconds(1.0f));
             // c'est ici qu'on dessine tout
             //HUD.display(window);
             engine.update();

@@ -17,7 +17,7 @@ void Engine::addCommand(Command* command) {
 ExchangeRequestCommand* saveExReqCmd;
 
 void Engine::update() {
-    for (int i = 0; i < commandQueue.size(); i++){
+    while(commandQueue.size() != 0) {
 
         if (state->gameState == NORMAL_STATE){
             if (commandQueue.front()->playerColor == state->turn){
@@ -31,6 +31,8 @@ void Engine::update() {
                 } else {
                     std::cout << "Wrong command" << std::endl;
                 }
+            } else {
+                std::cout << "Not your turn player " << commandQueue.front()->playerColor << std::endl;
             }
         } 
         
@@ -47,6 +49,7 @@ void Engine::update() {
 
         delete commandQueue.front();
         commandQueue.pop();
+        std::cout << commandQueue.size() << std::endl;
     }
 }
 
