@@ -84,9 +84,10 @@ int main(int argc, char* argv[])
         //_____________test Menu____________
 
         sf::Texture menuTexture;
-        menuTexture.loadFromFile("../res/meun.png");
+        menuTexture.loadFromFile("../res/menu.png");
 
-        MenuBuild* menuBuildP1 = new MenuBuild(menuTexture, PlayerRed); 
+        MenuBuild* menuBuildP1 = new MenuBuild(&state, menuTexture, PlayerRed);
+        MenuThief* menuThiefP1 = new MenuThief(&state, menuTexture, PlayerRed);
 
 
         
@@ -129,7 +130,8 @@ int main(int argc, char* argv[])
 
             //_________display Menu_____________
 
-            menuBuildP1->render(window);
+            //menuBuildP1->render(window);
+            menuThiefP1->render(window);
 
 
 
@@ -241,6 +243,14 @@ int main(int argc, char* argv[])
                 engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,3)}));
             else if (c == 14)
                 engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(2,3),Position(2,4)}));
+            else if (c == 15){
+
+                //ne marche pas
+
+                state.turn = PlayerBlue;
+                engine.addCommand(new PlaceRoadCommand(PlayerBlue,{Position(5,2),Position(5,3)}));
+
+            }
             c++;
 
             sleep(sf::seconds(1.0f));
