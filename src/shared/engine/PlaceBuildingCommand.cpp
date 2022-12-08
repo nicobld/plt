@@ -1,6 +1,7 @@
 #include "PlaceBuildingCommand.h"
 #include <array>
 #include <iostream>
+#include <bits/stdc++.h>
 
 using namespace state;
 
@@ -9,17 +10,17 @@ const Position neighbors[2][6] = {
     {Position(+1,  0), Position(1, -1), Position(0, -1), Position(-1,  0), Position(0, +1), Position(1, +1)}
 };
 
-void afficheRoadPos(std::string s, std::array<Position, 2> curPos){
+static void afficheRoadPos(std::string s, std::array<Position, 2> curPos){
     std::cout << s << std::endl;
     std::cout << "Position 0 : " << curPos[0].x << ", " << curPos[0].y << std::endl;
     std::cout << "Position 1 : " << curPos[1].x << ", " << curPos[1].y << std::endl << std::endl;
 }
 
-bool equalRoadPos(std::array<Position, 2> pos1, std::array<Position, 2> pos2){
+static bool equalRoadPos(std::array<Position, 2> pos1, std::array<Position, 2> pos2){
     return (pos1[0] == pos2[0] && pos1[1] == pos2[1]) || (pos1[0] == pos2[1] && pos1[1] == pos2[0]);
 }
 
-bool equalBuildingPos(std::array<Position, 3> pos1, std::array<Position, 3> pos2){
+static bool equalBuildingPos(std::array<Position, 3> pos1, std::array<Position, 3> pos2){
     for (int i = 0; i < 3; i++){
         if(!(pos1[i] == pos2[0] || pos1[i] == pos2[1] || pos1[i] == pos2[2])){
             return false;
@@ -28,7 +29,7 @@ bool equalBuildingPos(std::array<Position, 3> pos1, std::array<Position, 3> pos2
     return true;
 }
 
-bool hasRoad(state::State* state, std::array<Position, 2> pos, state::PlayerColor playerColor){
+static bool hasRoad(state::State* state, std::array<Position, 2> pos, state::PlayerColor playerColor){
     for (state::Road r : state->map.roads){
         if (r.playerColor == playerColor){
             if (equalRoadPos(pos, r.position))
@@ -38,7 +39,7 @@ bool hasRoad(state::State* state, std::array<Position, 2> pos, state::PlayerColo
     return false;
 }
 
-bool hasBuilding(state::State* state, std::array<Position, 3> building){
+static bool hasBuilding(state::State* state, std::array<Position, 3> building){
     for (state::Building b : state->map.buildings){
         if (equalBuildingPos(building, b.position)){
             return true;
@@ -47,7 +48,7 @@ bool hasBuilding(state::State* state, std::array<Position, 3> building){
     return false;
 }
 
-std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::array<Position, 2> road){
+static std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::array<Position, 2> road){
     std::array<Position, 2> res;
     int t = 0;
     for (int i = 0; i < 6; i++){
@@ -65,6 +66,8 @@ std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::array<P
 
 namespace engine {
 
+PlaceBuildingCommand::PlaceBuildingCommand() {}
+
 PlaceBuildingCommand::PlaceBuildingCommand(state::PlayerColor playerColor, std::array<state::Position, 3> position, state::BuildingType buildingType):
 position(position), buildingType(buildingType) {
     
@@ -73,11 +76,6 @@ position(position), buildingType(buildingType) {
 }
 
 bool PlaceBuildingCommand::verify(state::State* state){
-    return true;
-}
-
-
-bool PlaceBuildingCommand::execute(state::State* state) {
     std::array<Position, 2> tempRoadPos;
     std::array<Position, 2> tempRoadNeighbors;
     Position tempTile;
@@ -136,10 +134,50 @@ bool PlaceBuildingCommand::execute(state::State* state) {
         }
     }
 
+    return true;
+}
+
+
+bool PlaceBuildingCommand::execute(state::State* state) {
     state->players[playerColor].buildings.erase(state->players[playerColor].buildings.begin() + state->players[playerColor].getBuilding(buildingType));
     state->map.buildings.push_back(Building(playerColor, buildingType, position));
     return true;
+}
 
+bool PlaceBuildingCommand::unserialize(std::string string){
+    std::stringstream stream(string);
+
+    std::string token;
+
+    std::vector<std::string> tokens;
+    
+    std::cout << "UNSERIALIZE \n";
+
+    while (std::getline(stream, token, '-')){
+        tokens.push_back(token);
+    }
+
+    try {
+        if (tokens.size() == 9){
+            playerColor = (PlayerColor) stoi(tokens[1]);
+            position[0].x = stoi(tokens[2]);
+            position[0].y = stoi(tokens[3]);
+            position[1].x = stoi(tokens[4]);
+            position[1].y = stoi(tokens[5]);
+            position[2].x = stoi(tokens[6]);
+            position[2].y = stoi(tokens[7]);
+            buildingType = (BuildingType) stoi(tokens[8]);
+        } else {
+            std::cout << "Invalid number of arguments\n";
+        }
+    }
+    catch (const std::invalid_argument& ia) {
+	    std::cerr << "Invalid argument: " << ia.what() << '\n';
+        return false;
+    }
+
+
+    return true;
 }
 
 }

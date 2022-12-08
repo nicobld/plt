@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include <engine.h>
 #include <iostream>
+#include <bits/stdc++.h>
 
 using namespace state;
 
@@ -14,9 +15,37 @@ void Engine::addCommand(Command* command) {
     commandQueue.push(command);
 }
 
+void Engine::addSerializedCommand(std::string string){
+    std::stringstream stream(string);
+
+    std::string commandType;
+
+    std::getline(stream, commandType, '-');
+
+    if (commandType == "4"){
+        PlaceBuildingCommand* placeBuildingCommand = new PlaceBuildingCommand();
+        placeBuildingCommand->unserialize(string);
+        addCommand(placeBuildingCommand);
+    }
+    else if (commandType == "5"){
+        PlaceRoadCommand* placeRoadCommand = new PlaceRoadCommand();
+        placeRoadCommand->unserialize(string);
+        addCommand(placeRoadCommand);
+    }
+    else if (commandType == "6"){
+        ExchangeBankCommand* exchangeBankCommand = new ExchangeBankCommand();
+        exchangeBankCommand->unserialize(string);
+        addCommand(exchangeBankCommand);
+    }
+    else {
+        std::cout << "Bad command type\n";  
+    }
+}
+
 ExchangeRequestCommand* saveExReqCmd;
 
 void Engine::update() {
+
     while(commandQueue.size() != 0) {
 
         if (state->gameState == NORMAL_STATE){

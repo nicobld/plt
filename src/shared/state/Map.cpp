@@ -43,52 +43,29 @@ Map::Map(){
 
     thief.position = Position(4, 3);
 
+	//Roads
+
+	roads.push_back(Road(PlayerRed, 2,4,2,3));
+	roads.push_back(Road(PlayerRed, 3,2,3,1));
+	roads.push_back(Road(PlayerBlue, 2,5,3,4));
+	roads.push_back(Road(PlayerBlue, 4,4,5,4));
+	roads.push_back(Road(PlayerYellow, 4,2,4,1));
+	roads.push_back(Road(PlayerYellow, 3,5,4,4));
+	roads.push_back(Road(PlayerGreen, 4,3,5,3));
+	roads.push_back(Road(PlayerGreen, 2,3,2,2));
+
     //Buildings
 
-    buildings.push_back(Building(PlayerRed, City));
-    buildings.back().position = {Position(1, 1), Position(2, 1), Position(2, 2)};
-
-    buildings.push_back(Building(PlayerBlue, City));
-    buildings.back().position = {Position(3, 2), Position(2, 3), Position(3, 3)};
-
-    buildings.push_back(Building(PlayerGreen, Colony));
-    buildings.back().position = {Position(1, 3), Position(1, 2), Position(0, 3)};
-
-    // roads.push_back(Road(PlayerRed));
-    // roads.back().position = {Position(1, 1), Position(2, 2)};
-    // roads.push_back(Road(PlayerRed));
-    // roads.back().position = {Position(1, 2), Position(2, 2)};
-    // roads.push_back(Road(PlayerRed));
-    // roads.back().position = {Position(1, 3), Position(2, 3)};
-    // roads.push_back(Road(PlayerRed,2,4,2,3));
-    // roads.push_back(Road(PlayerRed,2,3,3,4));
-    // roads.push_back(Road(PlayerRed,2,3,3,3));
-    // roads.push_back(Road(PlayerRed,2,3,3,2));
-    // roads.push_back(Road(PlayerRed,3,3,3,2));
-    // roads.push_back(Road(PlayerRed,2,2,3,2));
-    // roads.push_back(Road(PlayerRed,2,1,3,2));
-    // roads.push_back(Road(PlayerRed,3,1,3,2));
-    // roads.push_back(Road(PlayerRed,3,1,4,2));
-    // roads.push_back(Road(PlayerRed,4,2,4,1));
-    // roads.push_back(Road(PlayerRed,2,2,2,1));
-    // roads.push_back(Road(PlayerRed,2,2,2,3));
-    // roads.push_back(Road(PlayerRed,1,3,2,2));
-    // roads.push_back(Road(PlayerRed,1,3,0,3));
-    // roads.push_back(Road(PlayerRed,1,3,1,2));
-    // roads.push_back(Road(PlayerRed,1,3,1,4));
-    // roads.push_back(Road(PlayerRed,1,3,2,4));
-    // roads.push_back(Road(PlayerRed,3,2,4,2));
-    // roads.push_back(Road(PlayerRed,1,2,1,1));
-
-    roads.push_back(Road(PlayerRed, 3,1,4,2));
-
-	roads.push_back(Road(PlayerRed,{Position(3,3),Position(4,4)}));
+    buildings.push_back(Building(PlayerRed, Colony, 2,4,1,3,2,3));
+    buildings.push_back(Building(PlayerRed, Colony, 3,2,2,1,3,1));
+    buildings.push_back(Building(PlayerBlue, Colony, 4,4,5,4,4,5));
+    buildings.push_back(Building(PlayerBlue, Colony, 2,4,3,4,2,5));
+    buildings.push_back(Building(PlayerYellow, Colony, 4,2,5,2,4,1));
+    buildings.push_back(Building(PlayerYellow, Colony, 3,5,4,4,3,4));
+    buildings.push_back(Building(PlayerGreen, Colony, 4,3,5,3,5,4));
+    buildings.push_back(Building(PlayerGreen, Colony, 2,2,3,2,2,3));
 
     // Ports
-    
-    ports.push_back(Port(3, Nothing));
-    ports.back().position = {Position(2, 0), Position(2, 1)};
-    
     ports.push_back(Port(3, Nothing, 2, 0, 2, 1));
     ports.push_back(Port(2, Grain, 4, 0, 3, 1));
     ports.push_back(Port(2, Ore, 5, 1, 5, 2));

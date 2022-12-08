@@ -1,9 +1,19 @@
 #include "ExchangeBankCommand.h"
 #include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
+static bool equalArrayPosition(std::array<state::Position, 2> pos1, std::array<state::Position, 2> pos2){
+    return (pos1[0] == pos2[0] && pos1[1] == pos2[1]) || (pos1[0] == pos2[1] && pos1[1] == pos2[0]);
+}
+static bool builidngsOnPort(std::array<state::Position, 3> pos1, std::array<state::Position, 2> pos2){
+    return (equalArrayPosition({pos1[0], pos1[1]}, pos2) || equalArrayPosition({pos1[0], pos1[2]}, pos2) || equalArrayPosition({pos1[1], pos1[2]}, pos2));
+}
+
 namespace engine {
+
+ExchangeBankCommand::ExchangeBankCommand() {}
 
 ExchangeBankCommand::ExchangeBankCommand(state::PlayerColor playerColor , state::ResourceType  giving, state::ResourceType  receiving) {
     commandID = EXCHANGE_BANK_CMD;
@@ -12,13 +22,6 @@ ExchangeBankCommand::ExchangeBankCommand(state::PlayerColor playerColor , state:
     this->receiving = receiving;
     this->playerColor = playerColor;
     std::cout << "échange crée" << to_string(this->giving) << " -> " << to_string(this->receiving) << endl;
-}
-
-bool equalArrayPosition(std::array<state::Position, 2> pos1, std::array<state::Position, 2> pos2){
-    return (pos1[0] == pos2[0] && pos1[1] == pos2[1]) || (pos1[0] == pos2[1] && pos1[1] == pos2[0]);
-}
-bool builidngsOnPort(std::array<state::Position, 3> pos1, std::array<state::Position, 2> pos2){
-    return (equalArrayPosition({pos1[0], pos1[1]}, pos2) || equalArrayPosition({pos1[0], pos1[2]}, pos2) || equalArrayPosition({pos1[1], pos1[2]}, pos2));
 }
 
 
@@ -71,6 +74,36 @@ bool ExchangeBankCommand::verify(state::State* state){
     }
     std::cout << "pas d'échange" << endl;
     return false;
+}
+
+bool ExchangeBankCommand::unserialize(std::string string){
+    std::stringstream stream(string);
+
+    std::string token;
+
+    std::vector<std::string> tokens;
+
+    std::cout << "UNSERIALIZE \n";
+
+    while (std::getline(stream, token, '-')){
+        tokens.push_back(token);
+    }
+
+    try {
+        if (tokens.size() == 4){
+            playerColor = (state::PlayerColor) stoi(tokens[1]);
+            giving = (state::ResourceType) stoi(tokens[2]);
+            receiving = (state::ResourceType) stoi(tokens[3]);
+        } else {
+            std::cout << "Invalid number of arguments\n";
+        }
+    }
+    catch (const std::invalid_argument& ia) {
+	    std::cerr << "Invalid argument: " << ia.what() << '\n';
+        return false;
+    }
+
+    return true;
 }
 
 }

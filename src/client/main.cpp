@@ -21,12 +21,6 @@ using namespace view;
 using namespace sf;
 using namespace engine;
 
-namespace engine {
-    std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::array<Position, 2> road);
-    int countMaxRoadFromEnd(state::State* state, std::array<Position, 2> curPos, Position visitedRoadNeighbor, std::vector<std::array<Position,2>> lastLocalVisitedRoads, state::PlayerColor playerColor);
-    int countMaxRoad(state::State* state, state::PlayerColor playerColor);
-}
-
 
 
 int main(int argc, char* argv[])
@@ -132,6 +126,8 @@ int main(int argc, char* argv[])
         Engine engine(&state);
         int c = 2;
 
+        std::string inString; 
+
         Color sea(148, 240, 248);
 
         state.players[PlayerRed].resources[Lumber].number = 0;
@@ -143,18 +139,6 @@ int main(int argc, char* argv[])
         focus->setScale(Vector2f(0.9, 0.9));
         focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
         focus->setPosition(width/2, height/2);
-
-        // PlaceRoadCommand c0(PlayerRed, {Position(2,3), Position(1,3)});
-        // c0.execute(&state);
-
-        // PlaceBuildingCommand c1(PlayerRed, {Position(2,2), Position(2,3), Position(1,3)}, Colony);
-        // c1.execute(&state);
-
-        // PlaceBuildingCommand c2(PlayerRed, {Position(2,4), Position(2,3), Position(3,4)}, Colony);
-        // c2.execute(&state);
-
-        // PlaceBuildingCommand c3(PlayerRed, {Position(3,4), Position(2,3), Position(3,3)}, Colony);
-        // c3.execute(&state);
         
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
@@ -208,64 +192,35 @@ int main(int argc, char* argv[])
             // effacement de la fenêtre en noir
             window.clear(sea);
 
-            // if (c == 2)
+            // if (c == 2){
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,1),Position(3,2)}));
-            // else if (c == 3)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(3,4)}));
-            // else if (c == 4)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,4)}));
-            // else if (c == 5)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(4,4)}));
-            // else if (c == 6)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,3)}));
-            // else if (c == 7)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(5,4)}));
-            // else if (c == 8)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-            // else if (c == 9)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(4,4)}));
-            // else if (c == 10)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-            // else if (c == 11)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,5)}));
-            // else if (c == 12)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,4)}));
-            // else if (c == 13)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,3)}));
-            // else if (c == 14)
             //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(2,3),Position(2,4)}));
-            // c++;
-
-            if (c == 2){
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,1),Position(3,2)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(3,4)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,4)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(4,4)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,3)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(5,4)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(4,4)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,5)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,4)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,3)}));
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(2,3),Position(2,4)}));
 
 
-                std::vector<state::PlayerColor> playerAsks = {PlayerBlue, PlayerGreen};
-                engine.addCommand(new ExchangeRequestCommand(Resource(state::Lumber, 2), Resource(state::Brick, 1), state::PlayerRed, playerAsks));
+            //     std::vector<state::PlayerColor> playerAsks = {PlayerBlue, PlayerGreen};
+            //     engine.addCommand(new ExchangeRequestCommand(Resource(state::Lumber, 2), Resource(state::Brick, 1), state::PlayerRed, playerAsks));
 
-                engine.addCommand(new ExchangeResponseCommand(Resource(state::Lumber, 2), Resource(state::Brick, 1), state::PlayerRed, PlayerBlue, true));
+            //     engine.addCommand(new ExchangeResponseCommand(Resource(state::Lumber, 2), Resource(state::Brick, 1), state::PlayerRed, PlayerBlue, true));
 
-            }
-            c = 3;
+            // }
+            // c = 3;
 
-        
-        
 
-            //sleep(sf::seconds(1.0f));
-            // c'est ici qu'on dessine tout
-            //HUD.display(window);
+            /* Terminal */
+            std::getline(cin, inString);
+            engine.addSerializedCommand(inString);
+
             engine.update();
 
             window.draw(*stateView.tileMap);
