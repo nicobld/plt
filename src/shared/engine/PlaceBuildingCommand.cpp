@@ -66,7 +66,9 @@ static std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::
 
 namespace engine {
 
-PlaceBuildingCommand::PlaceBuildingCommand() {}
+PlaceBuildingCommand::PlaceBuildingCommand() {
+    commandID = PLACE_BUILDING_CMD;
+}
 
 PlaceBuildingCommand::PlaceBuildingCommand(state::PlayerColor playerColor, std::array<state::Position, 3> position, state::BuildingType buildingType):
 position(position), buildingType(buildingType) {

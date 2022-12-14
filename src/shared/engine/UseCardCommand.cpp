@@ -6,7 +6,7 @@
 namespace engine {
 
 UseCardCommand::UseCardCommand(state::Development dev, state::PlayerColor playerTurn): cardUsed(dev), playerTurn(playerTurn){
-
+    commandID = USE_CARD_CMD;
 }
 
 bool UseCardCommand::execute(state::State* state) {

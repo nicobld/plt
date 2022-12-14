@@ -188,7 +188,9 @@ static int countMaxRoad(state::State* state, state::PlayerColor playerColor){
 
 namespace engine {
 
-PlaceRoadCommand::PlaceRoadCommand() {}
+PlaceRoadCommand::PlaceRoadCommand() {
+    commandID = PLACE_ROAD_CMD;
+}
 
 PlaceRoadCommand::PlaceRoadCommand(state::PlayerColor playerColor, std::array<Position, 2> position): position(position) {
     this->playerColor = playerColor;

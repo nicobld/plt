@@ -21,28 +21,45 @@ void Engine::addSerializedCommand(std::string string){
     std::string commandType;
 
     std::getline(stream, commandType, '-');
+    if (1==0){
 
-    if (commandType == "4"){
+    }
+    else if (commandType == "4"){ 
         PlaceBuildingCommand* placeBuildingCommand = new PlaceBuildingCommand();
-        placeBuildingCommand->unserialize(string);
-        addCommand(placeBuildingCommand);
+        if (placeBuildingCommand->unserialize(string))
+            addCommand(placeBuildingCommand);
     }
     else if (commandType == "5"){
         PlaceRoadCommand* placeRoadCommand = new PlaceRoadCommand();
-        placeRoadCommand->unserialize(string);
-        addCommand(placeRoadCommand);
+        if (placeRoadCommand->unserialize(string))
+            addCommand(placeRoadCommand);
     }
     else if (commandType == "6"){
         ExchangeBankCommand* exchangeBankCommand = new ExchangeBankCommand();
-        exchangeBankCommand->unserialize(string);
-        addCommand(exchangeBankCommand);
+        if (exchangeBankCommand->unserialize(string))
+            addCommand(exchangeBankCommand);
+    }
+    else if (commandType == "2"){
+        ThrowDiceCommand* throwDiceCommand = new ThrowDiceCommand();
+        if (throwDiceCommand->unserialize(string))
+            addCommand(throwDiceCommand);
+    }
+    else if (commandType == "9"){
+        StealCardCommand* stealCardCommand = new StealCardCommand();
+        if (stealCardCommand->unserialize(string))
+            addCommand(stealCardCommand);
+    } else if (commandType == "10"){
+        PlaceThiefCommand* placeThiefCommand = new PlaceThiefCommand();
+        if (placeThiefCommand->unserialize(string))
+            addCommand(placeThiefCommand);
     }
     else {
-        std::cout << "Bad command type\n";  
+        std::cout << "Bad command type\n";
     }
 }
 
-ExchangeRequestCommand* saveExReqCmd;
+ExchangeRequestCommand* saveExReqCmd = new ExchangeRequestCommand();
+ThrowDiceCommand* saveThrDiceCmd = new ThrowDiceCommand();
 
 void Engine::update() {
 
@@ -50,20 +67,20 @@ void Engine::update() {
 
         if (state->gameState == NORMAL_STATE){
             if (commandQueue.front()->playerColor == state->turn){
-                if (commandQueue.front()->commandID != EXCHANGE_RESPONSE_CMD) {
-
-                if (commandQueue.front()->verify(state)){
-
-                    if (commandQueue.front()->commandID == EXCHANGE_REQUEST_CMD){ //passer en exchange state
-                        saveExReqCmd = static_cast<ExchangeRequestCommand*>(commandQueue.front());
-                        state->gameState = EXCHANGE_REQUEST_STATE;
+                if (commandQueue.front()->commandID != EXCHANGE_RESPONSE_CMD &&
+                    commandQueue.front()->commandID != PLACE_THIEF_CMD &&
+                    commandQueue.front()->commandID != STEAL_CARD_CMD) {
+                    if (commandQueue.front()->verify(state)){
+                        if (commandQueue.front()->commandID == EXCHANGE_REQUEST_CMD){ //passer en exchange state
+                            *saveExReqCmd = *(static_cast<ExchangeRequestCommand*>(commandQueue.front()));
+                            state->gameState = EXCHANGE_REQUEST_STATE;
+                        } else if (commandQueue.front()->commandID == THROW_DICE_CMD){
+                            *saveThrDiceCmd = *(static_cast<ThrowDiceCommand*>(commandQueue.front()));
+                        }
+                        commandQueue.front()->execute(state);
+                    } else {
+                        std::cout << "Wrong command" << std::endl;
                     }
-
-                    commandQueue.front()->execute(state);
-                
-                } else
-                    std::cout << "Wrong command" << std::endl;
-
                 }
             } else {
                 std::cout << "Not your turn player " << commandQueue.front()->playerColor << std::endl;
@@ -87,6 +104,31 @@ void Engine::update() {
             }
         }
 
+        else if (state->gameState == PLACE_THIEF_STATE){
+            if (commandQueue.front()->playerColor == state->turn){
+                if (commandQueue.front()->commandID == PLACE_THIEF_CMD){
+                    if (commandQueue.front()->verify(state) == true){
+                        commandQueue.front()->execute(state);
+                        saveThrDiceCmd->execute(state); //le gameState est changé dedans
+                    }
+                } else {
+                    std::cout << "Error, game is in PLACE_THIEF_STATE" << std::endl;
+                }
+            }
+        }
+
+        else if (state->gameState == STEAL_CARD_STATE){
+            if (commandQueue.front()->playerColor == state->turn){
+                if (commandQueue.front()->commandID == STEAL_CARD_STATE){
+                    if (commandQueue.front()->verify(state) == true){
+                        commandQueue.front()->execute(state);
+                        saveThrDiceCmd->execute(state);
+                    }
+                } else {
+                    std::cout << "Error, game is in STEAL_CARD_STATE" << std::endl;
+                }
+            }
+        }
 
         delete commandQueue.front();
         commandQueue.pop();

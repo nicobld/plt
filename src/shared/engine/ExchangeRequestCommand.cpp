@@ -5,7 +5,7 @@
 namespace engine {
 
 //une commande, pour une dmeande a chaque joeuur
-
+ExchangeRequestCommand::ExchangeRequestCommand() {}
 
 ExchangeRequestCommand::ExchangeRequestCommand(state::Resource givingResources, state::Resource receivingResources, state::PlayerColor playerColor, std::vector<state::PlayerColor> playerAsks){
     commandID = EXCHANGE_REQUEST_CMD; 

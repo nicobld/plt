@@ -27,7 +27,7 @@ bool DrawCardCommand::execute(state::State* state) {
 
     //auto itg = std::find_if(playerResources.begin(), playerResources.end(), [](state::Resource r) {return r.resourceType == state::Grain;});
 
-     for(int j = 1; j<state->players[this->playerColor].resources.size(); j++){
+     for(int j = 1; j < state->players[this->playerColor].resources.size(); j++){
         int verification = 0;
 
         state::Resource r = state->players[this->playerColor].resources.at(j);

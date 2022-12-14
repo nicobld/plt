@@ -13,7 +13,9 @@ static bool builidngsOnPort(std::array<state::Position, 3> pos1, std::array<stat
 
 namespace engine {
 
-ExchangeBankCommand::ExchangeBankCommand() {}
+ExchangeBankCommand::ExchangeBankCommand() {
+    commandID = EXCHANGE_BANK_CMD;
+}
 
 ExchangeBankCommand::ExchangeBankCommand(state::PlayerColor playerColor , state::ResourceType  giving, state::ResourceType  receiving) {
     commandID = EXCHANGE_BANK_CMD;

@@ -2,7 +2,9 @@
 
 namespace engine {
 
-PassTurnCommand::PassTurnCommand(state::PlayerColor actualTurn): actualTurn(actualTurn) {}
+PassTurnCommand::PassTurnCommand(state::PlayerColor actualTurn): actualTurn(actualTurn) {
+    commandID = PASS_TURN_CMD;
+}
 
 bool PassTurnCommand::verify(state::State* state){
     return true;

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
 
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
@@ -27,6 +29,9 @@ int main(int argc, char* argv[])
 {
     int width = 1280;
     int height = 720;
+
+    srand(time(NULL));
+
     // sf::Music music;
 
     // music.openFromFile("../res/One-Bard-Band.ogg");
