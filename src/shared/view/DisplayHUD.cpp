@@ -1,4 +1,5 @@
 #include "DisplayHUD.h"
+#include "ButtonBuild.h"
 #include <iostream>
 
 using namespace sf;
@@ -321,25 +322,28 @@ namespace view
         //-----------------------Button---------------------------
         int ecartBouton = 60;
 
-        buttonPassTurn = new Sprite(playerSquare, IntRect(widthSquare * 4, 258, 199, 48));
-        buttonExhchange = new Sprite(playerSquare, IntRect(widthSquare * 4 + 200 * 2, 258, 199, 48));
-        buttonBuild = new Sprite(playerSquare, IntRect(widthSquare * 4 + 200 * 4, 258, 199, 48));
+        buttonHUD.push_back(ButtonBuild(playerSquare, sf::IntRect(WIDTH - scrennGap -258, LENGTH - scrennGap - 199, 258, 199), "Construire"));
+        
 
-        passTurn = new Text("Passer son tour", font, 24);
-        exchange = new Text("Echange", font, 24);
-        build = new Text("Construction", font, 24);
+        // buttonPassTurn = new Sprite(playerSquare, IntRect(widthSquare * 4, 258, 199, 48));
+        // buttonExhchange = new Sprite(playerSquare, IntRect(widthSquare * 4 + 200 * 2, 258, 199, 48));
+        // buttonBuild = new Sprite(playerSquare, IntRect(widthSquare * 4 + 200 * 4, 258, 199, 48));
 
-        buttonPassTurn->setPosition(WIDTH - scrennGap - buttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap - buttonPassTurn->getGlobalBounds().height);
-        passTurn->setOrigin(passTurn->getGlobalBounds().width / 2, passTurn->getGlobalBounds().height / 2);
-        passTurn->setPosition(buttonPassTurn->getPosition().x + buttonPassTurn->getGlobalBounds().width / 2, buttonPassTurn->getGlobalBounds().height / 2 + buttonPassTurn->getPosition().y - 8);
+        // passTurn = new Text("Passer son tour", font, 24);
+        // exchange = new Text("Echange", font, 24);
+        // build = new Text("Construction", font, 24);
 
-        buttonExhchange->setPosition(WIDTH - scrennGap - buttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap - buttonPassTurn->getGlobalBounds().height - ecartBouton);
-        exchange->setOrigin(exchange->getGlobalBounds().width / 2, exchange->getGlobalBounds().height / 2);
-        exchange->setPosition(buttonExhchange->getPosition().x + buttonExhchange->getGlobalBounds().width / 2, buttonExhchange->getGlobalBounds().height / 2 + buttonExhchange->getPosition().y - 4);
+        // buttonPassTurn->setPosition(WIDTH - scrennGap - buttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap - buttonPassTurn->getGlobalBounds().height);
+        // passTurn->setOrigin(passTurn->getGlobalBounds().width / 2, passTurn->getGlobalBounds().height / 2);
+        // passTurn->setPosition(buttonPassTurn->getPosition().x + buttonPassTurn->getGlobalBounds().width / 2, buttonPassTurn->getGlobalBounds().height / 2 + buttonPassTurn->getPosition().y - 8);
 
-        buttonBuild->setPosition(WIDTH - scrennGap - buttonBuild->getGlobalBounds().width, LENGTH - scrennGap - buttonBuild->getGlobalBounds().height - ecartBouton * 2);
-        build->setOrigin(build->getGlobalBounds().width / 2, build->getGlobalBounds().height / 2);
-        build->setPosition(buttonBuild->getPosition().x + buttonBuild->getGlobalBounds().width / 2, buttonBuild->getGlobalBounds().height / 2 + buttonBuild->getPosition().y - 8);
+        // buttonExhchange->setPosition(WIDTH - scrennGap - buttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap - buttonPassTurn->getGlobalBounds().height - ecartBouton);
+        // exchange->setOrigin(exchange->getGlobalBounds().width / 2, exchange->getGlobalBounds().height / 2);
+        // exchange->setPosition(buttonExhchange->getPosition().x + buttonExhchange->getGlobalBounds().width / 2, buttonExhchange->getGlobalBounds().height / 2 + buttonExhchange->getPosition().y - 4);
+
+        // buttonBuild->setPosition(WIDTH - scrennGap - buttonBuild->getGlobalBounds().width, LENGTH - scrennGap - buttonBuild->getGlobalBounds().height - ecartBouton * 2);
+        // build->setOrigin(build->getGlobalBounds().width / 2, build->getGlobalBounds().height / 2);
+        // build->setPosition(buttonBuild->getPosition().x + buttonBuild->getGlobalBounds().width / 2, buttonBuild->getGlobalBounds().height / 2 + buttonBuild->getPosition().y - 8);
 
         //-----------------------Button---------------------------
     }
