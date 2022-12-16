@@ -1,4 +1,5 @@
 #include "MenuThief.h"
+#include "ButtonValidate.h"
 
 namespace view{
 
@@ -28,10 +29,15 @@ MenuThief::MenuThief(state::State* state, sf::Texture menuTexture, state::Player
         namePlayers[i].setPosition(spriteMenu->getPosition().x - spriteMenu->getGlobalBounds().width/2 + gapbtwnames * (i+1), spriteMenu->getPosition().y + 60);
     }
 
+//     spriteButton = new sf::Sprite(this->menuTexture, sf::IntRect(0, 290, 178, 48));
+//     spriteButton->setOrigin(spriteButton->getGlobalBounds().width/2, 0);
+//     spriteButton->setPosition(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 100);
 
-    spriteButton = new sf::Sprite(this->menuTexture, sf::IntRect(0, 290, 178, 48));
-    spriteButton->setOrigin(spriteButton->getGlobalBounds().width/2, 0);
-    spriteButton->setPosition(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 100);
+        sf::Texture buttonTexture;
+        buttonTexture.loadFromFile("./../res/button.png");
+        buttonTexture.setSmooth(true);
+        buttonValidate = new view::ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 100, 122, 48), "Valider");
+
 }
 
 
@@ -41,7 +47,7 @@ void MenuThief::render(sf::RenderTarget& target){
     for(sf::Text names : namePlayers){
         target.draw(names);
     }
-    target.draw(*spriteButton);
+    buttonValidate->render(target);
 }
 
 void MenuThief::update(){}

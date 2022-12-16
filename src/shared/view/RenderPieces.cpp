@@ -25,8 +25,6 @@ RenderPieces::RenderPieces (state::State state, std::vector<Hexagone>* hexagones
 
     thief->setScale(0.65*RESIZE, 0.65*RESIZE);
     //creer les tokens pour placer sur les tiles
-    sf::Texture* textureTokens = new sf::Texture;
-    textureTokens->loadFromFile("../res/piecesNumbersIso.png");
 
     
     for(int i = 0; i < 49; i++){
