@@ -321,29 +321,33 @@ namespace view
 
         //-----------------------Button---------------------------
         int ecartBouton = 60;
-
-        buttonHUD.push_back(ButtonBuild(playerSquare, sf::IntRect(WIDTH - scrennGap -258, LENGTH - scrennGap - 199, 258, 199), "Construire"));
+        // buttonBuild = new ButtonBuild(playerSquare, sf::IntRect(WIDTH - scrennGap -258, LENGTH - scrennGap - 199, 258, 199), "Construire");
+        buttonBuild = new ButtonBuild(playerSquare, sf::IntRect(WIDTH - scrennGap - 199/2, LENGTH - scrennGap - 48, 199, 48), "Construire");
         
+        
+        
+        
+        //buttonHUD.push_back(ButtonBuild(playerSquare, sf::IntRect(WIDTH - scrennGap -258, LENGTH - scrennGap - 199, 258, 199), "Construire"));
 
-        // buttonPassTurn = new Sprite(playerSquare, IntRect(widthSquare * 4, 258, 199, 48));
-        // buttonExhchange = new Sprite(playerSquare, IntRect(widthSquare * 4 + 200 * 2, 258, 199, 48));
-        // buttonBuild = new Sprite(playerSquare, IntRect(widthSquare * 4 + 200 * 4, 258, 199, 48));
+        // spritebuttonPassTurn = new Sprite(playerSquare, IntRect(widthSquare * 4, 258, 199, 48));
+        // spritebuttonExhchange = new Sprite(playerSquare, IntRect(widthSquare * 4 + 200 * 2, 258, 199, 48));
+        // spritebuttonBuild = new Sprite(playerSquare, IntRect(widthSquare * 4 + 200 * 4, 258, 199, 48));
 
         // passTurn = new Text("Passer son tour", font, 24);
         // exchange = new Text("Echange", font, 24);
         // build = new Text("Construction", font, 24);
 
-        // buttonPassTurn->setPosition(WIDTH - scrennGap - buttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap - buttonPassTurn->getGlobalBounds().height);
+        // spritebuttonPassTurn->setPosition(WIDTH - scrennGap - spritebuttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap - spritebuttonPassTurn->getGlobalBounds().height);
         // passTurn->setOrigin(passTurn->getGlobalBounds().width / 2, passTurn->getGlobalBounds().height / 2);
-        // passTurn->setPosition(buttonPassTurn->getPosition().x + buttonPassTurn->getGlobalBounds().width / 2, buttonPassTurn->getGlobalBounds().height / 2 + buttonPassTurn->getPosition().y - 8);
+        // passTurn->setPosition(spritebuttonPassTurn->getPosition().x + spritebuttonPassTurn->getGlobalBounds().width / 2, spritebuttonPassTurn->getGlobalBounds().height / 2 + spritebuttonPassTurn->getPosition().y - 8);
 
-        // buttonExhchange->setPosition(WIDTH - scrennGap - buttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap - buttonPassTurn->getGlobalBounds().height - ecartBouton);
+        // spritebuttonExhchange->setPosition(WIDTH - scrennGap - spritebuttonPassTurn->getGlobalBounds().width, LENGTH - scrennGap - spritebuttonPassTurn->getGlobalBounds().height - ecartBouton);
         // exchange->setOrigin(exchange->getGlobalBounds().width / 2, exchange->getGlobalBounds().height / 2);
-        // exchange->setPosition(buttonExhchange->getPosition().x + buttonExhchange->getGlobalBounds().width / 2, buttonExhchange->getGlobalBounds().height / 2 + buttonExhchange->getPosition().y - 4);
+        // exchange->setPosition(spritebuttonExhchange->getPosition().x + spritebuttonExhchange->getGlobalBounds().width / 2, spritebuttonExhchange->getGlobalBounds().height / 2 + spritebuttonExhchange->getPosition().y - 4);
 
-        // buttonBuild->setPosition(WIDTH - scrennGap - buttonBuild->getGlobalBounds().width, LENGTH - scrennGap - buttonBuild->getGlobalBounds().height - ecartBouton * 2);
+        // spritebuttonBuild->setPosition(WIDTH - scrennGap - spritebuttonBuild->getGlobalBounds().width, LENGTH - scrennGap - spritebuttonBuild->getGlobalBounds().height - ecartBouton * 2);
         // build->setOrigin(build->getGlobalBounds().width / 2, build->getGlobalBounds().height / 2);
-        // build->setPosition(buttonBuild->getPosition().x + buttonBuild->getGlobalBounds().width / 2, buttonBuild->getGlobalBounds().height / 2 + buttonBuild->getPosition().y - 8);
+        // build->setPosition(spritebuttonBuild->getPosition().x + spritebuttonBuild->getGlobalBounds().width / 2, spritebuttonBuild->getGlobalBounds().height / 2 + spritebuttonBuild->getPosition().y - 8);
 
         //-----------------------Button---------------------------
     }
@@ -423,12 +427,14 @@ namespace view
             target.draw(vectorSpriteCards.at(i));
         }
 
-        target.draw(*buttonPassTurn);
-        target.draw(*buttonExhchange);
-        target.draw(*buttonBuild);
-        target.draw(*passTurn);
-        target.draw(*exchange);
-        target.draw(*build);
+        // target.draw(*spritebuttonPassTurn);
+        // target.draw(*spritebuttonExhchange);
+        // target.draw(*spritebuttonBuild);
+        // target.draw(*passTurn);
+        // target.draw(*exchange);
+        // target.draw(*build);
+
+        buttonBuild->render(target);
     }
 
     void DisplayHUD::update()
@@ -499,6 +505,17 @@ namespace view
             compteur++;
         }
         //--------------------player1Cards------------------------
+
+        //-----------------------Button---------------------------
+
+        buttonBuild->update();
+
+        //-----------------------Button---------------------------
+
+
+
+
+
     }
 
 }

@@ -1,6 +1,9 @@
 #include "StateView.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Button.h"
+#include "Menu.h"
+
 
 using namespace view;
 
@@ -18,6 +21,9 @@ StateView::StateView(state::State& state) : state(state){
     // tileMap->setOrigin((8*114)/2, 719/2);
     // tileMap->setPosition(width/2, 30 + height/2);
     // tileMap->setScale(sf::Vector2f(0.9, 0.9));
+
+    clickableButton.push_back(displayHUD->buttonBuild);
+
     
 
 }

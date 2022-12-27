@@ -10,9 +10,9 @@ ButtonBuild::ButtonBuild(sf::Texture buttonTexture, sf::IntRect coords, std::str
     this->button_ID = BUTTON_DENY;
 
     this->font.loadFromFile("../res/poppins.ttf");
-    int fontSize = 20;
+    int fontSize = 28;
 
-    spriteButton = new sf::Sprite(this->buttonTexture, sf::IntRect(175* 4, 258, 199, 48));
+    spriteButton = new sf::Sprite(this->buttonTexture, sf::IntRect(1100, 258, 199, 48));
     spriteButton->setOrigin(spriteButton->getGlobalBounds().width/2, 0);
     spriteButton->setPosition(this->coords.left, this->coords.top);
 
@@ -33,16 +33,16 @@ bool ButtonBuild::isClicked(int x, int y){
 void ButtonBuild::update(){
     int fontSize = 20;
     if(clicked){
-        spriteButton->setTextureRect(sf::IntRect(123*3, 0, 122, 48));
+        spriteButton->setTextureRect(sf::IntRect(1100 + 199*1, 258, 199, 48));
         text->setColor(sf::Color(245, 245, 245));
         text->setCharacterSize(fontSize-2);
         text->setOrigin(text->getGlobalBounds().width/2, text->getGlobalBounds().height/2);
         text->setPosition(spriteButton->getPosition().x, spriteButton->getPosition().y + spriteButton->getGlobalBounds().height/2 - 7);
     }
     else{
-        spriteButton->setTextureRect(sf::IntRect(123*2, 0, 122, 48));
+        spriteButton->setTextureRect(sf::IntRect(1100 + 199*0, 258, 199, 48));
         text->setColor(sf::Color(255, 255, 255));
-        text->setCharacterSize(fontSize-2);
+        text->setCharacterSize(fontSize);
         text->setOrigin(text->getGlobalBounds().width/2, text->getGlobalBounds().height/2);
         text->setPosition(spriteButton->getPosition().x, spriteButton->getPosition().y + spriteButton->getGlobalBounds().height/2 - 7);
     }
