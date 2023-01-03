@@ -3,10 +3,11 @@
 
 namespace view{
 
-MenuThief::MenuThief(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor){
+MenuThief::MenuThief(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor, DisplayState* displayState){
     this->menuTexture = menuTexture;
     this->menuTexture.setSmooth(true);
     this->state = state;
+    this->displayState = displayState;
 
     spriteMenu = new sf::Sprite(this->menuTexture, sf::IntRect(1384, 0, 351, 167));
     spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);
@@ -36,7 +37,7 @@ MenuThief::MenuThief(state::State* state, sf::Texture menuTexture, state::Player
         sf::Texture buttonTexture;
         buttonTexture.loadFromFile("./../res/button.png");
         buttonTexture.setSmooth(true);
-        buttonValidate = new view::ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 100, 122, 48), "Valider");
+        buttonValidate = new view::ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 100, 122, 48), "Valider", this->displayState);
 
 }
 

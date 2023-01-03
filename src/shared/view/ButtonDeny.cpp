@@ -1,13 +1,15 @@
 #include "ButtonDeny.h"
+#include <iostream>
 
 namespace view{
 
-ButtonDeny::ButtonDeny(sf::Texture buttonTexture, sf::IntRect coords, std::string message) {
+ButtonDeny::ButtonDeny(sf::Texture buttonTexture, sf::IntRect coords, std::string message, DisplayState* displayState) {
     this->buttonTexture = buttonTexture;
     this->coords = coords;
     this->buttonTexture = buttonTexture;
     this->message = message;
     this->button_ID = BUTTON_DENY;
+    this->displayState = displayState;
 
     this->font.loadFromFile("../res/poppins.ttf");
     int fontSize = 20;
@@ -29,6 +31,15 @@ bool ButtonDeny::isClicked(int x, int y){
     clicked = coords.contains(sf::Vector2i(x, y));
     this->update();
     return clicked;
+}
+
+bool ButtonDeny::isReleased(int x, int y){
+    if(clicked = coords.contains(sf::Vector2i(x, y))){
+        //commande
+        std::cout << "Boutton Deny" << std::endl;
+    }
+    clicked = 0;
+    this->update();
 }
 
 void ButtonDeny::update(){

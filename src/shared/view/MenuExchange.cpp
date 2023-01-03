@@ -4,11 +4,12 @@
 
 namespace view{
 
-MenuExchange::MenuExchange(state::State* state, sf::Texture menuTexture, state::PlayerColor){
+MenuExchange::MenuExchange(state::State* state, sf::Texture menuTexture, state::PlayerColor, DisplayState* displayState){
     this->menuTexture = menuTexture;
     this->menuTexture.setSmooth(true);
     this->state = state;
     this->playerColor = playerColor;
+    this->displayState = displayState;
 
     font.loadFromFile("../res/poppins.ttf");
     int fontSize = 24;
@@ -45,7 +46,7 @@ MenuExchange::MenuExchange(state::State* state, sf::Texture menuTexture, state::
 
     sf::Texture buttonTexture;
     buttonTexture.loadFromFile("./../res/button.png");
-    buttonValidate = new view::ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 220, 122, 48), "Valider");
+    buttonValidate = new view::ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 220, 122, 48), "Valider", this->displayState);
     
 }
 

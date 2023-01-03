@@ -2,8 +2,5 @@
 
 namespace view{
     
-Menu::Menu(){
-
-}
 
 }

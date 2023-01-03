@@ -2,9 +2,10 @@
 
 namespace view{
 
-MenuBuild::MenuBuild(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor) : playerColor(playerColor){
+MenuBuild::MenuBuild(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor, DisplayState* displayState) : playerColor(playerColor){
     this->menuTexture = menuTexture;
     this->state = state;
+    this->displayState = displayState;
 
     spriteMenu = new sf::Sprite(this->menuTexture, sf::IntRect(0, 0, 434, 269));
     spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);

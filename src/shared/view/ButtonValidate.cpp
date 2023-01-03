@@ -1,13 +1,15 @@
 #include "ButtonValidate.h"
+#include <iostream>
 
 namespace view{
 
-ButtonValidate::ButtonValidate(sf::Texture buttonTexture, sf::IntRect coords, std::string message) {
+ButtonValidate::ButtonValidate(sf::Texture buttonTexture, sf::IntRect coords, std::string message, DisplayState* displayState) {
     this->buttonTexture = buttonTexture;
     this->coords = coords;
     this->buttonTexture = buttonTexture;
     this->message = message;
     this->button_ID = BUTTON_VALIDATE;
+    this->displayState = displayState;
 
     this->font.loadFromFile("../res/poppins.ttf");
     int fontSize = 20;
@@ -29,6 +31,15 @@ bool ButtonValidate::isClicked(int x, int y){
     clicked = coords.contains(sf::Vector2i(x, y));
     this->update();
     return clicked;
+}
+
+bool ButtonValidate::isReleased(int x, int y){
+    if(clicked = coords.contains(sf::Vector2i(x, y))){
+        //commande
+        std::cout << "Boutton Valider" << std::endl;
+    }
+    clicked = 0;
+    this->update();
 }
 
 void ButtonValidate::update(){

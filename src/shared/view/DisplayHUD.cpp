@@ -1,5 +1,7 @@
 #include "DisplayHUD.h"
 #include "ButtonBuild.h"
+#include "ButtonExchange.h"
+#include "ButtonPassTurn.h"
 #include <iostream>
 
 using namespace sf;
@@ -12,7 +14,8 @@ namespace view
 
     DisplayHUD::DisplayHUD(int WIDTH, int LENGTH, state::Player *player1, state::Player *player2, state::Player *player3, state::Player *player4)
     {
-
+        
+        
         // init font and color
         if (!this->font.loadFromFile("../res/poppins.ttf"))
         {
@@ -322,8 +325,9 @@ namespace view
         //-----------------------Button---------------------------
         int ecartBouton = 60;
         // buttonBuild = new ButtonBuild(playerSquare, sf::IntRect(WIDTH - scrennGap -258, LENGTH - scrennGap - 199, 258, 199), "Construire");
-        buttonBuild = new ButtonBuild(playerSquare, sf::IntRect(WIDTH - scrennGap - 199/2, LENGTH - scrennGap - 48, 199, 48), "Construire");
-        
+        // buttonBuild = new ButtonBuild(playerSquare, sf::IntRect(WIDTH - scrennGap - 199/2, LENGTH - scrennGap - 48 - ecartBouton*2, 199, 48), "Construire");
+        // buttonExchange = new ButtonExchange(playerSquare, sf::IntRect(WIDTH - scrennGap - 199/2, LENGTH - scrennGap - 48 - ecartBouton, 199, 48), "Echange");
+        // buttonPassTurn = new ButtonPassTurn(playerSquare, sf::IntRect(WIDTH - scrennGap - 199/2, LENGTH - scrennGap - 48 , 199, 48), "Passer son tour");
         
         
         
@@ -427,14 +431,10 @@ namespace view
             target.draw(vectorSpriteCards.at(i));
         }
 
-        // target.draw(*spritebuttonPassTurn);
-        // target.draw(*spritebuttonExhchange);
-        // target.draw(*spritebuttonBuild);
-        // target.draw(*passTurn);
-        // target.draw(*exchange);
-        // target.draw(*build);
 
-        buttonBuild->render(target);
+        // buttonBuild->render(target);
+        // buttonExchange->render(target);
+        // buttonPassTurn->render(target);
     }
 
     void DisplayHUD::update()
@@ -496,6 +496,7 @@ namespace view
         int ecart = 100;
         ecart = ecart + 5 * this->player1->developments.size() - 1;
         int compteur = 1;
+
         vectorSpriteCards.clear();
         for (int i = this->player1->developments.size() - 1; i >= 0; i--)
         {
@@ -508,7 +509,7 @@ namespace view
 
         //-----------------------Button---------------------------
 
-        buttonBuild->update();
+        // buttonBuild->update();
 
         //-----------------------Button---------------------------
 

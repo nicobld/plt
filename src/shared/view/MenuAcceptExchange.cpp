@@ -6,13 +6,14 @@
 
 namespace view {
 
-MenuAcceptExchange::MenuAcceptExchange (state::State* state, sf::Texture menuTexture, state::PlayerColor playerProposing, state::Resource resourceGiving, state::Resource resourceReceiving){
+MenuAcceptExchange::MenuAcceptExchange (state::State* state, sf::Texture menuTexture, state::PlayerColor playerProposing, state::Resource resourceGiving, state::Resource resourceReceiving, DisplayState* displayState){
 
     this->menuTexture = menuTexture;
     this->playerProposing = playerProposing;
     this->state = state;
     this->resourceGiving = resourceGiving;
     this->resourceReceiving = resourceReceiving;
+    this->displayState = displayState;
 
     spriteMenu = new sf::Sprite(this->menuTexture, sf::IntRect(1032, 0, 351, 205));
     spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);
@@ -44,8 +45,8 @@ MenuAcceptExchange::MenuAcceptExchange (state::State* state, sf::Texture menuTex
 
     sf::Texture buttonTexture;
     buttonTexture.loadFromFile("./../res/button.png");
-    buttonValidate = new view::ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x + 75, spriteMenu->getPosition().y + 130, 122, 48), "Accepter");
-    buttonDeny = new view::ButtonDeny(buttonTexture, sf::IntRect(spriteMenu->getPosition().x - 75, spriteMenu->getPosition().y + 130, 122, 48), "Refuser");
+    buttonValidate = new view::ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x + 75, spriteMenu->getPosition().y + 130, 122, 48), "Accepter",this->displayState);
+    buttonDeny = new view::ButtonDeny(buttonTexture, sf::IntRect(spriteMenu->getPosition().x - 75, spriteMenu->getPosition().y + 130, 122, 48), "Refuser", this->displayState);
 
 }
 

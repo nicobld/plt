@@ -83,15 +83,6 @@ int main(int argc, char* argv[])
 
         //_____________test Menu____________
 
-        sf::Texture menuTexture;
-        menuTexture.loadFromFile("../res/menu.png");
-
-        MenuBuild* menuBuildP1 = new MenuBuild(&state, menuTexture, PlayerRed);
-        MenuThief* menuThiefP1 = new MenuThief(&state, menuTexture, PlayerRed);
-        MenuExchange* menuExchangeP1 = new MenuExchange(&state, menuTexture, PlayerRed);
-        Resource rgive(Lumber, 2);
-        Resource rreceive(Ore, 5);
-        MenuAcceptExchange* menuAcceptExchangeP1 = new MenuAcceptExchange(&state, menuTexture, PlayerBlue, rgive, rreceive);
 
         
 
@@ -131,15 +122,6 @@ int main(int argc, char* argv[])
             stateView.displayHUD->render(window);
             stateView.render(window);
 
-            //_________display Menu_____________
-
-            //menuBuildP1->render(window);
-            //menuThiefP1->render(window);
-            //menuExchangeP1->render(window);
-            menuAcceptExchangeP1->render(window);
-
-
-
             // fin de la frame courante, affichage de tout ce qu'on a dessiné
             window.display();
         }
@@ -158,17 +140,7 @@ int main(int argc, char* argv[])
         focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
         focus->setPosition(width/2, height/2);
 
-        // PlaceRoadCommand c0(PlayerRed, {Position(2,3), Position(1,3)});
-        // c0.execute(&state);
-
-        // PlaceBuildingCommand c1(PlayerRed, {Position(2,2), Position(2,3), Position(1,3)}, Colony);
-        // c1.execute(&state);
-
-        // PlaceBuildingCommand c2(PlayerRed, {Position(2,4), Position(2,3), Position(3,4)}, Colony);
-        // c2.execute(&state);
-
-        // PlaceBuildingCommand c3(PlayerRed, {Position(3,4), Position(2,3), Position(3,3)}, Colony);
-        // c3.execute(&state);
+       
         
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
@@ -182,22 +154,20 @@ int main(int argc, char* argv[])
 
                 if (event.type == sf::Event::MouseButtonPressed){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        std::cout << "the left button was pressed" << std::endl;
-                        std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                        std::cout << "mouse y: " << event.mouseButton.y << std::endl;
-            
-                        
-                       
+                        // std::cout << "the left button was pressed" << std::endl;
+                        // std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                        // std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                        stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                     }
 
                 }
                 if (event.type == sf::Event::MouseButtonReleased){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        std::cout << "the left button was released" << std::endl;
-                        std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                        std::cout << "mouse y: " << event.mouseButton.y << std::endl;
-
+                        // std::cout << "the left button was released" << std::endl;
+                        // std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                        // std::cout << "mouse y: " << event.mouseButton.y << std::endl;
                         
+                        stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
                     }
                 }
             }
@@ -205,43 +175,7 @@ int main(int argc, char* argv[])
             // effacement de la fenêtre en noir
             window.clear(sea);
 
-            if (c == 2)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,1),Position(3,2)}));
-            else if (c == 3)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(3,4)}));
-            else if (c == 4)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,4)}));
-            else if (c == 5)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(4,4)}));
-            else if (c == 6)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,3)}));
-            else if (c == 7)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(5,4)}));
-            else if (c == 8)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-            else if (c == 9)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(4,4)}));
-            else if (c == 10)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-            else if (c == 11)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,5)}));
-            else if (c == 12)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,4)}));
-            else if (c == 13)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,3)}));
-            else if (c == 14)
-                engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(2,3),Position(2,4)}));
-            else if (c == 15){
 
-                //ne marche pas
-
-                state.turn = PlayerBlue;
-                engine.addCommand(new PlaceRoadCommand(PlayerBlue,{Position(5,2),Position(5,3)}));
-
-            }
-            c++;
-
-            sleep(sf::seconds(1.0f));
             // c'est ici qu'on dessine tout
             //HUD.display(window);
             engine.update();
