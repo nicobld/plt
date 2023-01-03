@@ -4,6 +4,21 @@
 
 using namespace std;
 
+static state::ResourceType stringToResType(std::string string){
+    if (string == "wool")
+        return state::Wool;
+    else if (string == "lumber")
+        return state::Lumber;
+    else if (string == "brick")
+        return state::Brick;
+    else if (string == "grain")
+        return state::Grain;
+    else if (string == "ore")
+        return state::Ore;
+    else
+        return state::Nothing;
+}
+
 static bool equalArrayPosition(std::array<state::Position, 2> pos1, std::array<state::Position, 2> pos2){
     return (pos1[0] == pos2[0] && pos1[1] == pos2[1]) || (pos1[0] == pos2[1] && pos1[1] == pos2[0]);
 }
@@ -97,8 +112,8 @@ bool ExchangeBankCommand::unserialize(std::string string){
     try {
         if (tokens.size() == 4){
             playerColor = (state::PlayerColor) stoi(tokens[1]);
-            giving = (state::ResourceType) stoi(tokens[2]);
-            receiving = (state::ResourceType) stoi(tokens[3]);
+            giving = stringToResType(tokens[2]);
+            receiving = stringToResType(tokens[3]);
         } else {
             std::cout << "Invalid number of arguments\n";
             return false;

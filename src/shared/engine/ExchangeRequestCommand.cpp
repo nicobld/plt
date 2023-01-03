@@ -64,7 +64,7 @@ bool ExchangeRequestCommand::unserialize(std::string string){
     }
 
     try {
-        if (tokens.size() == 5){
+        if (tokens.size() == 6){
             playerColor = (state::PlayerColor) stoi(tokens[1]);
             if ((givingResources.resourceType = stringToResType(tokens[2])) == state::Nothing){
                 std::cout << "Wrong resource name" << std::endl;
@@ -75,7 +75,7 @@ bool ExchangeRequestCommand::unserialize(std::string string){
                 std::cout << "Wrong resource name" << std::endl;
                 return false;
             }
-            receivingResources.number = stoi(tokens[4]);
+            receivingResources.number = stoi(tokens[5]);
             for (int i = 0; i < 4; i++)
                 if ((state::PlayerColor)i != state::PlayerRed)
                     playerAsks.push_back((state::PlayerColor)i);

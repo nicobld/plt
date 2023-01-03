@@ -66,6 +66,11 @@ void Engine::addSerializedCommand(std::string string){
         if (exchangeRequestCommand->unserialize(string))
             addCommand(exchangeRequestCommand);
     }
+    else if (commandType == "response"){
+        ExchangeResponseCommand* exchangeResponseCommand = new ExchangeResponseCommand();
+        if (exchangeResponseCommand->unserialize(string))
+            addCommand(exchangeResponseCommand);
+    }
     else if (commandType == "usecard"){ 
         UseCardCommand* useCardCommand = new UseCardCommand();
         if (useCardCommand->unserialize(string))
@@ -111,6 +116,11 @@ void Engine::addSerializedCommand(std::string string){
         if (placeThiefCommand->unserialize(string))
             addCommand(placeThiefCommand);
     }
+    else if (commandType == "drawcard"){
+        DrawCardCommand* drawCardCommand = new DrawCardCommand();
+        if (drawCardCommand->unserialize(string))
+            addCommand(drawCardCommand);
+    }
     else {
         std::cout << "Bad command type\n";
     }
@@ -130,24 +140,26 @@ void Engine::update() {
                 if (commandQueue.front()->commandID != EXCHANGE_RESPONSE_CMD &&
                     commandQueue.front()->commandID != PLACE_THIEF_CMD &&
                     commandQueue.front()->commandID != STEAL_CARD_CMD &&
-                    commandQueue.front()->commandID != MONOPOLY_CMD) {
+                    commandQueue.front()->commandID != MONOPOLY_CMD &&
+                    commandQueue.front()->commandID != STEAL_CARD_CMD) {
                     if (commandQueue.front()->verify(state)){
 
                         if (commandQueue.front()->commandID == EXCHANGE_REQUEST_CMD){ //passer en exchange state
                             saveCmd = EXCHANGE_REQUEST_CMD;
                             *saveExReqCmd = *(static_cast<ExchangeRequestCommand*>(commandQueue.front()));
                             state->gameState = EXCHANGE_REQUEST_STATE;
-                        } 
+
+                        }
                         
                         else if (commandQueue.front()->commandID == THROW_DICE_CMD){
                             saveCmd = THROW_DICE_CMD;
                             *saveThrDiceCmd = *(static_cast<ThrowDiceCommand*>(commandQueue.front()));
-                        } 
+                        }
                         
                         else if (commandQueue.front()->commandID == USE_CARD_CMD){
                             saveCmd = USE_CARD_CMD;
                             buildRoads = 0;
-                            if (state->map.roads.size() > 70){
+                            if (state->map.roads.size() > 70){ //set le nombres de routes a créé au cas où ya plus de place sur la map
                                 roadConstrutionNum = state->map.roads.size() - 70;
                             }
                         }
@@ -164,19 +176,38 @@ void Engine::update() {
         } 
         
         else if (state->gameState == EXCHANGE_REQUEST_STATE){
-            if (commandQueue.front()->commandID == EXCHANGE_RESPONSE_CMD){ //seulement accepter les reponses
-                if (commandQueue.front()->verify(state)){
-                    if(commandQueue.front()->execute(state) == true){
-                        state->gameState = NORMAL_STATE;
-                        for (int i = 0; i < state->players.size(); i++){
-                            if (state->players[i].playerColor != saveExReqCmd->playerColor){
-                                state->players[i].playerState = STAND_BY;
+            if (commandQueue.front()->commandID == EXCHANGE_RESPONSE_CMD && commandQueue.front()->playerColor != state->turn){ //seulement accepter les reponses
+                ((ExchangeResponseCommand*)commandQueue.front())->givingResources = saveExReqCmd->receivingResources;
+                ((ExchangeResponseCommand*)commandQueue.front())->receivingResources = saveExReqCmd->givingResources;
+                ((ExchangeResponseCommand*)commandQueue.front())->playerReceiving = saveExReqCmd->playerColor;
+                if (state->players[commandQueue.front()->playerColor].playerState == EXCHANGE){
+                    if (commandQueue.front()->verify(state)){
+                        if(commandQueue.front()->execute(state) == true){
+                            state->gameState = NORMAL_STATE;
+                            for (int i = 0; i < state->players.size(); i++){
+                                if (state->players[i].playerColor != saveExReqCmd->playerColor){
+                                    state->players[i].playerState = STAND_BY;
+                                }
                             }
                         }
+                    } else { //si le player ne peut pas echanger
+                        state->players[commandQueue.front()->playerColor].playerState = STAND_BY;
                     }
-                } else {
-                    std::cout << "Error, game is in EXCHANGE_REQUEST_STATE" << std::endl;
                 }
+                int s = 0;
+                for (state::Player p : state->players){
+                    s += p.playerState == EXCHANGE ? 1 : 0;
+                } 
+                if (s == 0) {
+                    state->gameState = NORMAL_STATE;
+                    std::cout << "Reviens en normal state\n";
+                }
+
+            } else {
+                std::cout << "Error, game is in EXCHANGE_REQUEST_STATE, players who have to answer are : ";
+                for (state::Player p : state->players){
+                    if (p.playerState == state::EXCHANGE) std::cout << p.name << " ";
+                } std::cout << std::endl;
             }
         }
 
@@ -185,11 +216,11 @@ void Engine::update() {
                 if (commandQueue.front()->commandID == PLACE_THIEF_CMD){
                     if (commandQueue.front()->verify(state) == true){
                         commandQueue.front()->execute(state);
-                        if (saveCmd == THROW_DICE_CMD){
-                            saveThrDiceCmd->execute(state);
-                        } else {
-                            state->gameState = NORMAL_STATE;
-                        }
+                        // if (saveCmd == THROW_DICE_CMD){
+                        //     saveThrDiceCmd->execute(state);
+                        // } else {
+                        //     state->gameState = NORMAL_STATE;
+                        // }
                     }
                 } else {
                     std::cout << "Error, game is in PLACE_THIEF_STATE" << std::endl;

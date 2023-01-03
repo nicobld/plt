@@ -36,6 +36,50 @@ bool PlaceThiefCommand::execute(state::State* state){
 
     state->map.thief.position = position;
 
+    bool stealCard = false;
+    bool isInVect = false;
+    std::vector<state::Player*> canStealPlayers;
+    for (state::Building b : state->map.buildings){ //check you can steal a player with the thief on his buildings
+        if (b.playerColor != playerColor){
+            for (state::Player* p : canStealPlayers){
+                if (b.playerColor == p->playerColor){
+                    isInVect = true;
+                }
+            }
+            if (!isInVect){
+                if (b.position[0] == state->map.thief.position || 
+                    b.position[1] == state->map.thief.position ||
+                    b.position[2] == state->map.thief.position){
+                    
+                    int r;
+                    if (state->players[b.playerColor].developments.size() == 0){
+                        for (r = 0; r < 5; r++){
+                            if (state->players[b.playerColor].resources[r].number > 0){
+                                canStealPlayers.push_back(&(state->players[b.playerColor]));
+                                stealCard = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        canStealPlayers.push_back(&(state->players[b.playerColor]));
+                        stealCard = true;
+                    }
+                    
+                }
+            }
+        }
+    }
+    if (stealCard){
+        std::cout << "Please steal a card from : ";
+        for (state::Player* p : canStealPlayers){
+            std::cout << p->name << ", ";
+        } std::cout << std::endl;
+        state->gameState = state::STEAL_CARD_STATE;
+        std::cout << "STATE STEALCARD\n";
+        return true;
+    }
+    std::cout << "No players to steal cards" << std::endl;
+    state->gameState = state::NORMAL_STATE;
     return true;
 }
 

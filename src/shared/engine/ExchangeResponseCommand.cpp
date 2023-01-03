@@ -1,6 +1,7 @@
 #include "ExchangeResponseCommand.h"
 #include <iostream>
 #include "string.h"
+#include <bits/stdc++.h>
 
 namespace engine {
 
@@ -13,6 +14,10 @@ ExchangeResponseCommand::ExchangeResponseCommand(state::Resource givingResources
     this->playerColor = playerColor;
 
     this->response = response;
+}
+
+ExchangeResponseCommand::ExchangeResponseCommand() {
+    commandID = EXCHANGE_RESPONSE_CMD;
 }
 
 
@@ -50,6 +55,39 @@ bool ExchangeResponseCommand::verify(state::State* state){
 
     std::cout << "pas d'échange" << std::endl;
     return false;
+}
+
+bool ExchangeResponseCommand::unserialize(std::string string){
+    std::stringstream stream(string);
+
+    std::string token;
+
+    std::vector<std::string> tokens;
+
+    while (std::getline(stream, token, '-')){
+        tokens.push_back(token);
+    }
+
+    try {
+        if (tokens.size() == 3){
+            playerColor = (state::PlayerColor) stoi(tokens[1]);
+            if (tokens[2][0] != '0' && tokens[2][0] != '1'){
+                std::cout << "Please enter 0 or 1" << std::endl;
+                return false;
+            }
+            response = tokens[2][0] == '1' ? true : false;
+
+        } else {
+            std::cout << "Invalid number of arguments\n";
+            return false;
+        }
+    }
+    catch (const std::invalid_argument& ia) {
+	    std::cerr << "Invalid argument: " << ia.what() << '\n';
+        return false;
+    }
+
+    return true;
 }
 
 }

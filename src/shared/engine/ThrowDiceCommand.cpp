@@ -75,10 +75,8 @@ bool ThrowDiceCommand::execute(state::State* state) {
             std::cout << "resultat du lancer de dés : " << result << std::endl;
         }
 
-        if (result == 7 || state->gameState == state::PLACE_THIEF_STATE || state->gameState == state::STEAL_CARD_STATE){
-            bool stealCard = false;
-            bool isInVect = false;
-            //TODO DEFAUSSER PLUS DE 7 CARTES
+        if (result == 7 /*|| state->gameState == state::PLACE_THIEF_STATE || state->gameState == state::STEAL_CARD_STATE*/){
+
             switch (state->gameState) {
                 case state::NORMAL_STATE:
                     state::PlayerColor color;
@@ -89,63 +87,11 @@ bool ThrowDiceCommand::execute(state::State* state) {
                     std::cout << "Please place thief" << std::endl;
                     state->gameState = state::PLACE_THIEF_STATE;
                     return true;
-                case state::PLACE_THIEF_STATE:
-
-                    for (state::Building b : state->map.buildings){ //check you can steal a player with the thief on his buildings
-                        if (b.playerColor != playerColor){
-                            for (state::Player* p : canStealPlayers){
-                                if (b.playerColor == p->playerColor){
-                                    isInVect = true;
-                                }
-                            }
-                            if (!isInVect){
-                                if (b.position[0] == state->map.thief.position || 
-                                    b.position[1] == state->map.thief.position ||
-                                    b.position[2] == state->map.thief.position){
-                                    
-                                    int r;
-                                    if (state->players[b.playerColor].developments.size() == 0){
-                                        for (r = 0; r < 5; r++){
-                                            if (state->players[b.playerColor].resources[r].number > 0){
-                                                canStealPlayers.push_back(&(state->players[b.playerColor]));
-                                                stealCard = true;
-                                                break;
-                                            }
-                                        }
-                                    } else {
-                                        canStealPlayers.push_back(&(state->players[b.playerColor]));
-                                        stealCard = true;
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }
-                    if (stealCard){
-                        std::cout << "Please steal a card from : ";
-                        for (state::Player* p : canStealPlayers){
-                            std::cout << p->name << ", ";
-                        } std::cout << std::endl;
-                        state->gameState = state::STEAL_CARD_STATE;
-                        return true;
-                    }
-                    std::cout << "No players to steal cards" << std::endl;
-                    state->gameState = state::NORMAL_STATE;
-                    return true;
-                    break;
-                case state::STEAL_CARD_STATE:
-                    state->gameState = state::NORMAL_STATE;
-                    break;
-            }
-
-            //result = 7;
-
-            //TODO appeler thief menu
-
-            state::ResourceType randRes;
-            while (state->players[playerSteal].resources[randRes = ((state::ResourceType) (rand() % 5))].number == 0){
-                state->players[playerSteal].resources[randRes].number --;
-                state->players[playerColor].resources[randRes].number ++;
+                // case state::PLACE_THIEF_STATE:
+                //     break;
+                // case state::STEAL_CARD_STATE:
+                //     state->gameState = state::NORMAL_STATE;
+                //     break;
             }
         }
         int i;

@@ -37,6 +37,7 @@ bool MonopolyCommand::execute(state::State* state){
         }
     }
 
+    std::cout << "You stole " << resNum << " resources" << std::endl;
     state->players[playerColor].resources[resourceType].number += resNum;
     return true;
 }
