@@ -135,8 +135,15 @@ int main(int argc, char* argv[])
 
         Color sea(148, 240, 248);
 
-        state.players[PlayerRed].resources[Lumber].number = 0;
-        state.players[PlayerBlue].resources[Brick].number = 5;
+        state.players[PlayerRed].resources[Lumber].number = 3;
+        state.players[PlayerRed].resources[Brick].number = 3;
+        state.players[PlayerRed].resources[Ore].number = 3;
+        state.players[PlayerRed].resources[Grain].number = 3;
+        state.players[PlayerRed].resources[Wool].number = 3;
+        state.players[PlayerRed].developments.push_back(Development(Monopoly));
+        state.players[PlayerRed].developments.push_back(Development(Knight));
+        state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
+        state.players[PlayerRed].developments.push_back(Development(Invention));
 
         Texture focusTexture;
         focusTexture.loadFromFile("../res/focus.png");

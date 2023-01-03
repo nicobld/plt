@@ -15,12 +15,17 @@ PlaceThiefCommand::PlaceThiefCommand(state::PlayerColor playerColor, state::Posi
 
 bool PlaceThiefCommand::verify(state::State* state){
     if (state->map.thief.position == position) {
-        std::cout << "Have to change position of thief" << std::endl;
+        std::cout << "PlaceThief error : Have to change position of thief" << std::endl;
         return false;
     }
 
-    if (state->map.grid[position.x + 7*position.y] <= 0) {
-        std::cout << "Error place thief on a ground tile" << std::endl;
+    if (position.x + 7*position.y > 49){
+        std::cout << "PlaceThief error : Error tile doesn't exit" << std::endl;
+        return false;
+    }
+
+    if (state->map.grid[position.x + 7*position.y] == 0 || state->map.grid[position.x + 7*position.y] >= 6) {
+        std::cout << "PlaceThief error : Error place thief on a ground tile" << std::endl;
         return false;
     }
 
@@ -41,8 +46,6 @@ bool PlaceThiefCommand::unserialize(std::string string){
 
     std::vector<std::string> tokens;
 
-    std::cout << "UNSERIALIZE \n";
-
     while (std::getline(stream, token, '-')){
         tokens.push_back(token);
     }
@@ -54,6 +57,7 @@ bool PlaceThiefCommand::unserialize(std::string string){
             position.y = stoi(tokens[3]);
         } else {
             std::cout << "Invalid number of arguments\n";
+            return false;
         }
     }
     catch (const std::invalid_argument& ia) {

@@ -200,13 +200,21 @@ PlaceRoadCommand::PlaceRoadCommand(state::PlayerColor playerColor, std::array<Po
 bool PlaceRoadCommand::verify(state::State* state){
     //verifie player a des routes
     if (state->players[playerColor].roads.size() == 0) {
-        std::cout << "Player has no roads to place" << std::endl;
+        std::cout << "PlaceError : Player has no roads to place" << std::endl;
+        return false;
+    }
+
+    if (!(state->players[playerColor].resources[state::Lumber].number >= 1 &&
+        state->players[playerColor].resources[state::Brick].number >= 1)){
+        
+        std::cout << "PlaceRoad error : Not enough resources" << std::endl;
         return false;
     }
 
     //verifie pas déjà une route sur la map
     for (state::Road r : state->map.roads){
         if (r.position == position){
+            std::cout << "PlaceRoad error : already a road here" << std::endl;
             return false;
         }
     }
@@ -220,7 +228,10 @@ bool PlaceRoadCommand::verify(state::State* state){
             }
         }
     }
-    if (!foundRoad) return false;
+    if (!foundRoad){
+        std::cout << "PlaceRoad error : no road of your color nearby" << std::endl;
+        return false;
+    } 
 
     return true;
 }
@@ -231,6 +242,9 @@ bool PlaceRoadCommand::execute(state::State* state) {
     int maxRoad = 4;
     int tempMaxRoad;
     int bestPlayer = -1;
+
+    state->players[playerColor].resources[state::Lumber].number--;
+    state->players[playerColor].resources[state::Brick].number--;
 
     //place la route et retire la route au joueur
     state->map.roads.push_back(Road(playerColor, position));
@@ -259,8 +273,6 @@ bool PlaceRoadCommand::unserialize(std::string string){
 
     std::vector<std::string> tokens;
 
-    std::cout << "UNSERIALIZE \n";
-
     while (std::getline(stream, token, '-')){
         tokens.push_back(token);
     }
@@ -274,6 +286,7 @@ bool PlaceRoadCommand::unserialize(std::string string){
             position[1].y = stoi(tokens[5]);
         } else {
             std::cout << "Invalid number of arguments\n";
+            return false;
         }
     }
     catch (const std::invalid_argument& ia) {

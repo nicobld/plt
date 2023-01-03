@@ -1,11 +1,28 @@
 #include "ExchangeRequestCommand.h"
 #include <iostream>
-#include "string.h"
+#include <bits/stdc++.h>
+
+static state::ResourceType stringToResType(std::string string){
+    if (string == "wool")
+        return state::Wool;
+    else if (string == "lumber")
+        return state::Lumber;
+    else if (string == "brick")
+        return state::Brick;
+    else if (string == "grain")
+        return state::Grain;
+    else if (string == "ore")
+        return state::Ore;
+    else
+        return state::Nothing;
+}
 
 namespace engine {
 
 //une commande, pour une dmeande a chaque joeuur
-ExchangeRequestCommand::ExchangeRequestCommand() {}
+ExchangeRequestCommand::ExchangeRequestCommand() {
+    commandID = EXCHANGE_REQUEST_CMD;
+}
 
 ExchangeRequestCommand::ExchangeRequestCommand(state::Resource givingResources, state::Resource receivingResources, state::PlayerColor playerColor, std::vector<state::PlayerColor> playerAsks){
     commandID = EXCHANGE_REQUEST_CMD; 
@@ -33,6 +50,47 @@ bool ExchangeRequestCommand::verify(state::State* state){
     }
     std::cout << "pas d'échange" << std::endl;
     return false;
+}
+
+bool ExchangeRequestCommand::unserialize(std::string string){
+    std::stringstream stream(string);
+
+    std::string token;
+
+    std::vector<std::string> tokens;
+
+    while (std::getline(stream, token, '-')){
+        tokens.push_back(token);
+    }
+
+    try {
+        if (tokens.size() == 5){
+            playerColor = (state::PlayerColor) stoi(tokens[1]);
+            if ((givingResources.resourceType = stringToResType(tokens[2])) == state::Nothing){
+                std::cout << "Wrong resource name" << std::endl;
+                return false;
+            }
+            givingResources.number = stoi(tokens[3]);
+            if ((receivingResources.resourceType = stringToResType(tokens[4])) == state::Nothing){
+                std::cout << "Wrong resource name" << std::endl;
+                return false;
+            }
+            receivingResources.number = stoi(tokens[4]);
+            for (int i = 0; i < 4; i++)
+                if ((state::PlayerColor)i != state::PlayerRed)
+                    playerAsks.push_back((state::PlayerColor)i);
+
+        } else {
+            std::cout << "Invalid number of arguments\n";
+            return false;
+        }
+    }
+    catch (const std::invalid_argument& ia) {
+	    std::cerr << "Invalid argument: " << ia.what() << '\n';
+        return false;
+    }
+
+    return true;
 }
 
 }

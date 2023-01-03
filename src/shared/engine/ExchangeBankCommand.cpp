@@ -15,6 +15,7 @@ namespace engine {
 
 ExchangeBankCommand::ExchangeBankCommand() {
     commandID = EXCHANGE_BANK_CMD;
+    min = 4;
 }
 
 ExchangeBankCommand::ExchangeBankCommand(state::PlayerColor playerColor , state::ResourceType  giving, state::ResourceType  receiving) {
@@ -30,9 +31,9 @@ ExchangeBankCommand::ExchangeBankCommand(state::PlayerColor playerColor , state:
 bool ExchangeBankCommand::execute(state::State* state) {
 
     state->players[playerColor].resources[giving].number -= min;
-    state->players[playerColor].resources[receiving].number += 2;
-    state->gameCards.resources[receiving].number -= 2;
-    state->gameCards.resources[giving].number +=min;
+    state->players[playerColor].resources[receiving].number ++;
+    state->gameCards.resources[receiving].number --;
+    state->gameCards.resources[giving].number += min;
 
     std::cout << "transaction effectué" << endl;
     std::cout << "ressource du joueur donné après echange " << to_string(giving) << " : " << state->players[playerColor].resources[giving].number << endl;
@@ -49,7 +50,7 @@ bool ExchangeBankCommand::verify(state::State* state){
     
     for(state::Building b : state->map.buildings){
         if (b.playerColor == playerColor){
-            std::cout << "c'est le joueur : " << to_string(b.playerColor) << endl;
+            std::cout << "port : c'est le joueur : " << to_string(b.playerColor) << endl;
             for(state::Port p : state->map.ports){
                 if(builidngsOnPort(b.position, p.position)){
                     std::cout << "il a un batiment sur un port: " << endl;
@@ -61,16 +62,18 @@ bool ExchangeBankCommand::verify(state::State* state){
                     }
                 }
             }
-            std::cout << "ca coutera : " << min <<endl;
+            
         } 
     }
+    std::cout << "ca coutera : " << min <<endl;
+
     std::cout << "ressource du joueur donné avant echange " << to_string(giving) << " : " << state->players[playerColor].resources[giving].number << endl;
     std::cout << "ressource du joueur reçu avant echange " << to_string(receiving) << " : " << state->players[playerColor].resources[receiving].number << endl;
 
     std::cout << "ressource de la banque donné avant echange " << to_string(giving) << " : " << state->gameCards.resources[giving].number  << endl;
     std::cout << "ressource de la banque reçu avant echange " << to_string(receiving) << " : " <<  state->gameCards.resources[receiving].number << endl;
 
-    if(state->players[playerColor].resources[giving].number >= min && state->gameCards.resources[receiving].number >= 2){
+    if(state->players[playerColor].resources[giving].number >= min && state->gameCards.resources[receiving].number >= 1){
         std::cout << "on peut faire l'échange" << endl;
         return true;
     }
@@ -98,6 +101,7 @@ bool ExchangeBankCommand::unserialize(std::string string){
             receiving = (state::ResourceType) stoi(tokens[3]);
         } else {
             std::cout << "Invalid number of arguments\n";
+            return false;
         }
     }
     catch (const std::invalid_argument& ia) {

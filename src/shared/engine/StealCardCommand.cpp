@@ -2,6 +2,23 @@
 #include <iostream>
 #include <bits/stdc++.h>
 
+static std::string printResource(state::ResourceType res){
+    switch(res){
+        case 0:
+            return "Wool";
+        case 1:
+            return "Lumber";
+        case 2:
+            return "Brick";
+        case 3:
+            return "Grain";
+        case 4:
+            return "Ore";
+        default:
+            return "Nothing";
+    }
+}
+
 namespace engine {
 
 StealCardCommand::StealCardCommand() {
@@ -14,10 +31,25 @@ StealCardCommand::StealCardCommand(state::PlayerColor playerColor, state::Player
 }
 
 bool StealCardCommand::verify(state::State* state){
+    bool canSteal = false;
+    for (state::Building b : state->map.buildings){ //check you can steal a player with the thief on his buildings
+        if (b.playerColor == playerSteal){
+            if (b.position[0] == state->map.thief.position || 
+                b.position[1] == state->map.thief.position ||
+                b.position[2] == state->map.thief.position)
+            {
+                canSteal = true;
+                break;
+            }
+        }
+    }
+    if (!canSteal) {
+        return false;
+    }
     int r;
     if (state->players[playerSteal].developments.size() == 0){
         for (r = 0; r < 5; r++){
-            if (state->players[playerSteal].resources[0].number > 0){
+            if (state->players[playerSteal].resources[r].number > 0){
                 break;
             }
         }
@@ -62,7 +94,7 @@ bool StealCardCommand::execute(state::State* state){
         else { //steal resource
             int r;
             for (r = 0; r < 5; r++){
-                if (state->players[playerSteal].resources[0].number > 0){
+                if (state->players[playerSteal].resources[r].number > 0){
                     break;
                 }
             }
@@ -75,7 +107,7 @@ bool StealCardCommand::execute(state::State* state){
         }
     }
 
-
+    std::cout << "Stole a card from " << state->players[(int)playerSteal].name << std::endl;
     return true;
 }
 
@@ -87,8 +119,6 @@ bool StealCardCommand::unserialize(std::string string){
 
     std::vector<std::string> tokens;
 
-    std::cout << "UNSERIALIZE \n";
-
     while (std::getline(stream, token, '-')){
         tokens.push_back(token);
     }
@@ -99,12 +129,14 @@ bool StealCardCommand::unserialize(std::string string){
             playerSteal = (state::PlayerColor) stoi(tokens[2]);
         } else {
             std::cout << "Invalid number of arguments\n";
+            return false;
         }
     }
     catch (const std::invalid_argument& ia) {
 	    std::cerr << "Invalid argument: " << ia.what() << '\n';
         return false;
     }
+
     return true;
 }
 

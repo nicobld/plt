@@ -90,19 +90,35 @@ bool PlaceBuildingCommand::verify(state::State* state){
             break;
         }
     }
-    if (!foundBuilding) return false;
+    if (!foundBuilding){
+        std::cout << "PlaceBuilding error : You don't have any buildings to place" << std::endl;
+        return false;
+    }
 
-    //VERIFY
-    for (state::Building b : state->map.buildings){
+    if (buildingType == 0){
+        if (!(state->players[playerColor].resources[state::Lumber].number >= 1 &&
+            state->players[playerColor].resources[state::Brick].number >= 1 &&
+            state->players[playerColor].resources[state::Grain].number >= 1 &&
+            state->players[playerColor].resources[state::Wool].number >= 1)){
+
+            std::cout << "PlaceBuilding error : Not enough resources" << std::endl;
+            return false;
+        }
+    } else {
+        if (!(state->players[playerColor].resources[state::Grain].number >= 2 &&
+            state->players[playerColor].resources[state::Ore].number >= 3)){
+            
+            std::cout << "PlaceBuilding error : Not enough resources" << std::endl;
+            return false;
+        }
+    }
+
+    for (state::Building b : state->map.buildings){//pour upgrade colony en city
         if (b.position == position) {
-            //pour upgrade colony en city
             if (buildingType == City && b.buildingType == Colony && b.playerColor == playerColor) {
-                //Upgrade city to colony
-                state->map.buildings.erase(state->map.buildings.begin() + state->map.getBuilding(position)); //remove colony from map
-                state->map.buildings.push_back(Building(playerColor, buildingType, b.position)); //add city to map
-                state->players[playerColor].buildings.erase(state->players[playerColor].buildings.begin() + state->players[playerColor].getBuilding(buildingType)); //remove player building
-                return true;
+                break;
             } else {
+                std::cout << "PlaceBuilding error : Cannot place building, already a building here" << std::endl;
                 return false;
             }
         }
@@ -110,7 +126,7 @@ bool PlaceBuildingCommand::verify(state::State* state){
 
     //check building is on a road
     if (!hasRoad(state, {position[0], position[1]}, playerColor) && !hasRoad(state, {position[0], position[2]}, playerColor) && !hasRoad(state, {position[1], position[2]}, playerColor)){
-        std::cout << "no road to place building\n";      
+        std::cout << "PlaceBuilding error : No road to place building" << std::endl;
         return false;
     }
 
@@ -131,7 +147,7 @@ bool PlaceBuildingCommand::verify(state::State* state){
             tempTile = tempRoadNeighbors[0];
         
         if (hasBuilding(state, {tempTile, tempRoadPos[0], tempRoadPos[1]})){
-            
+            std::cout << "PlaceBuilding error : There is a building next to this position" << std::endl;
             return false;
         }
     }
@@ -141,8 +157,29 @@ bool PlaceBuildingCommand::verify(state::State* state){
 
 
 bool PlaceBuildingCommand::execute(state::State* state) {
-    state->players[playerColor].buildings.erase(state->players[playerColor].buildings.begin() + state->players[playerColor].getBuilding(buildingType));
-    state->map.buildings.push_back(Building(playerColor, buildingType, position));
+    if (buildingType == state::Colony){
+        state->players[playerColor].resources[state::Lumber].number--;
+        state->players[playerColor].resources[state::Brick].number--;
+        state->players[playerColor].resources[state::Grain].number--;
+        state->players[playerColor].resources[state::Wool].number--;
+
+        state->players[playerColor].buildings.erase(state->players[playerColor].buildings.begin() + state->players[playerColor].getBuilding(buildingType)); //remove player building
+        state->map.buildings.push_back(Building(playerColor, buildingType, position)); //add city to map
+        return true;
+    } else {//city
+        state->players[playerColor].resources[state::Grain].number -= 2;
+        state->players[playerColor].resources[state::Ore].number -= 3;
+
+        state::Building* b = &(state->map.buildings[state->map.getBuilding(position)]);
+
+        state->map.buildings.erase(state->map.buildings.begin() + state->map.getBuilding(position)); //remove colony from map
+        state->players[playerColor].buildings.push_back(Building(playerColor, buildingType, position)); //give back colony to player
+        state->map.buildings.push_back(Building(playerColor, buildingType, position)); //add city to map
+        state->players[playerColor].buildings.erase(state->players[playerColor].buildings.begin() + state->players[playerColor].getBuilding(buildingType)); //remove player building
+
+        return true;
+    }
+
     return true;
 }
 
@@ -171,6 +208,7 @@ bool PlaceBuildingCommand::unserialize(std::string string){
             buildingType = (BuildingType) stoi(tokens[8]);
         } else {
             std::cout << "Invalid number of arguments\n";
+            return false;
         }
     }
     catch (const std::invalid_argument& ia) {
