@@ -41,6 +41,8 @@ int main(int argc, char* argv[])
     // music.play();
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Catan");
+    window.setPosition(sf::Vector2i(1920/2 -width/2, 1080/2 - height/2));
+
     State state;
     
     state.players.push_back(Player("Jonah", PlayerRed));
@@ -154,20 +156,16 @@ int main(int argc, char* argv[])
 
                 if (event.type == sf::Event::MouseButtonPressed){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        // std::cout << "the left button was pressed" << std::endl;
-                        // std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                        // std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+
                         stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                     }
 
                 }
                 if (event.type == sf::Event::MouseButtonReleased){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        // std::cout << "the left button was released" << std::endl;
-                        // std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                        // std::cout << "mouse y: " << event.mouseButton.y << std::endl;
                         
                         stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
+                        std::cout << "displayState : " << stateView.displayState << std::endl;
                     }
                 }
             }
@@ -177,12 +175,10 @@ int main(int argc, char* argv[])
 
 
             // c'est ici qu'on dessine tout
-            //HUD.display(window);
             engine.update();
 
             window.draw(*stateView.tileMap);
             window.draw(*focus);
-            stateView.displayHUD->render(window);
             stateView.render(window);
 
             // fin de la frame courante, affichage de tout ce qu'on a dessiné

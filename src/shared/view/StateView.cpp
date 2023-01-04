@@ -56,6 +56,7 @@ void deleteButton(std::vector<Button*>* button){
 
 void StateView::render(sf::RenderTarget &target)
 {
+    displayHUD->render(target);
     renderPieces->render(state, target);
     for (int i = 0; i < clickableMenu.size(); i++)
     {

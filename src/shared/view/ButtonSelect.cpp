@@ -40,6 +40,7 @@ bool ButtonSelect::isReleased(int x, int y){
             *displayState = BUILD_BUILDING;
         else if(select_ID == SELECT_DEV)
             //commande piocher developpment
+            *displayState = STAND_BY;
         
         result = true;
     }
