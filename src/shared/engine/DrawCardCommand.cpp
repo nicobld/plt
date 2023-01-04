@@ -2,6 +2,23 @@
 #include <iostream>
 #include <bits/stdc++.h>
 
+
+
+static std::string devTypeToString(state::DevelopmentType devType){
+    if (devType == state::Knight)
+        return "knight";
+    else if (devType == state::Monopoly)
+        return "Monopoly";
+    else if (devType == state::RoadConstruction)
+        return "RoadConstruction";
+    else if (devType == state::Invention)
+        return "Invention";
+    else if (devType == state::VictoryPointsCard)
+        return "VictoryPointsCard";
+    else
+        return "error type";
+}
+
 namespace engine {
 
 DrawCardCommand::DrawCardCommand() {
@@ -43,6 +60,8 @@ bool DrawCardCommand::execute(state::State* state) {
     state->gameCards.developments.erase(state->gameCards.developments.begin() + randCard);
 
     state->players[this->playerColor].developments.push_back(development);
+
+    std::cout << "You have drawn " << devTypeToString(state->players[this->playerColor].developments.back().developmentType) << std::endl;
     
     return true;
         
