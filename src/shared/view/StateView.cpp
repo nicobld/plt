@@ -34,9 +34,6 @@ StateView::StateView(state::State &state) : state(state)
     tileMap->load("../res/tilesHexIso.png", sf::Vector2u(114, 131), state.map.grid, 7, 7);
 
     renderPieces = new RenderPieces(state, &tileMap->hexagones);
-    // tileMap->setOrigin((8*114)/2, 719/2);
-    // tileMap->setPosition(width/2, 30 + height/2);
-    // tileMap->setScale(sf::Vector2f(0.9, 0.9));
         
     int scrennGap = 30, ecartBouton = 60;
     clickableButton.push_back((Button *) new ButtonBuild(*this->squareTexture, sf::IntRect(width - scrennGap - 199/2, height - scrennGap - 48 - ecartBouton*2, 199, 48), "Construire", &displayState));
@@ -52,13 +49,8 @@ void deleteMenu(std::vector<Menu*>* menu){
 }
 
 void deleteButton(std::vector<Button*>* button){
-    int b3 = 0;
-    for(auto b : *button){
-        if(b3 >=3){
-            delete b;
-            button->erase(button->begin()+ b3);
-        }
-        b3++;
+    for(int i = 3; i < button->size(); i++){
+            button->erase(button->begin()+ i);
     }
 }
 
@@ -70,7 +62,8 @@ void StateView::render(sf::RenderTarget &target)
         clickableMenu[i]->render(target);  
     }
 
-    for (int i = 0; i < clickableButton.size(); i++)
+    //for (int i = 0; i < clickableButton.size(); i++)
+    for (int i = 0; i < 3; i++)
     {
     clickableButton[i]->render(target);
     }
@@ -82,16 +75,29 @@ void StateView::updateClickableObjects(state::State *state, state::PlayerColor p
     deleteButton(&clickableButton);
     switch (displayState)
     {
-    case STAND_BY:
+    case STAND_BY :
         break;
 
-    case CHOOSE_BUILD:
-        clickableMenu.push_back(((Menu *)new MenuBuild(state, *menuTexture, state->turn, &displayState)));
+    case CHOOSE_BUILD :
+        clickableMenu.push_back((Menu *)new MenuBuild(state, *menuTexture, state->turn, &displayState));
+        for (int i=0; i < ((MenuBuild*) clickableMenu.back())->buttonsSelect.size(); i++){
+            clickableButton.push_back((Button*) ((MenuBuild*) clickableMenu.back())->buttonsSelect[i]);
+        }
+        
         break;
 
     case EXCHANGE :
-        clickableMenu.push_back(((Menu *)new MenuExchange(state, *menuTexture, state->turn, &displayState)));
+        clickableMenu.push_back((Menu *)new MenuExchange(state, *menuTexture, state->turn, &displayState));
         break;
+
+    case PLACE_THIEF :
+        clickableMenu.push_back((Menu*) new MenuThief(state, *menuTexture, state->turn, &displayState));
+        break;
+
+    case THROW_DICE : 
+
+        break;
+
 
     default:
         break;

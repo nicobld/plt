@@ -1,4 +1,5 @@
 #include "MenuBuild.h"
+#include "ButtonSelect.h"
 
 namespace view{
 
@@ -41,16 +42,30 @@ MenuBuild::MenuBuild(state::State* state, sf::Texture menuTexture, state::Player
         numberPieces[i].setPosition(spritePieces[i].getPosition().x + gapwpieces, spritePieces[i].getPosition().y - 5);
     }
 
+    sf::Texture buttonTexture;
+    buttonTexture.loadFromFile("./../res/button.png");
+    // buttonsSelect.push_back(new ButtonSelect(buttonTexture, sf::IntRect(spritePieces[0].getGlobalBounds().left, spritePieces[0].getGlobalBounds().top, 143, 48), SELECT_ROAD, this->displayState));
+    // buttonsSelect.push_back(new ButtonSelect(buttonTexture, sf::IntRect(spritePieces[1].getGlobalBounds().left, spritePieces[1].getGlobalBounds().top, 143, 48), SELECT_COLONY, this->displayState));
+    // buttonsSelect.push_back(new ButtonSelect(buttonTexture, sf::IntRect(spritePieces[2].getGlobalBounds().left, spritePieces[2].getGlobalBounds().top, 143, 48), SELECT_ROAD, this->displayState));
+    // buttonsSelect.push_back(new ButtonSelect(buttonTexture, sf::IntRect(spritePieces[3].getGlobalBounds().left, spritePieces[3].getGlobalBounds().top, 143, 48), SELECT_DEV, this->displayState));
+    gap = 50;
+    for(int i = 0; i < 3; i++){
+        buttonsSelect.push_back(new ButtonSelect(buttonTexture, sf::IntRect(spriteMenu->getPosition().x + 105, spriteMenu->getPosition().y + 52 + i * gap, 143, 48), (Select_ID) i, this->displayState));
+    }
 
 }
 
 void MenuBuild::render(sf::RenderTarget& target){
     target.draw(*spriteMenu);
+    for (int i = 0; i<buttonsSelect.size(); i++){
+        buttonsSelect[i]->render(target);
+    }
+
     for(int i =0; i < (int) spritePieces.size(); i++){
         target.draw(spritePieces[i]);
         target.draw(numberPieces[i]);
+        
     }
-
 }
 
 void MenuBuild::update(){}
