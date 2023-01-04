@@ -11,14 +11,15 @@
 #include "MenuAcceptExchange.h"
 #include "MenuThief.h"
 
-using namespace view;
+namespace view{
 
-StateView::StateView(state::State &state) : state(state)
+StateView::StateView(state::State* state, engine::Engine* engine) : state(state)
 {
     int width = 1280;
     int height = 720;
 
-    this->displayState = STAND_BY;
+    this->displayState = BUILD_ROAD;
+    this->engine = engine;
 
     this->menuTexture = new sf::Texture();
     this->menuTexture->loadFromFile("../res/menu.png");
@@ -28,10 +29,10 @@ StateView::StateView(state::State &state) : state(state)
     this->squareTexture->loadFromFile("../res/squares.png");
     this->squareTexture->setSmooth(true);
 
-    displayHUD = new DisplayHUD(width, height, &(state.players[0]), &(state.players[1]), &(state.players[2]), &(state.players[3]));
+    displayHUD = new DisplayHUD(width, height, &(state->players[0]), &(state->players[1]), &(state->players[2]), &(state->players[3]));
 
     tileMap = new TileMap();
-    tileMap->load("../res/tilesHexIso.png", sf::Vector2u(114, 131), state.map.grid, 7, 7);
+    tileMap->load("../res/tilesHexIso.png", sf::Vector2u(114, 131), state->map.grid, 7, 7);
 
     renderPieces = new RenderPieces(state, &tileMap->hexagones);
     // tileMap->setOrigin((8*114)/2, 719/2);
@@ -76,7 +77,7 @@ void StateView::render(sf::RenderTarget &target)
     }
 }
 
-void StateView::updateClickableObjects(state::State *state, state::PlayerColor playerColor)
+void StateView::updateClickableObjects(state::PlayerColor playerColor)
 {
     deleteMenu(&clickableMenu);
     deleteButton(&clickableButton);
@@ -111,11 +112,28 @@ void StateView::releasedObjects(int x, int y)
     for (int i = 0; i < clickableButton.size(); i++)
     {
         if (clickableButton[i]->isReleased(x, y)){
-            updateClickableObjects(&state, state.turn);
+            updateClickableObjects(state->turn);
             return;
         }        
     }
     displayState = STAND_BY;
-    updateClickableObjects(&state, state.turn);
+    updateClickableObjects(state->turn);
 }
 
+void StateView::handleClick(int x, int y){
+    std::array<state::Position, 2> pos;
+    switch (displayState) {
+        case STAND_BY:
+            break;
+
+        case BUILD_ROAD:
+            pos = tileMap->findClosestRoad(x, y);
+            engine->addCommand( new engine::PlaceRoadCommand((state::PlayerColor)0, pos));
+            break;
+
+        default:
+            break;
+        }
+}
+
+}

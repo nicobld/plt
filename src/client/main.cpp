@@ -49,8 +49,8 @@ int main(int argc, char* argv[])
     state.players.push_back(Player("Nicolas", PlayerBlue));
     state.players.push_back(Player("Xu", PlayerYellow));
     state.players.push_back(Player("Stephane", PlayerGreen));
-
-    StateView stateView(state);
+    Engine engine(&state);
+    StateView stateView(&state, &engine);
 
     if(argc == 1){
         cout << "hello" << endl;
@@ -79,8 +79,6 @@ int main(int argc, char* argv[])
         state.players.at(3).resources.at(4).number = 5;
         state.players.at(0).knightNumber = 3;
         state.players.at(0).hasLargestArmy = 1;
-
-        StateView stateView(state);
         
 
         //_____________test Menu____________
@@ -130,18 +128,18 @@ int main(int argc, char* argv[])
     }
 
     else if(!strncmp(argv[1], "engine", 6)){
-        Engine engine(&state);
+
         int c = 2;
 
         std::string inString; 
 
         Color sea(148, 240, 248);
 
-        state.players[PlayerRed].resources[Lumber].number = 3;
-        state.players[PlayerRed].resources[Brick].number = 3;
-        state.players[PlayerRed].resources[Ore].number = 3;
-        state.players[PlayerRed].resources[Grain].number = 3;
-        state.players[PlayerRed].resources[Wool].number = 3;
+        state.players[PlayerRed].resources[Lumber].number = 100;
+        state.players[PlayerRed].resources[Brick].number = 100;
+        state.players[PlayerRed].resources[Ore].number = 100;
+        state.players[PlayerRed].resources[Grain].number = 100;
+        state.players[PlayerRed].resources[Wool].number = 100;
         state.players[PlayerRed].developments.push_back(Development(Monopoly));
         state.players[PlayerRed].developments.push_back(Development(Knight));
         state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
@@ -153,6 +151,7 @@ int main(int argc, char* argv[])
         focus->setScale(Vector2f(0.9, 0.9));
         focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
         focus->setPosition(width/2, height/2);
+
         
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
@@ -169,7 +168,8 @@ int main(int argc, char* argv[])
                         // std::cout << "the left button was pressed" << std::endl;
                         // std::cout << "mouse x: " << event.mouseButton.x << std::endl;
                         // std::cout << "mouse y: " << event.mouseButton.y << std::endl;
-                        stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                        //stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+
                     }
 
                 }
@@ -179,7 +179,8 @@ int main(int argc, char* argv[])
                         // std::cout << "mouse x: " << event.mouseButton.x << std::endl;
                         // std::cout << "mouse y: " << event.mouseButton.y << std::endl;
                         
-                        stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
+                        //stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
+                        stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
                     }
                 }
             }
@@ -187,34 +188,9 @@ int main(int argc, char* argv[])
             // effacement de la fenêtre en noir
             window.clear(sea);
 
-            // if (c == 2){
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,1),Position(3,2)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(3,4)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,4)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(4,4)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,3),Position(4,3)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(4,3),Position(5,4)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(4,4)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(3,5)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,5)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,4)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(3,4),Position(2,3)}));
-            //     engine.addCommand(new PlaceRoadCommand(PlayerRed,{Position(2,3),Position(2,4)}));
-
-
-            //     std::vector<state::PlayerColor> playerAsks = {PlayerBlue, PlayerGreen};
-            //     engine.addCommand(new ExchangeRequestCommand(Resource(state::Lumber, 2), Resource(state::Brick, 1), state::PlayerRed, playerAsks));
-
-            //     engine.addCommand(new ExchangeResponseCommand(Resource(state::Lumber, 2), Resource(state::Brick, 1), state::PlayerRed, PlayerBlue, true));
-
-            // }
-            // c = 3;
-
-
             /* Terminal */
-            std::getline(cin, inString);
-            engine.addSerializedCommand(inString);
+            // std::getline(cin, inString);
+            // engine.addSerializedCommand(inString);
 
             engine.update();
 
