@@ -40,6 +40,24 @@ StateView::StateView(state::State* state, engine::Engine* engine) : state(state)
     clickableButton.push_back((Button *) new ButtonBuild(*this->squareTexture, sf::IntRect(width - scrennGap - 199/2, height - scrennGap - 48 - ecartBouton*2, 199, 48), "Construire", &displayState));
     clickableButton.push_back((Button *) new ButtonExchange(*this->squareTexture, sf::IntRect(width - scrennGap - 199/2, height - scrennGap - 48 - ecartBouton, 199, 48), "Echange", &displayState));
     clickableButton.push_back((Button *) new ButtonPassTurn(*this->squareTexture, sf::IntRect(width - scrennGap - 199/2, height - scrennGap - 48 , 199, 48), "Passer son tour", &displayState));
+    
+    sf::Font font;
+    font.loadFromFile("../res/poppins.ttf");
+    int fontSize = 20;
+
+    fontPlayerColor.push_back(sf::Color(181, 53, 53));
+    fontPlayerColor.push_back(sf::Color(69, 98, 184));
+    fontPlayerColor.push_back(sf::Color(182, 148, 82));
+    fontPlayerColor.push_back(sf::Color(70, 157, 70));
+
+    // playerTurnDisplay.push_back(new sf::Text("C'est votre tour", font, 24));
+    // playerTurnDisplay.back()->setColor(sf::Color(255, 255, 255));
+    // playerTurnDisplay.back()->setPosition(width - 100, 300);
+    
+    // playerTurnDisplay.push_back(new sf::Text(state->players[state->turn].name, font, 24));
+    // playerTurnDisplay.back()->setColor(fontPlayerColor[state->turn]);
+    // playerTurnDisplay.back()->setPosition(playerTurnDisplay[0]->getPosition().x + 20, 300);
+
 }
 
 void deleteMenu(std::vector<Menu*>* menu){
@@ -59,6 +77,11 @@ void StateView::render(sf::RenderTarget &target)
 {
     displayHUD->render(target);
     renderPieces->render(state, target);
+    
+    // for(int i = 0; i < playerTurnDisplay.size(); i++){
+    //     target.draw(*playerTurnDisplay[i]);
+    // }
+
     for (int i = 0; i < clickableMenu.size(); i++)
     {
         clickableMenu[i]->render(target);
@@ -114,7 +137,13 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case CHOOSING_EXCHANGE :
-        //just here to not recreate menu/button
+        //menu d'attente de création de la commande échange
+        if(((Button*)((MenuExchange*) clickableMenu.back())->buttonValidate)->clicked){
+            std::cout << "echange !" << std::endl;
+
+            //commande d'échange
+        }
+            
         break;
 
 
@@ -151,7 +180,7 @@ void StateView::releasedObjects(int x, int y)
         if (clickableButton[i]->isReleased(x, y)){
             updateClickableObjects(state->turn);
             return;
-        }       
+        }
     }
     
     updateClickableObjects(state->turn);
