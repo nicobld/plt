@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Catan");
     window.setPosition(sf::Vector2i(1920/2 -width/2, 1080/2 - height/2));
-
+    
     State state;
 
     state.turn = PlayerRed;
@@ -81,6 +81,8 @@ int main(int argc, char* argv[])
         state.players.at(3).resources.at(4).number = 5;
         state.players.at(0).knightNumber = 3;
         state.players.at(0).hasLargestArmy = 1;
+
+        StateView stateView(state);
         
 
         //_____________test Menu____________

@@ -3,11 +3,12 @@
 
 namespace view{
 
-MenuThief::MenuThief(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor, DisplayState* displayState){
+MenuThief::MenuThief(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor, sf::IntRect coords, DisplayState* displayState){
     this->menuTexture = menuTexture;
     this->menuTexture.setSmooth(true);
     this->state = state;
     this->displayState = displayState;
+    this->coords = coords;
 
     spriteMenu = new sf::Sprite(this->menuTexture, sf::IntRect(1384, 0, 351, 167));
     spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);

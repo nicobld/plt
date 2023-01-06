@@ -61,7 +61,7 @@ void StateView::render(sf::RenderTarget &target)
     renderPieces->render(state, target);
     for (int i = 0; i < clickableMenu.size(); i++)
     {
-        clickableMenu[i]->render(target);  
+        clickableMenu[i]->render(target);
     }
 
     //for (int i = 0; i < clickableButton.size(); i++)
@@ -73,15 +73,22 @@ void StateView::render(sf::RenderTarget &target)
 
 void StateView::updateClickableObjects(state::PlayerColor playerColor)
 {
-    deleteMenu(&clickableMenu);
-    deleteButton(&clickableButton);
+    if(displayState != CHOOSING_EXCHANGE){
+        deleteMenu(&clickableMenu);
+        deleteButton(&clickableButton);
+    }
+    
     switch (displayState)
     {
     case STAND_BY :
         break;
 
     case CHOOSE_BUILD :
-        clickableMenu.push_back((Menu *)new MenuBuild(state, *menuTexture, state->turn, &displayState));
+
+    // spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);
+    // spriteMenu->setPosition(1280/2, 720 - spriteMenu->getGlobalBounds().height);
+
+        clickableMenu.push_back((Menu *)new MenuBuild(state, *menuTexture, state->turn, sf::IntRect(1280/2 - 434/2, 720 - 269, 434, 269), &displayState));
         for (int i=0; i < ((MenuBuild*) clickableMenu.back())->buttonsSelect.size(); i++){
             clickableButton.push_back((Button*) ((MenuBuild*) clickableMenu.back())->buttonsSelect[i]);
         }
@@ -89,11 +96,30 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case EXCHANGE :
-        clickableMenu.push_back((Menu *)new MenuExchange(state, *menuTexture, state->turn, &displayState));
+        clickableMenu.push_back((Menu *)new MenuExchange(state, *menuTexture, state->turn, sf::IntRect(1280/2 - 598/2 , 720 - 290, 598, 290), &displayState));
+        for (int i=0; i < ((MenuExchange*) clickableMenu.back())->buttonsArrowGiving.size(); i++){
+            clickableButton.push_back((Button*) ((MenuExchange*) clickableMenu.back())->buttonsArrowGiving[i]);
+            clickableButton.push_back((Button*) ((MenuExchange*) clickableMenu.back())->buttonsArrowReceiving[i]);
+
+        }
+
+        for (int i=0; i < ((MenuExchange*) clickableMenu.back())->buttonsSelect.size(); i++){
+            clickableButton.push_back((Button*) ((MenuExchange*) clickableMenu.back())->buttonsSelect[i]);
+        }
+        
+        clickableButton.push_back((Button*) ((MenuExchange*) clickableMenu.back())->buttonValidate);
+        
+        displayState = CHOOSING_EXCHANGE;
+        
         break;
 
+    case CHOOSING_EXCHANGE :
+        //just here to not recreate menu/button
+        break;
+
+
     case PLACE_THIEF :
-        clickableMenu.push_back((Menu*) new MenuThief(state, *menuTexture, state->turn, &displayState));
+        clickableMenu.push_back((Menu*) new MenuThief(state, *menuTexture, state->turn, sf::IntRect(1280/2 - 351, 720 - 167, 351, 167), &displayState));
         break;
 
     case THROW_DICE : 
@@ -115,16 +141,20 @@ void StateView::clickedObjects(int x, int y)
 }
 
 void StateView::releasedObjects(int x, int y)
-{
+{   
+    if(clickableMenu.size() > 0){ 
+        if(!clickableMenu.back()->isClicked(x, y))
+            displayState = STAND_BY;
+    }
     for (int i = 0; i < clickableButton.size(); i++)
     {
         if (clickableButton[i]->isReleased(x, y)){
             updateClickableObjects(state->turn);
             return;
-        }        
+        }       
     }
-    displayState = STAND_BY;
-    updateClickableObjects(state->turn);
+    
+    updateClickableObjects(&state, state.turn);
 }
 
 void StateView::handleClick(int x, int y){

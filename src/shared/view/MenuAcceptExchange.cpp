@@ -6,7 +6,7 @@
 
 namespace view {
 
-MenuAcceptExchange::MenuAcceptExchange (state::State* state, sf::Texture menuTexture, state::PlayerColor playerProposing, state::Resource resourceGiving, state::Resource resourceReceiving, DisplayState* displayState){
+MenuAcceptExchange::MenuAcceptExchange (state::State* state, sf::Texture menuTexture, state::PlayerColor playerProposing, state::Resource resourceGiving, state::Resource resourceReceiving, sf::IntRect coords, DisplayState* displayState){
 
     this->menuTexture = menuTexture;
     this->playerProposing = playerProposing;
@@ -14,6 +14,7 @@ MenuAcceptExchange::MenuAcceptExchange (state::State* state, sf::Texture menuTex
     this->resourceGiving = resourceGiving;
     this->resourceReceiving = resourceReceiving;
     this->displayState = displayState;
+    this->coords = coords;
 
     spriteMenu = new sf::Sprite(this->menuTexture, sf::IntRect(1032, 0, 351, 205));
     spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);

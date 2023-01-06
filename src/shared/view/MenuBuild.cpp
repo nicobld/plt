@@ -4,10 +4,11 @@
 
 namespace view{
 
-MenuBuild::MenuBuild(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor, DisplayState* displayState) : playerColor(playerColor){
+MenuBuild::MenuBuild(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor, sf::IntRect coords, DisplayState* displayState) : playerColor(playerColor){
     this->menuTexture = menuTexture;
     this->state = state;
     this->displayState = displayState;
+    this->coords = coords;
 
     spriteMenu = new sf::Sprite(this->menuTexture, sf::IntRect(0, 0, 434, 269));
     spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);
@@ -59,7 +60,7 @@ MenuBuild::MenuBuild(state::State* state, sf::Texture menuTexture, state::Player
     buttonTexture.loadFromFile("../res/button.png");
     gap = 50;
     for(int i = 0; i < spritePieces.size(); i++){
-        buttonsSelect.push_back(new ButtonSelect(buttonTexture, sf::IntRect(spriteMenu->getPosition().x + 105, spriteMenu->getPosition().y + 52 + i * gap, 143, 48), (Select_ID) i, this->displayState));
+        buttonsSelect.push_back(new ButtonSelect(buttonTexture, sf::IntRect(spriteMenu->getPosition().x + 105, spriteMenu->getPosition().y + 52 + i * gap, 143, 48), (Select_ID) i, "", this->displayState));
     }
 
     
