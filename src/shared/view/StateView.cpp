@@ -154,7 +154,7 @@ void StateView::releasedObjects(int x, int y)
         }       
     }
     
-    updateClickableObjects(&state, state.turn);
+    updateClickableObjects(state->turn);
 }
 
 void StateView::handleClick(int x, int y){
