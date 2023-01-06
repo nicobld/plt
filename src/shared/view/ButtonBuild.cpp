@@ -6,7 +6,6 @@ namespace view{
 ButtonBuild::ButtonBuild(sf::Texture buttonTexture, sf::IntRect coords, std::string message, DisplayState* displayState) {
     this->buttonTexture = buttonTexture;
     this->coords = coords;
-    this->buttonTexture = buttonTexture;
     this->message = message;
     this->button_ID = BUTTON_BUILD;
     this->displayState = displayState;

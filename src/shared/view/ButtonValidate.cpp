@@ -54,7 +54,7 @@ void ButtonValidate::update(){
     else{
         spriteButton->setTextureRect(sf::IntRect(0, 0, 122, 48));
         text->setColor(sf::Color(255, 255, 255));
-        text->setCharacterSize(fontSize-2);
+        text->setCharacterSize(fontSize);
         text->setOrigin(text->getGlobalBounds().width/2, text->getGlobalBounds().height/2);
         text->setPosition(spriteButton->getPosition().x, spriteButton->getPosition().y + spriteButton->getGlobalBounds().height/2 - 7);
     }
