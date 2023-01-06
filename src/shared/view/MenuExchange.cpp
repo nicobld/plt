@@ -3,9 +3,12 @@
 #include "ButtonArrow.h"
 #include <iostream>
 
+
+
+
 namespace view{
 
-MenuExchange::MenuExchange(state::State* state, sf::Texture menuTexture, state::PlayerColor, sf::IntRect coords, DisplayState* displayState){
+MenuExchange::MenuExchange(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor, sf::IntRect coords, DisplayState* displayState){
     this->menuTexture = menuTexture;
     this->menuTexture.setSmooth(true);
     this->state = state;
@@ -21,20 +24,6 @@ MenuExchange::MenuExchange(state::State* state, sf::Texture menuTexture, state::
     spriteMenu->setPosition(1280/2, 720 - spriteMenu->getGlobalBounds().height);
     
     fontSize = 20;
-    namePlayers.push_back(sf::Text("Banque", font, fontSize));
-    namePlayers.back().setColor(sf::Color(0, 0, 0));
-    // namePlayers.back().setOrigin(namePlayers.back().getGlobalBounds().width/2, 0);
-    // namePlayers.back().setPosition(spriteMenu->getPosition().x -spriteMenu->getGlobalBounds().width/2 + 60 + namePlayers.back().getGlobalBounds().width/2, spriteMenu->getPosition().y + 157);
-
-    
-    for(state::Player playersName : this->state->players){
-        if(playersName.playerColor != playerColor){
-            namePlayers.push_back(sf::Text(playersName.name, font, fontSize));
-            //namePlayers.back().setOrigin(namePlayers.back().getGlobalBounds().width/2, 0);
-            namePlayers.back().setColor(sf::Color(0, 0, 0));
-            //namePlayers.back().setPosition(spriteMenu->getPosition().x -spriteMenu->getGlobalBounds().width/2 + 270 + i*gapname , spriteMenu->getPosition().y + 157);
-        }
-    }
 
     sf::Texture buttonTexture;
     buttonTexture.loadFromFile("./../res/button.png");
@@ -45,14 +34,9 @@ MenuExchange::MenuExchange(state::State* state, sf::Texture menuTexture, state::
     buttonsSelect.push_back(new ButtonSelect(buttonTexture, sf::IntRect(x, y, 143, 48), (Select_ID) (4), "Banque",  this->displayState));
     
     int gapname = 120, i =0;
-
+    
     for(state::Player playersName : this->state->players){
         if(playersName.playerColor != playerColor){
-            //namePlayers.push_back(sf::Text(playersName.name, font, fontSize));
-            //namePlayers.back().setOrigin(namePlayers.back().getGlobalBounds().width/2, 0);
-            //namePlayers.back().setColor(sf::Color(0, 0, 0));
-            //namePlayers.back().setPosition(spriteMenu->getPosition().x -spriteMenu->getGlobalBounds().width/2 + 270 + i*gapname , spriteMenu->getPosition().y + 157);
-        
             x = spriteMenu->getPosition().x -spriteMenu->getGlobalBounds().width/2 + 280 + i*gapname; 
             y = spriteMenu->getPosition().y + 170;
             
@@ -121,11 +105,31 @@ void MenuExchange::render (sf::RenderTarget& target){
 
 void MenuExchange::update (){
     for(int i =0; i < numberResourcesGiving.size(); i++){
-        numberResourcesGiving[i].setString(std::to_string(buttonsArrowGiving[i*2]->resource->number));
-        numberResourcesAsking[i].setString(std::to_string(buttonsArrowReceiving[i*2]->resource->number));
+        numberResourcesGiving[i].setString(std::to_string(resourcesGiving[i].number));
+        numberResourcesAsking[i].setString(std::to_string(resourcesAsking[i].number));
     }
-
-    
 }
+
+bool MenuExchange::isOnlyOne(){
+    bool result = false;
+    for(state::Resource r : resourcesGiving){
+        if(r.number > 0){
+            if(result)
+                return false;
+            result = true;
+        }
+    }
+    if (result == false) return result;
+    result = false;
+    for(state::Resource r : resourcesAsking){
+        if(r.number > 0){
+            if(result)
+                return false;
+            result = true;
+        }
+    }
+    return result;
+}
+
 
 }

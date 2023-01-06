@@ -11,6 +11,21 @@
 #include "MenuAcceptExchange.h"
 #include "MenuThief.h"
 
+static char* resTypeToString(state::ResourceType resType){
+    if (resType == state::Wool)
+        return "wool";
+    else if (resType == state::Lumber)
+        return "lumber";
+    else if (resType == state::Brick)
+        return "brick";
+    else if (resType == state::Grain)
+        return "grain";
+    else if (resType == state::Ore)
+        return "ore";
+    else
+        return "nothing";
+}
+
 namespace view{
 
 StateView::StateView(state::State* state, engine::Engine* engine) : state(state)
@@ -29,7 +44,10 @@ StateView::StateView(state::State* state, engine::Engine* engine) : state(state)
     this->squareTexture->loadFromFile("../res/squares.png");
     this->squareTexture->setSmooth(true);
 
-    displayHUD = new DisplayHUD(width, height, &(state->players[0]), &(state->players[1]), &(state->players[2]), &(state->players[3]));
+    displayHUD.push_back(new DisplayHUD(width, height, &(state->players[0]), &(state->players[1]), &(state->players[2]), &(state->players[3])));
+    displayHUD.push_back(new DisplayHUD(width, height, &(state->players[1]), &(state->players[0]), &(state->players[2]), &(state->players[3])));
+    displayHUD.push_back(new DisplayHUD(width, height, &(state->players[2]), &(state->players[0]), &(state->players[1]), &(state->players[3])));
+    displayHUD.push_back(new DisplayHUD(width, height, &(state->players[3]), &(state->players[0]), &(state->players[1]), &(state->players[2])));
 
     tileMap = new TileMap();
     tileMap->load("../res/tilesHexIso.png", sf::Vector2u(114, 131), state->map.grid, 7, 7);
@@ -41,23 +59,24 @@ StateView::StateView(state::State* state, engine::Engine* engine) : state(state)
     clickableButton.push_back((Button *) new ButtonExchange(*this->squareTexture, sf::IntRect(width - scrennGap - 199/2, height - scrennGap - 48 - ecartBouton, 199, 48), "Echange", &displayState));
     clickableButton.push_back((Button *) new ButtonPassTurn(*this->squareTexture, sf::IntRect(width - scrennGap - 199/2, height - scrennGap - 48 , 199, 48), "Passer son tour", &displayState));
     
-    sf::Font font;
     font.loadFromFile("../res/poppins.ttf");
-    int fontSize = 20;
+    int fontSize = 24;
 
     fontPlayerColor.push_back(sf::Color(181, 53, 53));
     fontPlayerColor.push_back(sf::Color(69, 98, 184));
     fontPlayerColor.push_back(sf::Color(182, 148, 82));
     fontPlayerColor.push_back(sf::Color(70, 157, 70));
 
-    // playerTurnDisplay.push_back(new sf::Text("C'est votre tour", font, 24));
-    // playerTurnDisplay.back()->setColor(sf::Color(255, 255, 255));
-    // playerTurnDisplay.back()->setPosition(width - 100, 300);
+    playerTurnDisplay.push_back(new sf::Text("C'est votre tour", font, fontSize));
+    playerTurnDisplay.back()->setColor(sf::Color(0, 0, 0));
     
-    // playerTurnDisplay.push_back(new sf::Text(state->players[state->turn].name, font, 24));
-    // playerTurnDisplay.back()->setColor(fontPlayerColor[state->turn]);
-    // playerTurnDisplay.back()->setPosition(playerTurnDisplay[0]->getPosition().x + 20, 300);
-
+    playerTurnDisplay.push_back(new sf::Text((std::string) state->players[state->turn].name, font, fontSize));
+    playerTurnDisplay.back()->setColor(fontPlayerColor[state->turn]);
+    
+    int offset = playerTurnDisplay[0]->getGlobalBounds().width + playerTurnDisplay[1]->getGlobalBounds().width + 10 + 30;
+    int heightPlayerTurn = 165;
+    playerTurnDisplay[0]->setPosition(width - offset, heightPlayerTurn);
+    playerTurnDisplay[1]->setPosition(playerTurnDisplay[0]->getPosition().x + playerTurnDisplay[0]->getGlobalBounds().width + 10, heightPlayerTurn);
 }
 
 void deleteMenu(std::vector<Menu*>* menu){
@@ -75,12 +94,12 @@ void deleteButton(std::vector<Button*>* button){
 
 void StateView::render(sf::RenderTarget &target)
 {
-    displayHUD->render(target);
+    displayHUD[state->turn]->render(target);
     renderPieces->render(state, target);
     
-    // for(int i = 0; i < playerTurnDisplay.size(); i++){
-    //     target.draw(*playerTurnDisplay[i]);
-    // }
+    for(int i = 0; i < playerTurnDisplay.size(); i++){
+        target.draw(*playerTurnDisplay[i]);
+    }
 
     for (int i = 0; i < clickableMenu.size(); i++)
     {
@@ -96,6 +115,10 @@ void StateView::render(sf::RenderTarget &target)
 
 void StateView::updateClickableObjects(state::PlayerColor playerColor)
 {
+    char s[64];
+    state::Resource giving;
+    state::Resource receiving;
+
     if(displayState != CHOOSING_EXCHANGE){
         deleteMenu(&clickableMenu);
         deleteButton(&clickableButton);
@@ -107,10 +130,6 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case CHOOSE_BUILD :
-
-    // spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);
-    // spriteMenu->setPosition(1280/2, 720 - spriteMenu->getGlobalBounds().height);
-
         clickableMenu.push_back((Menu *)new MenuBuild(state, *menuTexture, state->turn, sf::IntRect(1280/2 - 434/2, 720 - 269, 434, 269), &displayState));
         for (int i=0; i < ((MenuBuild*) clickableMenu.back())->buttonsSelect.size(); i++){
             clickableButton.push_back((Button*) ((MenuBuild*) clickableMenu.back())->buttonsSelect[i]);
@@ -119,6 +138,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case EXCHANGE :
+        std::cout << "state turn : " << state->turn << std::endl;
         clickableMenu.push_back((Menu *)new MenuExchange(state, *menuTexture, state->turn, sf::IntRect(1280/2 - 598/2 , 720 - 290, 598, 290), &displayState));
         for (int i=0; i < ((MenuExchange*) clickableMenu.back())->buttonsArrowGiving.size(); i++){
             clickableButton.push_back((Button*) ((MenuExchange*) clickableMenu.back())->buttonsArrowGiving[i]);
@@ -139,11 +159,31 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     case CHOOSING_EXCHANGE :
         //menu d'attente de création de la commande échange
         if(((Button*)((MenuExchange*) clickableMenu.back())->buttonValidate)->clicked){
-            std::cout << "echange !" << std::endl;
+            std::cout << "a\n";
+            if(((MenuExchange*) clickableMenu.back())->isOnlyOne()){
+                std::cout << "echange !" << std::endl;
+                
+                for (state::Resource r : ((MenuExchange*) clickableMenu.back())->resourcesGiving)
+                    if (r.number > 0) giving = r;
+                for (state::Resource r : ((MenuExchange*) clickableMenu.back())->resourcesAsking)
+                    if (r.number > 0) receiving = r;
 
-            //commande d'échange
+                //commande d'échange
+                sprintf(s, "request-%d-%s-%d-%s-%d", state->turn, resTypeToString(giving.resourceType), giving.number, resTypeToString(receiving.resourceType), receiving.number);
+                engine->addSerializedCommand(s);
+
+                displayState = STAND_BY;
+               
+            }
+            else{
+                ((Button*)((MenuExchange*) clickableMenu.back())->buttonValidate)->clicked = 0;
+            }
         }
             
+        break;
+
+    case ACCEPT_EXCHANGE :
+
         break;
 
 
@@ -152,8 +192,12 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case THROW_DICE : 
-
+        state->turn = (state::PlayerColor) ((state->turn +1) % 4);
+        updatePlayerTurnDisplay();
+        sprintf(s, "throwdice-%d", (int) state->turn);
+        engine->addSerializedCommand(s);
         break;
+
 
 
     default:
@@ -200,6 +244,19 @@ void StateView::handleClick(int x, int y){
         default:
             break;
         }
+}
+
+void StateView::updatePlayerTurnDisplay(){
+    int width = 1280;
+
+    playerTurnDisplay[1]->setString(state->players[state->turn].name);
+    playerTurnDisplay[1]->setColor(fontPlayerColor[state->turn]);
+    
+    int offset = playerTurnDisplay[0]->getGlobalBounds().width + playerTurnDisplay[1]->getGlobalBounds().width + 10 + 30;
+    int heightPlayerTurn = 165;
+
+    playerTurnDisplay[0]->setPosition(width - offset, heightPlayerTurn);
+    playerTurnDisplay[1]->setPosition(playerTurnDisplay[0]->getPosition().x + playerTurnDisplay[0]->getGlobalBounds().width + 10, heightPlayerTurn);
 }
 
 }

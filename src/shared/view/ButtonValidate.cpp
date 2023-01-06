@@ -40,7 +40,7 @@ bool ButtonValidate::isReleased(int x, int y){
         result = true;
     }
     //clicked = 0;
-    //this->update();
+    this->update();
 
     return result;
 }

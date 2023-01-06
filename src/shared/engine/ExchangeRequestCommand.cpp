@@ -66,8 +66,9 @@ bool ExchangeRequestCommand::unserialize(std::string string){
     try {
         if (tokens.size() == 6){
             playerColor = (state::PlayerColor) stoi(tokens[1]);
+            std::cout << token[2];
             if ((givingResources.resourceType = stringToResType(tokens[2])) == state::Nothing){
-                std::cout << "Wrong resource name" << std::endl;
+                std::cout << "Wrong resource name aa" << stringToResType(tokens[2]) << std::endl;
                 return false;
             }
             givingResources.number = stoi(tokens[3]);
