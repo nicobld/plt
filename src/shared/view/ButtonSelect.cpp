@@ -75,11 +75,13 @@ bool ButtonSelect::isReleased(int x, int y){
             
             if(select_ID == SELECT_ROAD)
                 *displayState = BUILD_ROAD;
-            else if(select_ID == SELECT_CITY || select_ID == SELECT_COLONY)
-                *displayState = BUILD_BUILDING;
+            else if(select_ID == SELECT_CITY)
+                *displayState = BUILD_CITY_DISPLAY;
+            else if(select_ID == SELECT_COLONY)
+                *displayState = BUILD_COLONY_DISPLAY;
             else if(select_ID == SELECT_DEV)
                 //commande piocher developpment
-                *displayState = STAND_BY;
+                *displayState = DRAW_CARD_DISPLAY;
             
             result = true;
         }

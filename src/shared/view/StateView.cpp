@@ -10,6 +10,7 @@
 #include "MenuExchange.h"
 #include "MenuAcceptExchange.h"
 #include "MenuThief.h"
+#include <cstring>
 
 namespace view{
 
@@ -151,21 +152,49 @@ void StateView::releasedObjects(int x, int y)
         if (clickableButton[i]->isReleased(x, y)){
             updateClickableObjects(state->turn);
             return;
-        }       
+        }
     }
     
     updateClickableObjects(state->turn);
 }
 
 void StateView::handleClick(int x, int y){
-    std::array<state::Position, 2> pos;
+    std::array<state::Position, 3> buildPos;
+    std::array<state::Position, 2> roadPos;
+    state::Position pos;
+    char s[64];
+    //memset(s, '\0', 64);
+
     switch (displayState) {
         case STAND_BY:
             break;
 
         case BUILD_ROAD:
-            pos = tileMap->findClosestRoad(x, y);
-            engine->addCommand( new engine::PlaceRoadCommand((state::PlayerColor)0, pos));
+            roadPos = tileMap->findClosestRoad(x, y);
+            sprintf(s, "placeroad-0-%d-%d-%d-%d", roadPos[0].x, roadPos[0].y, roadPos[1].x, roadPos[1].y);
+            engine->addSerializedCommand(s);
+            break;
+
+        case BUILD_CITY_DISPLAY:
+            buildPos = tileMap->findClosestBuilding(x, y);
+            sprintf(s, "placebuilding-0-%d-%d-%d-%d-%d-%d-1", buildPos[0].x, buildPos[0].y, buildPos[1].x, buildPos[1].y, buildPos[2].x, buildPos[2].y);
+            engine->addSerializedCommand(s);
+            break;
+
+        case BUILD_COLONY_DISPLAY:
+            buildPos = tileMap->findClosestBuilding(x, y);
+            sprintf(s, "placebuilding-0-%d-%d-%d-%d-%d-%d-0", buildPos[0].x, buildPos[0].y, buildPos[1].x, buildPos[1].y, buildPos[2].x, buildPos[2].y);
+            engine->addSerializedCommand(s);
+            break;
+
+        case DRAW_CARD_DISPLAY:
+            sprintf(s, "drawcard-0");
+            engine->addSerializedCommand(s);
+            break;
+
+        case PLACE_THIEF:
+            pos = tileMap->findClosestTile(x, y);
+            sprintf(s, "placethief-0-%d-%d", pos.x, pos.y);
             break;
 
         default:

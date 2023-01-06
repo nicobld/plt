@@ -176,8 +176,9 @@ int main(int argc, char* argv[])
                     if (event.mouseButton.button == sf::Mouse::Left){
                         
                         //stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
-                        stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
+                        
                         stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
+                        stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
                         std::cout << "displayState : " << stateView.displayState << std::endl;
                     }
                 }

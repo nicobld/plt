@@ -118,7 +118,7 @@ std::array<state::Position, 2> TileMap::findClosestRoad(int x, int y){
 
     min = std::numeric_limits<float>::max();
 
-    for (int h = 0; h < 49; h++){
+    for (int h = 0; h < 49; h++){ //trouver l'hexa le plus proche du curseur
         center = hexagones[h].getCenter();
         distance = sqrt(pow(x - center.x, 2.0) + pow(y - center.y, 2.0));
         if (distance < min){
@@ -133,7 +133,7 @@ std::array<state::Position, 2> TileMap::findClosestRoad(int x, int y){
     std::array<float, 2> miniDist = {std::numeric_limits<float>::max() - 1, std::numeric_limits<float>::max()};
     Hexagone hexa = hexagones[pos[0].x + pos[0].y*7];
 
-    for (int k = 0; k < 6; k++){
+    for (int k = 0; k < 6; k++){ //puis trouver ses 2 sommets les plus proche du curseur
         distance = sqrt(pow(x - hexa.vertices[k].position.x, 2.0) + pow(y - hexa.vertices[k].position.y, 2.0));
         if (distance < miniDist[1]){
             if (distance < miniDist[0]){
@@ -149,8 +149,59 @@ std::array<state::Position, 2> TileMap::findClosestRoad(int x, int y){
         }
     }
 
-    pos[1] = pos[0] + getNeighborWithSommets(pos[0].y%2, sommets);
+    pos[1] = pos[0] + getNeighborWithSommets(pos[0].y%2, sommets); //le 2eme hexa qui constitue la route est le voisin du 1er par rapport aux 2 sommets
     return pos;
+}
+
+state::Position TileMap::findClosestTile(int x, int y){
+    float min = std::numeric_limits<float>::max();
+    float distance;
+    sf::Vector2f center;
+    int minHexa = 0;
+
+    for (int h = 0; h < 49; h++){
+        center = hexagones[h].getCenter();
+        distance = sqrt(pow(x - center.x, 2.0) + pow(y - center.y, 2.0));
+        if (distance < min){
+            min = distance;
+            minHexa = h;
+        }
+    }
+
+    return state::Position(minHexa%7, minHexa/7);
+}
+
+std::array<state::Position, 3> TileMap::findClosestBuilding(int x, int y){
+    std::array<float, 3> minDists = {std::numeric_limits<float>::max() - 2, std::numeric_limits<float>::max() - 1, std::numeric_limits<float>::max()};
+    std::array<int, 3> minHexas;
+    float distance;
+    sf::Vector2f center;
+
+    for (int h = 0; h < 49; h++){
+        center = hexagones[h].getCenter();
+        distance = sqrt(pow(x - center.x, 2.0) + pow(y - center.y, 2.0));
+        if (distance < minDists[2]){
+            if (distance < minDists[1]){
+                minDists[2] = minDists[1];
+                minHexas[2] = minHexas[1];
+                if (distance < minDists[0]){
+                    minDists[1] = minDists[0];
+                    minDists[0] = distance;
+
+                    minHexas[1] = minHexas[0];
+                    minHexas[0] = h;
+                } else {
+                    minDists[1] = distance;
+                    minHexas[1] = h;
+                }
+            } else {
+                minDists[2] = distance;
+                minHexas[2] = h;
+            }
+        }
+    }
+
+    return {state::Position(minHexas[0]%7, minHexas[0]/7), state::Position(minHexas[1]%7, minHexas[1]/7), state::Position(minHexas[2]%7, minHexas[2]/7)};
 }
 
 }
