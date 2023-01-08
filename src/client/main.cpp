@@ -132,11 +132,14 @@ int main(int argc, char* argv[])
 
         Color sea(148, 240, 248);
 
-        state.players[PlayerRed].resources[Lumber].number = 100;
-        state.players[PlayerRed].resources[Brick].number = 100;
-        state.players[PlayerRed].resources[Ore].number = 100;
-        state.players[PlayerRed].resources[Grain].number = 100;
-        state.players[PlayerRed].resources[Wool].number = 100;
+        for(int i= 0; i < state.players.size();  i++){
+            state.players[(state::PlayerColor) i ].resources[Lumber].number = 20;
+            state.players[(state::PlayerColor) i].resources[Brick].number = 20;
+            state.players[(state::PlayerColor) i].resources[Ore].number = 20;
+            state.players[(state::PlayerColor) i].resources[Grain].number = 20;
+            state.players[(state::PlayerColor) i].resources[Wool].number = 20;
+        }
+
         state.players[PlayerRed].developments.push_back(Development(Monopoly));
         state.players[PlayerRed].developments.push_back(Development(Knight));
         state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
@@ -149,7 +152,7 @@ int main(int argc, char* argv[])
         focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
         focus->setPosition(width/2, height/2);
 
-        
+        sf:Mouse mouse;
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
         {
@@ -173,6 +176,14 @@ int main(int argc, char* argv[])
                         std::cout << "displayState : " << stateView.displayState << std::endl;
                     }
                 }
+
+                if (event.type == sf::Event::KeyPressed){
+                     if (event.key.code == sf::Keyboard::V){
+                        stateView.viewPlayer = (state::PlayerColor) (( stateView.viewPlayer +1) % 4);
+                     }
+                }
+                //if(mouse.getPosition(window))
+                
             }
 
             // effacement de la fenêtre en noir

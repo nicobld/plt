@@ -49,6 +49,8 @@ StateView::StateView(state::State* state, engine::Engine* engine) : state(state)
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[2]), &(state->players[0]), &(state->players[1]), &(state->players[3])));
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[3]), &(state->players[0]), &(state->players[1]), &(state->players[2])));
 
+    viewPlayer = (state::PlayerColor) 0;
+
     tileMap = new TileMap();
     tileMap->load("../res/tilesHexIso.png", sf::Vector2u(114, 131), state->map.grid, 7, 7);
 
@@ -93,8 +95,13 @@ void deleteButton(std::vector<Button*>* button){
 }
 
 void StateView::render(sf::RenderTarget &target)
-{
-    displayHUD[state->turn]->render(target);
+{   
+
+    if(clickableButton[2]->clicked)
+        displayHUD[state->turn]->render(target);
+    else
+        displayHUD[viewPlayer]->render(target);
+    
     renderPieces->render(state, target);
     
     for(int i = 0; i < playerTurnDisplay.size(); i++){
@@ -138,7 +145,6 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case EXCHANGE :
-        std::cout << "state turn : " << state->turn << std::endl;
         clickableMenu.push_back((Menu *)new MenuExchange(state, *menuTexture, state->turn, sf::IntRect(1280/2 - 598/2 , 720 - 290, 598, 290), &displayState));
         for (int i=0; i < ((MenuExchange*) clickableMenu.back())->buttonsArrowGiving.size(); i++){
             clickableButton.push_back((Button*) ((MenuExchange*) clickableMenu.back())->buttonsArrowGiving[i]);
@@ -172,7 +178,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
                 sprintf(s, "request-%d-%s-%d-%s-%d", state->turn, resTypeToString(giving.resourceType), giving.number, resTypeToString(receiving.resourceType), receiving.number);
                 engine->addSerializedCommand(s);
 
-                displayState = STAND_BY;
+                displayState = ACCEPT_EXCHANGE;
                
             }
             else{
@@ -183,7 +189,15 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case ACCEPT_EXCHANGE :
-
+        clickableMenu.push_back((Menu *)new MenuAcceptExchange(state, *menuTexture, state->turn, giving, receiving, sf::IntRect(1280/2 - 351/2 , 720 - 205, 351, 205), &displayState));
+          if(((Button*)((MenuAcceptExchange*) clickableMenu.back())->buttonValidate)->clicked){
+            std::cout << "échange accpter !" << std::endl;
+            displayState = STAND_BY;
+          }
+          else if(((Button*)((MenuAcceptExchange*) clickableMenu.back())->buttonDeny)->clicked){
+            std::cout << "échange refusé..." << std::endl;
+            displayState = STAND_BY;
+          }
         break;
 
 
@@ -191,8 +205,9 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         clickableMenu.push_back((Menu*) new MenuThief(state, *menuTexture, state->turn, sf::IntRect(1280/2 - 351, 720 - 167, 351, 167), &displayState));
         break;
 
-    case THROW_DICE : 
+    case THROW_DICE :
         state->turn = (state::PlayerColor) ((state->turn +1) % 4);
+        viewPlayer = state->turn;
         updatePlayerTurnDisplay();
         sprintf(s, "throwdice-%d", (int) state->turn);
         engine->addSerializedCommand(s);
