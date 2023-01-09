@@ -126,6 +126,9 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     state::Resource giving;
     state::Resource receiving;
 
+    if(state->gameState == state::GameState::PLACE_THIEF_STATE)
+        displayState = PLACE_THIEF;
+    
     if(displayState != CHOOSING_EXCHANGE){
         deleteMenu(&clickableMenu);
         deleteButton(&clickableButton);
@@ -165,7 +168,6 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     case CHOOSING_EXCHANGE :
         //menu d'attente de création de la commande échange
         if(((Button*)((MenuExchange*) clickableMenu.back())->buttonValidate)->clicked){
-            std::cout << "a\n";
             if(((MenuExchange*) clickableMenu.back())->isOnlyOne()){
                 std::cout << "echange !" << std::endl;
                 
@@ -183,7 +185,11 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
             }
             else{
                 ((Button*)((MenuExchange*) clickableMenu.back())->buttonValidate)->clicked = 0;
+                std::cout << "proposer un échange correct" << std::endl;
             }
+        }
+        else{
+            std::cout << "bouton non cliqué" << std::endl;
         }
             
         break;
@@ -203,6 +209,10 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
 
     case PLACE_THIEF :
         clickableMenu.push_back((Menu*) new MenuThief(state, *menuTexture, state->turn, sf::IntRect(1280/2 - 351, 720 - 167, 351, 167), &displayState));
+        for (int i=0; i < ((MenuThief*) clickableMenu.back())->buttonsSelect.size(); i++)
+            clickableButton.push_back((Button*) ((MenuThief*) clickableMenu.back())->buttonsSelect[i]);
+        
+        //clickableButton.push_back((Button*) ((MenuThief*) clickableMenu.back())->buttonValidate);
         break;
 
     case THROW_DICE :
@@ -212,8 +222,6 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         sprintf(s, "throwdice-%d", (int) state->turn);
         engine->addSerializedCommand(s);
         break;
-
-
 
     default:
         break;

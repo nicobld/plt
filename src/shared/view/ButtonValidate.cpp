@@ -23,6 +23,8 @@ ButtonValidate::ButtonValidate(sf::Texture buttonTexture, sf::IntRect coords, st
     text->setOrigin(text->getGlobalBounds().width/2, text->getGlobalBounds().height/2);
     text->setPosition(spriteButton->getPosition().x, spriteButton->getPosition().y + spriteButton->getGlobalBounds().height/2 - 7);
 
+    this->coords.left -= spriteButton->getGlobalBounds().width/2;
+
 }
 
 bool ButtonValidate::isClicked(int x, int y){
@@ -39,7 +41,7 @@ bool ButtonValidate::isReleased(int x, int y){
         std::cout << "Boutton Valider" << std::endl;
         result = true;
     }
-    //clicked = 0;
+    clicked = 0;
     this->update();
 
     return result;
