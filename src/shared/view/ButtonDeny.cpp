@@ -10,6 +10,7 @@ ButtonDeny::ButtonDeny(sf::Texture buttonTexture, sf::IntRect coords, std::strin
     this->message = message;
     this->button_ID = BUTTON_DENY;
     this->displayState = displayState;
+    clicked = false;
 
     this->font.loadFromFile("../res/poppins.ttf");
     int fontSize = 20;
@@ -37,8 +38,9 @@ bool ButtonDeny::isReleased(int x, int y){
     if(clicked = coords.contains(sf::Vector2i(x, y))){
         //commande
         std::cout << "Boutton Deny" << std::endl;
+        return true;
     }
-    clicked = 0;
+    //clicked = 0;
     this->update();
 }
 

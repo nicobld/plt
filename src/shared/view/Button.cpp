@@ -2,5 +2,6 @@
 
 namespace view{
 
+Button::Button () {}
 
 }

@@ -1,6 +1,7 @@
 #include "ButtonArrow.h"
 #include <iostream>
 
+
 namespace view{
 
     ButtonArrow::ButtonArrow (sf::Texture buttonTexture, sf::IntRect coords, Arrow_ID arrow_ID, DisplayState* displayState, state::Resource* resource){
@@ -37,14 +38,11 @@ bool ButtonArrow::isReleased(int x, int y){
         std::cout << "Boutton arrow" << std::endl;
 
         if(arrow_ID == ARROW_UP){
-            std::cout << "nbresource avant : " << this->resource->number << std::endl;
             resource->number +=1;
-            std::cout << "nbressource après : " << this->resource->number << std::endl;
         }
         if(arrow_ID == ARROW_DOWN){
-            std::cout << "nbresource avant : " << this->resource->number << std::endl;
+
             resource->number -=1;
-            std::cout << "nbressource après : " << this->resource->number << std::endl;
         }
 
         result = true;

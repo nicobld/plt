@@ -10,6 +10,7 @@ ButtonValidate::ButtonValidate(sf::Texture buttonTexture, sf::IntRect coords, st
     this->message = message;
     this->button_ID = BUTTON_VALIDATE;
     this->displayState = displayState;
+    clicked = false;
 
     this->font.loadFromFile("../res/poppins.ttf");
     int fontSize = 20;
@@ -28,6 +29,7 @@ ButtonValidate::ButtonValidate(sf::Texture buttonTexture, sf::IntRect coords, st
 bool ButtonValidate::isClicked(int x, int y){
     
     clicked = coords.contains(sf::Vector2i(x, y));
+    std::cout << clicked << std::endl;
     this->update();
     return clicked;
 }
@@ -40,7 +42,7 @@ bool ButtonValidate::isReleased(int x, int y){
         result = true;
     }
     //clicked = 0;
-    //this->update();
+    this->update();
 
     return result;
 }
