@@ -42,6 +42,7 @@ bool ButtonValidate::isReleased(int x, int y){
         result = true;
     }
     //clicked = 0;
+    std::cout << "released " << clicked << std::endl;
     this->update();
 
     return result;

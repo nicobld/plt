@@ -158,6 +158,8 @@ int main(int argc, char* argv[])
         focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
         focus->setPosition(width/2, height/2);
 
+        engine.addSerializedCommand("passturn-1");
+
         sf::Mouse mouse;
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
@@ -172,6 +174,7 @@ int main(int argc, char* argv[])
                 if (event.type == sf::Event::MouseButtonPressed){
                     if (event.mouseButton.button == sf::Mouse::Left){
                         stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                        stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
                     }
 
                 }
@@ -181,14 +184,14 @@ int main(int argc, char* argv[])
                         //stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
                         
                         stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
-                        stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
+                        
                         std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
                     }
                 }
 
                 if (event.type == sf::Event::KeyPressed){
                      if (event.key.code == sf::Keyboard::V){
-                        stateView.viewPlayer = (state::PlayerColor) (( stateView.viewPlayer +1) % 4);
+                        stateView.viewPlayer = (state::PlayerColor) (( stateView.viewPlayer + 1) % 4);
                         stateView.updateClickableObjects(state.turn);
                      }
                 }
