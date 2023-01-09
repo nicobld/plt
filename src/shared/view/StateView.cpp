@@ -141,7 +141,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         //menu d'attente de création de la commande échange
         if(((Button*)((MenuExchange*) clickableMenu.back())->buttonValidate)->clicked){
             std::cout << "echange !" << std::endl;
-
+            
             //commande d'échange
         }
             

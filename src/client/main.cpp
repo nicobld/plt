@@ -142,6 +142,12 @@ int main(int argc, char* argv[])
         state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
         state.players[PlayerRed].developments.push_back(Development(Invention));
 
+        state.players[PlayerBlue].resources[Lumber].number = 10;
+        state.players[PlayerBlue].resources[Brick].number = 10;
+        state.players[PlayerBlue].resources[Ore].number = 10;
+        state.players[PlayerBlue].resources[Grain].number = 10;
+        state.players[PlayerBlue].resources[Wool].number = 10;
+
         Texture focusTexture;
         focusTexture.loadFromFile("../res/focus.png");
         Sprite *focus = new Sprite(focusTexture);
