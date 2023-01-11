@@ -20,6 +20,18 @@ void Card::render(sf::RenderTarget& target){
     target.draw(*spriteCard);
 }
 
+bool Card::isClicked(int x, int y){
+    if(spriteCard->getGlobalBounds().contains(x, y))
+        return true;
+    else
+        return false;
+}
 
+bool Card::isReleased(int x, int y){
+    if(spriteCard->getGlobalBounds().contains(x, y))
+        return true;
+    else
+        return false;
+}
 
 } 

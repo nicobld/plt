@@ -29,6 +29,22 @@ static char *resTypeToString(state::ResourceType resType)
         return "nothing";
 }
 
+static char *cardIDToString(view::Card_ID card_ID)
+{
+    if (card_ID == view::CARD_KNIGHT)
+        return "knight";
+    else if (card_ID == view::CARD_MONOPOLY)
+        return "monopoly";
+    else if (card_ID == view::CARD_CONSTRUCTION_ROAD)
+        return "roadconstruction";
+    else if (card_ID == view::CARD_INVENTION)
+        return "invention";
+    else if (card_ID == view::CARD_VICTORY_POINT)
+        return "victorypoint";
+    else
+        return "nothing";
+}
+
 namespace view
 {
 
@@ -276,11 +292,19 @@ void StateView::displayStateEffect(){
 
 void StateView::clickedObjects(int x, int y)
 {
+    char s[64];
     updateClickableObjects(viewPlayer);
     for (int i = 0; i < clickableButton.size(); i++)
     {
         clickableButton[i]->isClicked(x, y);
     }
+    int c_id = -1;
+    if((c_id = handPlayers[viewPlayer].isClicked(x, y)) !=1){
+        std::cout << "dev type : " << cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID) << std::endl;
+        sprintf(s, "usecard-%d-%d", viewPlayer, cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID));
+        engine->addSerializedCommand(s);
+    }
+
     displayStateEffect();
 }
 
@@ -364,5 +388,6 @@ void StateView::updatePlayerTurnDisplay()
     playerTurnDisplay[0]->setPosition(width - offset, heightPlayerTurn);
     playerTurnDisplay[1]->setPosition(playerTurnDisplay[0]->getPosition().x + playerTurnDisplay[0]->getGlobalBounds().width + 10, heightPlayerTurn);
 }
+
 
 }
