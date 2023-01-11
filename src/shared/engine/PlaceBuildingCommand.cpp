@@ -95,7 +95,7 @@ bool PlaceBuildingCommand::verify(state::State* state){
         return false;
     }
 
-    if (buildingType == 0){
+    if (buildingType == state::Colony){
         if (!(state->players[playerColor].resources[state::Lumber].number >= 1 &&
             state->players[playerColor].resources[state::Brick].number >= 1 &&
             state->players[playerColor].resources[state::Grain].number >= 1 &&
@@ -113,15 +113,22 @@ bool PlaceBuildingCommand::verify(state::State* state){
         }
     }
 
+    foundBuilding = false;
     for (state::Building b : state->map.buildings){//pour upgrade colony en city
         if (b.position == position) {
+            std::cout << "build : " << buildingType << " on : " << b.buildingType << std::endl;
             if (buildingType == City && b.buildingType == Colony && b.playerColor == playerColor) {
+                foundBuilding = true;
                 break;
             } else {
                 std::cout << "PlaceBuilding error : Cannot place building, already a building here" << std::endl;
                 return false;
             }
         }
+    }
+    if (foundBuilding == false && buildingType == state::City){
+        std::cout << "PlaceBuilding error : Cannot place city, need to upgrade an existing colony" << std::endl;
+        return false;
     }
 
     //check building is on a road
@@ -170,7 +177,7 @@ bool PlaceBuildingCommand::execute(state::State* state) {
         state->players[playerColor].resources[state::Grain].number -= 2;
         state->players[playerColor].resources[state::Ore].number -= 3;
 
-        state::Building* b = &(state->map.buildings[state->map.getBuilding(position)]);
+        //state::Building* b = &(state->map.buildings[state->map.getBuilding(position)]);
 
         state->map.buildings.erase(state->map.buildings.begin() + state->map.getBuilding(position)); //remove colony from map
         state->players[playerColor].buildings.push_back(Building(playerColor, buildingType, position)); //give back colony to player
@@ -189,8 +196,6 @@ bool PlaceBuildingCommand::unserialize(std::string string){
     std::string token;
 
     std::vector<std::string> tokens;
-    
-    std::cout << "UNSERIALIZE \n";
 
     while (std::getline(stream, token, '-')){
         tokens.push_back(token);

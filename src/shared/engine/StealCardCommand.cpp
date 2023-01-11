@@ -99,7 +99,7 @@ bool StealCardCommand::execute(state::State* state){
                 }
             }
             if (r < 5) {
-                while (state->players[playerSteal].resources[(randCard = rand() % 5)].number > 0);
+                while (state->players[playerSteal].resources[(randCard = rand() % 5)].number == 0);
                 state->players[playerSteal].resources[randCard].number--;
                 state->players[playerColor].resources[randCard].number++;
                 break;

@@ -71,28 +71,20 @@ bool ThrowDiceCommand::execute(state::State* state) {
             dice2 = rand() % 6 + 1;
             result = dice1 + dice2;
 
-            //result = 7;
+            result = 7;
             std::cout << "resultat du lancer de dés : " << result << std::endl;
         }
 
         if (result == 7 /*|| state->gameState == state::PLACE_THIEF_STATE || state->gameState == state::STEAL_CARD_STATE*/){
 
-            switch (state->gameState) {
-                case state::NORMAL_STATE:
-                    state::PlayerColor color;
-                    for (int i = 0; i < 4; i ++){
-                        color = (state::PlayerColor) i;
-                        removeCards(state, color);
-                    }
-                    std::cout << "Please place thief" << std::endl;
-                    state->gameState = state::PLACE_THIEF_STATE;
-                    return true;
-                // case state::PLACE_THIEF_STATE:
-                //     break;
-                // case state::STEAL_CARD_STATE:
-                //     state->gameState = state::NORMAL_STATE;
-                //     break;
+            state::PlayerColor color;
+            for (int i = 0; i < 4; i ++){
+                color = (state::PlayerColor) i;
+                removeCards(state, color);
             }
+            std::cout << "Please place thief" << std::endl;
+            state->gameState = state::PLACE_THIEF_STATE;
+            return true;
         }
         int i;
 
@@ -129,7 +121,7 @@ bool ThrowDiceCommand::execute(state::State* state) {
             }
 
         }
-
+        
         return true;
     }
 

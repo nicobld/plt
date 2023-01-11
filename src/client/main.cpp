@@ -173,25 +173,28 @@ int main(int argc, char* argv[])
 
                 if (event.type == sf::Event::MouseButtonPressed){
                     if (event.mouseButton.button == sf::Mouse::Left){
+                        
                         stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                         stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
+                        // stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                        break;
                     }
 
                 }
-                if (event.type == sf::Event::MouseButtonReleased){
+                else if (event.type == sf::Event::MouseButtonReleased){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        
                         //stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
-                        
+                        stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                         stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
-                        
+                        // stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                         std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
                     }
                 }
 
-                if (event.type == sf::Event::KeyPressed){
+                else if (event.type == sf::Event::KeyPressed){
                      if (event.key.code == sf::Keyboard::V){
-                        stateView.viewPlayer = (state::PlayerColor) (( stateView.viewPlayer + 1) % 4);
+                        stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
+                        stateView.reloadTroisButtons();
                         stateView.updateClickableObjects(state.turn);
                      }
                 }

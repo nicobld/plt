@@ -1,5 +1,6 @@
 #include "MenuThief.h"
 #include "ButtonValidate.h"
+#include "ButtonSelect.h"
 
 namespace view{
 
@@ -10,35 +11,30 @@ MenuThief::MenuThief(state::State* state, sf::Texture menuTexture, state::Player
     this->displayState = displayState;
     this->coords = coords;
 
-    spriteMenu = new sf::Sprite(this->menuTexture, sf::IntRect(1384, 0, 351, 167));
+    spriteMenu = new sf::Sprite(this->menuTexture, sf::IntRect(1385, 0, 450, 167));
     spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);
     spriteMenu->setPosition(1280/2, 720 - spriteMenu->getGlobalBounds().height);
 
     font.loadFromFile("../res/poppins.ttf");
-    int fontSize = 19;
+    int fontSize = 20;
+
+    sf::Texture buttonTexture;
+    buttonTexture.loadFromFile("./../res/button.png");
+    buttonTexture.setSmooth(true);
+
+    int gapbtwnames = 150, i = 0, x, y;
 
     for(state::Player playersName : this->state->players){
-        if(playersName.playerColor != this->state->turn)
-            namePlayers.push_back(sf::Text(playersName.name, font, fontSize));
+        if(playersName.playerColor != playerColor){
+            x = spriteMenu->getPosition().x - spriteMenu->getGlobalBounds().width/2 + gapbtwnames * (i) + 75;
+            y = spriteMenu->getPosition().y + spriteMenu->getGlobalBounds().height/2;
+            
+            buttonsSelect.push_back(new ButtonSelect(buttonTexture, sf::IntRect(x, y, 143, 48), (Select_ID) (i+4), playersName.name,  this->displayState));
+            i++;
+        }
     }
 
-
-
-    int gapbtwnames = 85;
-    for(int i =0; i < (int) namePlayers.size(); i++){
-        namePlayers[i].setColor(sf::Color(0, 0, 0));
-        namePlayers[i].setOrigin(namePlayers[i].getGlobalBounds().width/2, 0);
-        namePlayers[i].setPosition(spriteMenu->getPosition().x - spriteMenu->getGlobalBounds().width/2 + gapbtwnames * (i+1), spriteMenu->getPosition().y + 60);
-    }
-
-//     spriteButton = new sf::Sprite(this->menuTexture, sf::IntRect(0, 290, 178, 48));
-//     spriteButton->setOrigin(spriteButton->getGlobalBounds().width/2, 0);
-//     spriteButton->setPosition(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 100);
-
-        sf::Texture buttonTexture;
-        buttonTexture.loadFromFile("./../res/button.png");
-        buttonTexture.setSmooth(true);
-        buttonValidate = new view::ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 100, 122, 48), "Valider", this->displayState);
+        //buttonValidate = new view::ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 100, 122, 48), "Valider", this->displayState);
 
 }
 
@@ -46,10 +42,12 @@ MenuThief::MenuThief(state::State* state, sf::Texture menuTexture, state::Player
 
 void MenuThief::render(sf::RenderTarget& target){
     target.draw(*spriteMenu);
-    for(sf::Text names : namePlayers){
-        target.draw(names);
+    for(int i = 0; i < buttonsSelect.size(); i++){
+        buttonsSelect[i]->render(target);
     }
-    buttonValidate->render(target);
+    //buttonValidate->render(target);
+
+
 }
 
 void MenuThief::update(){}

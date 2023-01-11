@@ -135,6 +135,8 @@ int buildRoads = 0;
 void Engine::update() {
 
     while(commandQueue.size() != 0) {
+        // std::cout << "ENGINE : New command : " << commandQueue.front()->commandID << std::endl;
+        // std::cout << "ENGINE : gameState : " << state->gameState << std::endl;
         if (state->gameState == NORMAL_STATE){
             if (commandQueue.front()->playerColor == state->turn){
                 if (commandQueue.front()->commandID != EXCHANGE_RESPONSE_CMD &&
@@ -197,7 +199,7 @@ void Engine::update() {
                 int s = 0;
                 for (state::Player p : state->players){
                     s += p.playerState == EXCHANGE ? 1 : 0;
-                } 
+                }
                 if (s == 0) {
                     state->gameState = NORMAL_STATE;
                     std::cout << "Reviens en normal state\n";
@@ -216,15 +218,22 @@ void Engine::update() {
                 if (commandQueue.front()->commandID == PLACE_THIEF_CMD){
                     if (commandQueue.front()->verify(state) == true){
                         commandQueue.front()->execute(state);
-                        // if (saveCmd == THROW_DICE_CMD){
-                        //     saveThrDiceCmd->execute(state);
-                        // } else {
-                        //     state->gameState = NORMAL_STATE;
-                        // }
+                        if (saveCmd == THROW_DICE_CMD){
+                            if (((PlaceThiefCommand*) commandQueue.front())->canSteal)
+                                state->gameState = STEAL_CARD_STATE;
+                            else {
+                                state->turn = (state::PlayerColor)(((int) state->turn) + 1);
+                                state->gameState = NORMAL_STATE;
+                            }
+                        }
+                    } else {
+                        std::cout << "Place thief error\n";
                     }
                 } else {
                     std::cout << "Error, game is in PLACE_THIEF_STATE" << std::endl;
                 }
+            } else {
+                std::cout << "Not your turn player " << commandQueue.front()->playerColor << std::endl;
             }
         }
 
@@ -233,8 +242,10 @@ void Engine::update() {
                 if (commandQueue.front()->commandID == STEAL_CARD_CMD){
                     if (commandQueue.front()->verify(state) == true){
                         commandQueue.front()->execute(state);
-                        if (saveCmd == THROW_DICE_CMD)
-                            saveThrDiceCmd->execute(state);
+                        if (saveCmd == THROW_DICE_CMD){
+                            state->turn = (state::PlayerColor)(((int) state->turn) + 1);
+                        }
+                        state->gameState = NORMAL_STATE;
                     } else {
                         std::cout << "Cannot steal from this player" << std::endl;
                     }

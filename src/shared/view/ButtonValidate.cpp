@@ -24,6 +24,8 @@ ButtonValidate::ButtonValidate(sf::Texture buttonTexture, sf::IntRect coords, st
     text->setOrigin(text->getGlobalBounds().width/2, text->getGlobalBounds().height/2);
     text->setPosition(spriteButton->getPosition().x, spriteButton->getPosition().y + spriteButton->getGlobalBounds().height/2 - 7);
 
+    this->coords.left -= spriteButton->getGlobalBounds().width/2;
+
 }
 
 bool ButtonValidate::isClicked(int x, int y){

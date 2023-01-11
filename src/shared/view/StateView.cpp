@@ -28,6 +28,15 @@ static char *resTypeToString(state::ResourceType resType)
         return "nothing";
 }
 
+static state::PlayerColor nameToPlayerColor(state::State* state, std::string string){
+    for (state::Player p : state->players){
+        if (p.name == string){
+            return p.playerColor;
+        }
+    }
+    return (state::PlayerColor) -1;
+}
+
 namespace view
 {
 
@@ -106,6 +115,13 @@ void deleteButton(std::vector<Button *> *button)
     }
 }
 
+void deleteTroisButton(std::vector<Button *> *button){
+    for (int i = 0; i < button->size(); i ++){
+        delete button->at(i);
+    }
+    button->clear();
+}
+
 void StateView::render(sf::RenderTarget &target)
 {
 
@@ -138,11 +154,20 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     char s[64];
     state::Resource giving;
     state::Resource receiving;
+    if (state->turn != viewPlayer){
+        viewPlayer = state->turn;
+        updatePlayerTurnDisplay();
+        reloadTroisButtons();
+    }
+
     if (state->players[viewPlayer].playerState == state::EXCHANGE){
         displayState[viewPlayer] = ACCEPT_EXCHANGE;
     }
     if (state->gameState == state::PLACE_THIEF_STATE){
-        displayState[viewPlayer] = PLACE_THIEF;
+        displayState[state->turn] = PLACE_THIEF;
+    }
+    if (state->gameState == state::STEAL_CARD_STATE){
+        displayState[state->turn] = STEAL_PLAYER;
     }
 
     if (displayState[viewPlayer] != CHOOSING_EXCHANGE) //c'est un menu qui reste ouvert longtemps
@@ -188,7 +213,6 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         // menu d'attente de création de la commande échange
         if (((Button *)((MenuExchange *)clickableMenu.back())->buttonValidate)->clicked)
         {
-            std::cout << "a\n";
             if (((MenuExchange *)clickableMenu.back())->isOnlyOne())
             {
                 std::cout << "echange !" << std::endl;
@@ -220,15 +244,15 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         clickableButton.push_back((Button *)((MenuAcceptExchange *)clickableMenu.back())->buttonDeny);
         break;
 
-    case PLACE_THIEF:
+    case STEAL_PLAYER:
+        std::cout << "menu thief\n";
         clickableMenu.push_back((Menu *)new MenuThief(state, *menuTexture, viewPlayer, sf::IntRect(1280 / 2 - 351, 720 - 167, 351, 167), &(displayState[viewPlayer])));
+        for (int i = 0; i < ((MenuThief*) clickableMenu.back())->buttonsSelect.size(); i++)
+            clickableButton.push_back((Button*) ((MenuThief*) clickableMenu.back())->buttonsSelect[i]);
         break;
 
     case THROW_DICE:
-        state->turn = (state::PlayerColor)((state->turn + 1) % 4);
-        // viewPlayer = state->turn;
-        updatePlayerTurnDisplay();
-        sprintf(s, "throwdice-%d", (int)state->turn);
+        sprintf(s, "throwdice-%d", viewPlayer);
         engine->addSerializedCommand(s);
         break;
 
@@ -257,7 +281,21 @@ void StateView::displayStateEffect(){
             displayState[viewPlayer] = STAND_BY;
         }
         break;
+
+    case STEAL_PLAYER:
+        for (int i = 3; i < clickableButton.size(); i++){
+            if (clickableButton[i]->clicked){
+                sprintf(s, "stealcard-%d-%d", (int) viewPlayer, (int) nameToPlayerColor(state, ((ButtonSelect*) clickableButton[i])->message));
+                engine->addSerializedCommand(s);
+                return;
+            }
+        }
+        if (state->gameState != state::STEAL_CARD_STATE){
+            displayState[viewPlayer] = STAND_BY;
+        }
+        break;
     }
+        
 }
 
 void StateView::clickedObjects(int x, int y)
@@ -335,6 +373,18 @@ void StateView::handleClick(int x, int y)
     default:
         break;
     }
+
+
+}
+
+void StateView::reloadTroisButtons(){
+    int width = 1280;
+    int height = 720;
+    int scrennGap = 30, ecartBouton = 60;
+    deleteTroisButton(&clickableButton);
+    clickableButton.push_back((Button *)new ButtonBuild(*this->squareTexture, sf::IntRect(width - scrennGap - 199 / 2, height - scrennGap - 48 - ecartBouton * 2, 199, 48), "Construire", &(displayState[viewPlayer])));
+    clickableButton.push_back((Button *)new ButtonExchange(*this->squareTexture, sf::IntRect(width - scrennGap - 199 / 2, height - scrennGap - 48 - ecartBouton, 199, 48), "Echange", &(displayState[viewPlayer])));
+    clickableButton.push_back((Button *)new ButtonPassTurn(*this->squareTexture, sf::IntRect(width - scrennGap - 199 / 2, height - scrennGap - 48, 199, 48), "Passer son tour", &(displayState[viewPlayer])));
 }
 
 void StateView::updatePlayerTurnDisplay()

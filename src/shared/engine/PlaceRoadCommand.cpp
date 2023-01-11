@@ -21,6 +21,17 @@ static bool isNeighbor(Position pos1, Position pos2){
     return false;
 }
 
+static bool isNeighbor2(Position pos1, Position pos2){
+    Position pos = pos2 - pos1;
+    if (pos == Position(0, 0))
+        return false;
+    for (int i = 0; i < 6; i++){
+        if (pos == neighbors[pos1.y % 2][i])
+            return true;
+    }
+    return false;
+}
+
 static void afficheRoadPos(std::string s, std::array<Position, 2> curPos){
     std::cout << s << std::endl;
     std::cout << "Position 0 : " << curPos[0].x << ", " << curPos[0].y << std::endl;
@@ -204,10 +215,25 @@ bool PlaceRoadCommand::verify(state::State* state){
         return false;
     }
 
+    //verify enough resources
     if (!(state->players[playerColor].resources[state::Lumber].number >= 1 &&
         state->players[playerColor].resources[state::Brick].number >= 1)){
         
         std::cout << "PlaceRoad error : Not enough resources" << std::endl;
+        return false;
+    }
+
+    //verify valid position
+    if (!isNeighbor2(position[0], position[1])){
+        std::cout << "PlaceRoad error : invalid position" << std::endl;
+        return false;
+    }
+
+    if (!(state->map.grid[position[0].x + position[0].y*7] <= 5 ||
+        state->map.grid[position[1].x + position[1].y*7] <= 5 ||
+        state->map.grid[position[0].x + position[0].y*7] > 5 && state->map.grid[position[1].x + position[1].y*7] <= 5 ||
+        state->map.grid[position[1].x + position[1].y*7] > 5 && state->map.grid[position[0].x + position[0].y*7] <= 5)){
+        std::cout << "PlaceRoad error : invalid position" << std::endl;
         return false;
     }
 

@@ -10,6 +10,7 @@ PlaceThiefCommand::PlaceThiefCommand() {
 
 PlaceThiefCommand::PlaceThiefCommand(state::PlayerColor playerColor, state::Position position) : position(position) {
     this->playerColor = playerColor;
+    canSteal = false;
     commandID = PLACE_THIEF_CMD;
 }
 
@@ -38,9 +39,11 @@ bool PlaceThiefCommand::execute(state::State* state){
 
     bool stealCard = false;
     bool isInVect = false;
+    canSteal = false;
     std::vector<state::Player*> canStealPlayers;
     for (state::Building b : state->map.buildings){ //check you can steal a player with the thief on his buildings
         if (b.playerColor != playerColor){
+            isInVect = false;
             for (state::Player* p : canStealPlayers){
                 if (b.playerColor == p->playerColor){
                     isInVect = true;
@@ -74,8 +77,8 @@ bool PlaceThiefCommand::execute(state::State* state){
         for (state::Player* p : canStealPlayers){
             std::cout << p->name << ", ";
         } std::cout << std::endl;
-        state->gameState = state::STEAL_CARD_STATE;
-        std::cout << "STATE STEALCARD\n";
+        // state->gameState = state::STEAL_CARD_STATE;
+        canSteal = true;
         return true;
     }
     std::cout << "No players to steal cards" << std::endl;
