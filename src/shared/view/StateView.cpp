@@ -10,6 +10,7 @@
 #include "MenuExchange.h"
 #include "MenuAcceptExchange.h"
 #include "MenuThief.h"
+#include "Hand.h"
 #include <cstring>
 
 static char *resTypeToString(state::ResourceType resType)
@@ -86,6 +87,14 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     int heightPlayerTurn = 165;
     playerTurnDisplay[0]->setPosition(width - offset, heightPlayerTurn);
     playerTurnDisplay[1]->setPosition(playerTurnDisplay[0]->getPosition().x + playerTurnDisplay[0]->getGlobalBounds().width + 10, heightPlayerTurn);
+
+    cardTexture->loadFromFile("../res/developmentCards.png");
+    cardTexture->setSmooth(true);
+    
+    for(int i = 0; i < 4; i++){
+        handPlayers.push_back(Hand(cardTexture, (state::PlayerColor) i, state));
+    }
+    
 }
 
 void deleteMenu(std::vector<Menu *> *menu)
@@ -108,7 +117,7 @@ void deleteButton(std::vector<Button *> *button)
 
 void StateView::render(sf::RenderTarget &target)
 {
-
+    
     if (clickableButton[2]->clicked)
         displayHUD[state->turn]->render(target);
     else
@@ -131,10 +140,15 @@ void StateView::render(sf::RenderTarget &target)
     {
         clickableButton[i]->render(target);
     }
+
+    //----------Cards------------
+    
+    handPlayers[viewPlayer].render(target);
 }
 
 void StateView::updateClickableObjects(state::PlayerColor playerColor)
 {
+    handPlayers[viewPlayer].updateHand();
     char s[64];
     state::Resource giving;
     state::Resource receiving;
@@ -226,7 +240,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
 
     case THROW_DICE:
         state->turn = (state::PlayerColor)((state->turn + 1) % 4);
-        // viewPlayer = state->turn;
+        viewPlayer = state->turn;
         updatePlayerTurnDisplay();
         sprintf(s, "throwdice-%d", (int)state->turn);
         engine->addSerializedCommand(s);
