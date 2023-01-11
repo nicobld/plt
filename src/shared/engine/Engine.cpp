@@ -225,6 +225,8 @@ void Engine::update() {
                                 state->turn = (state::PlayerColor)(((int) state->turn) + 1);
                                 state->gameState = NORMAL_STATE;
                             }
+                        } else if (saveCmd == USE_CARD_CMD){
+                            state->gameState = STEAL_CARD_STATE;
                         }
                     } else {
                         std::cout << "Place thief error\n";

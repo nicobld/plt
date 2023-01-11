@@ -41,6 +41,7 @@ int main(int argc, char* argv[])
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Catan");
     window.setPosition(sf::Vector2i(1920/2 -width/2, 1080/2 - height/2));
+    window.setVerticalSyncEnabled(true);
     
     State state;
 
@@ -145,6 +146,8 @@ int main(int argc, char* argv[])
         state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
         state.players[PlayerRed].developments.push_back(Development(Invention));
 
+        state.players[PlayerBlue].developments.push_back(Development(Invention));
+
         state.players[PlayerBlue].resources[Lumber].number = 10;
         state.players[PlayerBlue].resources[Brick].number = 10;
         state.players[PlayerBlue].resources[Ore].number = 10;
@@ -157,8 +160,6 @@ int main(int argc, char* argv[])
         focus->setScale(Vector2f(0.9, 0.9));
         focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
         focus->setPosition(width/2, height/2);
-
-        engine.addSerializedCommand("passturn-1");
 
         sf::Mouse mouse;
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
@@ -198,7 +199,9 @@ int main(int argc, char* argv[])
                         stateView.updateClickableObjects(state.turn);
                      }
                 }
-                //if(mouse.getPosition(window))
+                //if(stateView.handPlayers[state.turn].coords.contains(mouse.getPosition(window).x, mouse.getPosition(window).y))
+                    stateView.handPlayers[state.turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+
                 
             }
 

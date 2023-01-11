@@ -426,10 +426,10 @@ namespace view
         target.draw(*player3NumberRoads);
         target.draw(*player4NumberRoads);
 
-        for (int i = 0; i < this->player1->developments.size(); i++)
-        {
-            target.draw(vectorSpriteCards.at(i));
-        }
+        // for (int i = 0; i < this->player1->developments.size(); i++)
+        // {
+        //     target.draw(vectorSpriteCards.at(i));
+        // }
 
 
         // buttonBuild->render(target);
