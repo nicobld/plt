@@ -485,14 +485,30 @@ namespace view
         player3NumberKnights->setString(to_string(this->player3->knightNumber));
         player4NumberKnights->setString(to_string(this->player4->knightNumber));
 
-        if (this->player1->hasLargestArmy)
+        if (this->player1->hasLargestArmy){
             player1NumberKnights->setFillColor(Color(red));
-        else if (this->player2->hasLargestArmy)
+            player2NumberKnights->setFillColor(Color(255,255,255));
+            player3NumberKnights->setFillColor(Color(255,255,255));
+            player4NumberKnights->setFillColor(Color(255,255,255));
+        }
+        else if (this->player2->hasLargestArmy){
             player2NumberKnights->setFillColor(Color(red));
-        else if (this->player3->hasLargestArmy)
+            player1NumberKnights->setFillColor(Color(255,255,255));
+            player3NumberKnights->setFillColor(Color(255,255,255));
+            player4NumberKnights->setFillColor(Color(255,255,255));
+        }
+        else if (this->player3->hasLargestArmy){
             player3NumberKnights->setFillColor(Color(red));
-        else if (this->player4->hasLargestArmy)
+            player1NumberKnights->setFillColor(Color(255,255,255));
+            player2NumberKnights->setFillColor(Color(255,255,255));
+            player4NumberKnights->setFillColor(Color(255,255,255));
+        }
+        else if (this->player4->hasLargestArmy){
             player4NumberKnights->setFillColor(Color(red));
+            player2NumberKnights->setFillColor(Color(255,255,255));
+            player3NumberKnights->setFillColor(Color(255,255,255));
+            player1NumberKnights->setFillColor(Color(255,255,255));
+        }
 
         player1NumberRoads->setString(to_string(this->player1->longestRoad));
         player2NumberRoads->setString(to_string(this->player2->longestRoad));

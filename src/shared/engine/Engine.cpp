@@ -138,6 +138,23 @@ int roadConstrutionNum = 2;
 int buildRoads = 0;
 
 void Engine::update() {
+    state->players[0].victoryPoints = 0;
+    state->players[1].victoryPoints = 0;
+    state->players[2].victoryPoints = 0;
+    state->players[3].victoryPoints = 0;
+    for (state::Building b : state->map.buildings){
+        if (b.buildingType == state::Colony){
+            state->players[b.playerColor].victoryPoints++;
+        } else {
+            state->players[b.playerColor].victoryPoints += 2;
+        }
+    }
+    for (int i = 0; i < 4; i++){
+        if (state->players[i].hasLargestArmy)
+            state->players[i].victoryPoints += 2;
+        if (state->players[i].hasLongestRoad)
+            state->players[i].victoryPoints += 2;
+    }
 
     while(commandQueue.size() != 0) {
         std::cout << "ENGINE : New command : " << commandQueue.front()->commandID << std::endl;

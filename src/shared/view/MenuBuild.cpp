@@ -2,6 +2,33 @@
 #include "ButtonSelect.h"
 #include <iostream>
 
+static int getNumberOfCity(state::State* state, state::PlayerColor playerColor){
+    int n = 0;
+    for (int i = 0; i < state->map.buildings.size(); i++){
+        if (state->map.buildings[i].buildingType == state::City && state->map.buildings[i].playerColor == playerColor)
+            n++;
+    }
+    return n;
+}
+
+static int getNumberOfColony(state::State* state, state::PlayerColor playerColor){
+    int n = 0;
+    for (int i = 0; i < state->map.buildings.size(); i++){
+        if (state->map.buildings[i].buildingType == state::Colony && state->map.buildings[i].playerColor == playerColor)
+            n++;
+    }
+    return n;
+}
+
+static int getNumberOfRoads(state::State* state, state::PlayerColor playerColor){
+    int n = 0;
+    for (int i = 0; i < state->map.roads.size(); i++){
+        if (state->map.roads[i].playerColor == playerColor)
+            n++;
+    }
+    return n;
+}
+
 namespace view{
 
 MenuBuild::MenuBuild(state::State* state, sf::Texture menuTexture, state::PlayerColor playerColor, sf::IntRect coords, DisplayState* displayState) : playerColor(playerColor){
@@ -42,9 +69,9 @@ MenuBuild::MenuBuild(state::State* state, sf::Texture menuTexture, state::Player
     font.loadFromFile("../res/poppins.ttf");
     int fontSize = 19;
 
-    numberPieces.push_back(sf::Text((std::to_string(state->map.roads.size()) + "/" + std::to_string(state->players[this->playerColor].roads.size())), font, fontSize));
-    numberPieces.push_back(sf::Text((std::to_string(state->map.buildings.size()) + "/5"), font, fontSize));
-    numberPieces.push_back(sf::Text((std::to_string(state->map.buildings.size()) + "/4"), font, fontSize));
+    numberPieces.push_back(sf::Text((std::to_string(getNumberOfRoads(state, playerColor)) + "/" + std::to_string(15)), font, fontSize));
+    numberPieces.push_back(sf::Text((std::to_string(getNumberOfColony(state, playerColor)) + "/5"), font, fontSize));
+    numberPieces.push_back(sf::Text((std::to_string(getNumberOfCity(state, playerColor)) + "/4"), font, fontSize));
 
 
     int gapwpieces = 80;

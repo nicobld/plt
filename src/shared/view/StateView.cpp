@@ -204,14 +204,8 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     handPlayers[viewPlayer].updateHand();
     char s[64];
     static int menuResClicks = 0;
-    state::Resource giving;
-    state::Resource receiving;
-    std::cout << "UPDATE CLICK OBJECT\n";
-    // if (state->turn != viewPlayer){
-    //     viewPlayer = state->turn;
-    //     updatePlayerTurnDisplay();
-    //     reloadTroisButtons();
-    // }
+    static state::Resource giving;
+    static state::Resource receiving;
 
     if (state->players[viewPlayer].playerState == state::EXCHANGE){
         displayState[viewPlayer] = ACCEPT_EXCHANGE;
@@ -339,10 +333,12 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
                 if (((Button *)((MenuExchange *)clickableMenu.back())->buttonsSelect[0])->clicked){ //bank exchange
                     sprintf(s, "exchangebank-%d-%s-%s", viewPlayer, resTypeToString(giving.resourceType), resTypeToString(receiving.resourceType));
                     engine->addSerializedCommand(s);
+                    displayState[viewPlayer] = STAND_BY;
                 } else {
                     // commande d'échange
                     sprintf(s, "request-%d-%s-%d-%s-%d", viewPlayer, resTypeToString(giving.resourceType), giving.number, resTypeToString(receiving.resourceType), receiving.number);
                     engine->addSerializedCommand(s);
+                    displayState[viewPlayer] = STAND_BY;
                 }
 
                 // displayState = ACCEPT_EXCHANGE;
@@ -473,12 +469,7 @@ void StateView::handleClick(int x, int y)
         sprintf(s, "throwdice-%d", viewPlayer);
         engine->addSerializedCommand(s);
         engine->update();
-        std::cout << "THROW DIIIIICE\n";
         dice->update(engine->saveThrDiceCmd->dice1 + engine->saveThrDiceCmd->dice2, engine->saveThrDiceCmd->dice1, engine->saveThrDiceCmd->dice2);
-        // int d1 = rand() % 6 + 1; 
-        // int d2 = rand() % 6 + 1;
-        // dice->update(d1 + d2, d1, d2);
-        std::cout << "THROW DIIIIICE\n";
         displayState[viewPlayer] = EXIT_THROW_DICE;
     }
         break;
@@ -492,29 +483,34 @@ void StateView::handleClick(int x, int y)
         roadPos = tileMap->findClosestRoad(x, y);
         sprintf(s, "placeroad-%d-%d-%d-%d-%d", viewPlayer, roadPos[0].x, roadPos[0].y, roadPos[1].x, roadPos[1].y);
         engine->addSerializedCommand(s);
+        displayState[viewPlayer] = STAND_BY;
         break;
 
     case BUILD_CITY_DISPLAY:
         buildPos = tileMap->findClosestBuilding(x, y);
         sprintf(s, "placebuilding-%d-%d-%d-%d-%d-%d-%d-1", viewPlayer, buildPos[0].x, buildPos[0].y, buildPos[1].x, buildPos[1].y, buildPos[2].x, buildPos[2].y);
         engine->addSerializedCommand(s);
+        displayState[viewPlayer] = STAND_BY;
         break;
 
     case BUILD_COLONY_DISPLAY:
         buildPos = tileMap->findClosestBuilding(x, y);
         sprintf(s, "placebuilding-%d-%d-%d-%d-%d-%d-%d-0", viewPlayer, buildPos[0].x, buildPos[0].y, buildPos[1].x, buildPos[1].y, buildPos[2].x, buildPos[2].y);
         engine->addSerializedCommand(s);
+        displayState[viewPlayer] = STAND_BY;
         break;
 
     case DRAW_CARD_DISPLAY:
         sprintf(s, "drawcard-%d", viewPlayer);
         engine->addSerializedCommand(s);
+        displayState[viewPlayer] = STAND_BY;
         break;
 
     case PLACE_THIEF:
         pos = tileMap->findClosestTile(x, y);
         sprintf(s, "placethief-%d-%d-%d", viewPlayer, pos.x, pos.y);
         engine->addSerializedCommand(s);
+        displayState[viewPlayer] = STAND_BY;
         break;
 
     default:
