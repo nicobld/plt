@@ -190,6 +190,8 @@ void StateView::render(sf::RenderTarget &target)
     //----------Cards------------
     
     handPlayers[viewPlayer].render(target);
+
+    updateClickableObjects(state->turn);
 }
 
 void StateView::updateClickableObjects(state::PlayerColor playerColor)
