@@ -85,6 +85,7 @@ int Hand::isClicked(int x, int y){
         if(cards[cardHover].isClicked(x, y)){
             return cardHover;
         }
+        return -1;
     }
     return -1;
 }

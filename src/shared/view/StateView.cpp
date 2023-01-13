@@ -113,6 +113,7 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     playerTurnDisplay[0]->setPosition(width - offset, heightPlayerTurn);
     playerTurnDisplay[1]->setPosition(playerTurnDisplay[0]->getPosition().x + playerTurnDisplay[0]->getGlobalBounds().width + 10, heightPlayerTurn);
 
+    cardTexture = new sf::Texture();
     cardTexture->loadFromFile("../res/developmentCards.png");
     cardTexture->setSmooth(true);
     
@@ -193,12 +194,17 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     if (state->players[viewPlayer].playerState == state::EXCHANGE){
         displayState[viewPlayer] = ACCEPT_EXCHANGE;
     }
-    if (state->gameState == state::PLACE_THIEF_STATE){
+    else if (state->gameState == state::PLACE_THIEF_STATE){
         displayState[state->turn] = PLACE_THIEF;
     }
-    if (state->gameState == state::STEAL_CARD_STATE){
+    else if (state->gameState == state::STEAL_CARD_STATE){
         displayState[state->turn] = STEAL_PLAYER;
     }
+    else if (state->gameState == state::ROAD_CONSTRUCTION_STATE){
+        displayState[state->turn] = BUILD_ROAD;
+    }
+
+
 
     if (displayState[viewPlayer] != CHOOSING_EXCHANGE) //c'est un menu qui reste ouvert longtemps
     {
@@ -337,7 +343,7 @@ void StateView::clickedObjects(int x, int y)
         clickableButton[i]->isClicked(x, y);
     }
     int c_id = -1;
-    if((c_id = handPlayers[viewPlayer].isClicked(x, y)) !=1){
+    if((c_id = handPlayers[viewPlayer].isClicked(x, y)) != -1){
         std::cout << "dev type : " << cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID) << std::endl;
         sprintf(s, "usecard-%d-%s", viewPlayer, cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID));
         engine->addSerializedCommand(s);
