@@ -27,6 +27,14 @@ ButtonSelect::ButtonSelect (sf::Texture buttonTexture, sf::IntRect coords, Selec
         spriteButton->setOrigin(spriteButton->getGlobalBounds().width/2, 0);
         spriteButton->setPosition(this->coords.left, this->coords.top);
     }
+    else if (select_ID == SELECT_RESOURCE){
+        scaleX = 0.4; scaleY = 0.9;
+        spriteButton->setScale(sf::Vector2f(scaleX, scaleY));
+        this->coords.width =  this->coords.width * scaleX;
+        this->coords.height =  this->coords.height * scaleY;
+        spriteButton->setOrigin(spriteButton->getGlobalBounds().width/2, 0);
+        spriteButton->setPosition(this->coords.left, this->coords.top);
+    }
     else if(select_ID == SELECT_BANK || select_ID == SELECT_P1 || select_ID == SELECT_P2 || select_ID == SELECT_P3){
         scaleX = 0.8; scaleY = 0.9;
         spriteButton->setScale(sf::Vector2f(scaleX, scaleY));
@@ -52,9 +60,9 @@ ButtonSelect::ButtonSelect (sf::Texture buttonTexture, sf::IntRect coords, Selec
 }
 
 bool ButtonSelect::isClicked(int x, int y){
-    if(select_ID == SELECT_ROAD || select_ID == SELECT_COLONY || select_ID == SELECT_CITY || select_ID == SELECT_DEV)
+    if(select_ID == SELECT_ROAD || select_ID == SELECT_COLONY || select_ID == SELECT_CITY || select_ID == SELECT_DEV )
         clicked = coords.contains(sf::Vector2i(x, y));
-    else if(select_ID == SELECT_BANK || select_ID == SELECT_P1 || select_ID == SELECT_P2 || select_ID == SELECT_P3){
+    else if(select_ID == SELECT_BANK || select_ID == SELECT_P1 || select_ID == SELECT_P2 || select_ID == SELECT_P3 || select_ID == SELECT_RESOURCE){
         if (clicked && coords.contains(sf::Vector2i(x, y)))
             clicked = 0;
         else if(!clicked && coords.contains(sf::Vector2i(x, y)))

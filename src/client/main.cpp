@@ -145,7 +145,6 @@ int main(int argc, char* argv[])
         // state.players[PlayerBlue].resources[Wool].number = 10;
 
         sf::Mouse mouse;
-        stateView.updateClickableObjects(state.turn);
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
         {
