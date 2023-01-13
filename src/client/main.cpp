@@ -131,10 +131,10 @@ int main(int argc, char* argv[])
             state.players[(state::PlayerColor) i].resources[Wool].number = 20;
         }
 
-        // state.players[PlayerRed].developments.push_back(Development(Monopoly));
-        // state.players[PlayerRed].developments.push_back(Development(Knight));
-        // state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
-        // state.players[PlayerRed].developments.push_back(Development(Invention));
+        state.players[PlayerRed].developments.push_back(Development(Monopoly));
+        state.players[PlayerRed].developments.push_back(Development(Knight));
+        state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
+        state.players[PlayerRed].developments.push_back(Development(Invention));
 
         // state.players[PlayerBlue].developments.push_back(Development(Invention));
 
@@ -166,7 +166,7 @@ int main(int argc, char* argv[])
 
                 else if (event.type == sf::Event::MouseButtonReleased){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                        //stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                         stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
                         stateView.reloadTroisButtons();
                         std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
@@ -183,7 +183,7 @@ int main(int argc, char* argv[])
                      }
                 }
                 //if(stateView.handPlayers[state.turn].coords.contains(mouse.getPosition(window).x, mouse.getPosition(window).y))
-                    stateView.handPlayers[state.turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+                stateView.handPlayers[state.turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
 
                 
             }

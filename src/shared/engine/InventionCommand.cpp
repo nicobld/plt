@@ -11,7 +11,7 @@ InventionCommand::InventionCommand() {
 }
 
 bool InventionCommand::verify(state::State* state){
-    if (! (state->gameCards.resources[resourceType1].number > 0 && state->gameCards.resources[resourceType2].number > 0) ){
+    if (state->gameCards.resources[resourceType1].number > 0 && state->gameCards.resources[resourceType2].number > 0){
         return true;
     }
     return false;

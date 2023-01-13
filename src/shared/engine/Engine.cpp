@@ -121,6 +121,11 @@ void Engine::addSerializedCommand(std::string string){
         if (drawCardCommand->unserialize(string))
             addCommand(drawCardCommand);
     }
+    else if (commandType == "invention"){
+        InventionCommand* inventionCommand = new InventionCommand();
+        if (inventionCommand->unserialize(string))
+            addCommand(inventionCommand);
+    }
     else {
         std::cout << "Bad command type\n";
     }
@@ -135,8 +140,8 @@ int buildRoads = 0;
 void Engine::update() {
 
     while(commandQueue.size() != 0) {
-        // std::cout << "ENGINE : New command : " << commandQueue.front()->commandID << std::endl;
-        // std::cout << "ENGINE : gameState : " << state->gameState << std::endl;
+        std::cout << "ENGINE : New command : " << commandQueue.front()->commandID << std::endl;
+        std::cout << "ENGINE : gameState : " << state->gameState << std::endl;
         if (state->gameState == NORMAL_STATE){
             if (commandQueue.front()->playerColor == state->turn){
                 if (commandQueue.front()->commandID != EXCHANGE_RESPONSE_CMD &&
@@ -282,6 +287,24 @@ void Engine::update() {
                 } else {
                     std::cout << "Error, please place " << roadConstrutionNum - buildRoads << " roads" << std::endl;
                 }
+            }
+        }
+
+        else if (state->gameState == INVENTION_STATE){
+            if (commandQueue.front()->playerColor == state->turn){
+                if (commandQueue.front()->commandID == INVENTION_CMD){
+                    if (commandQueue.front()->verify(state) == true){
+                        commandQueue.front()->execute(state);
+                        state->gameState = NORMAL_STATE;
+                        std::cout << "YESSAIEEE\n";
+                    } else {
+                        std::cout << "NOT VERIFIED\n";
+                    }
+                } else {
+                    std::cout << "Error game is in state INVENTION_STATE" << std::endl;
+                }
+            } else {
+                std::cout << "not your turn\n";
             }
         }
 

@@ -191,15 +191,17 @@ void StateView::render(sf::RenderTarget &target)
     
     handPlayers[viewPlayer].render(target);
 
-    updateClickableObjects(state->turn);
+    //updateClickableObjects(state->turn);
 }
 
 void StateView::updateClickableObjects(state::PlayerColor playerColor)
 {
     handPlayers[viewPlayer].updateHand();
     char s[64];
+    static int menuResClicks = 0;
     state::Resource giving;
     state::Resource receiving;
+    std::cout << "UPDATE CLICK OBJECT\n";
     // if (state->turn != viewPlayer){
     //     viewPlayer = state->turn;
     //     updatePlayerTurnDisplay();
@@ -218,11 +220,25 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     else if (state->gameState == state::ROAD_CONSTRUCTION_STATE){
         displayState[state->turn] = BUILD_ROAD;
     }
+    else if (state->gameState == state::MONOPOLY_STATE && displayState[state->turn] != MONOPOLY_DISPLAY_STAY){
+        displayState[state->turn] = MONOPOLY_DISPLAY;
+    }
+    else if (state->gameState == state::INVENTION_STATE && displayState[state->turn] != INVENTION_DISPLAY_STAY){
+        displayState[state->turn] = INVENTION_DISPLAY;
+    }
 
+    if (state->gameState != state::MONOPOLY_STATE && displayState[state->turn] == MONOPOLY_DISPLAY_STAY){
+        displayState[state->turn] = STAND_BY;
+    }
+    if (state->gameState != state::INVENTION_STATE && displayState[state->turn] == INVENTION_DISPLAY_STAY){
+        displayState[state->turn] = STAND_BY;
+    }
 
-
-    if (displayState[viewPlayer] != CHOOSING_EXCHANGE) //c'est un menu qui reste ouvert longtemps
+    if (displayState[viewPlayer] != CHOOSING_EXCHANGE &&
+        displayState[viewPlayer] != MONOPOLY_DISPLAY_STAY &&
+        displayState[viewPlayer] != INVENTION_DISPLAY_STAY) //c'est un menu qui reste ouvert longtemps
     {
+        std::cout << "DELELEETE\n";
         deleteMenu(&clickableMenu);
         deleteButton(&clickableButton);
     }
@@ -230,10 +246,47 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     switch (displayState[viewPlayer])
     {
     case STAND_BY:
-        // clickableMenu.push_back((Menu *)new MenuResource(*menuTexture, sf::IntRect(1280 / 2 - 434 / 2, 720 - 269, 434, 269), &(displayState[viewPlayer])));
-        // for (int i = 0; i < ((MenuResource *)clickableMenu.back())->buttonsSelect.size(); i++)
-        //     clickableButton.push_back((Button *)((MenuResource *)clickableMenu.back())->buttonsSelect[i]);
-        // std::cout << "ressource " << resTypeToString((state::ResourceType) ((MenuResource *) clickableMenu.back())->resourceClicked()) << std::endl;
+        break;
+
+    case MONOPOLY_DISPLAY:
+        clickableMenu.push_back((Menu *)new MenuResource(*menuTexture, sf::IntRect(1280 / 2 - 434 / 2, 720 - 269, 434, 269), &(displayState[viewPlayer])));
+        for (int i = 0; i < ((MenuResource *)clickableMenu.back())->buttonsSelect.size(); i++)
+            clickableButton.push_back((Button *)((MenuResource *)clickableMenu.back())->buttonsSelect[i]);
+        //std::cout << "ressource " << resTypeToString((state::ResourceType) ((MenuResource *) clickableMenu.back())->resourceClicked()) << std::endl;
+        displayState[viewPlayer] = MONOPOLY_DISPLAY_STAY;
+        break;
+
+    case INVENTION_DISPLAY:
+        clickableMenu.push_back((Menu *)new MenuResource(*menuTexture, sf::IntRect(1280 / 2 - 434 / 2, 720 - 269, 434, 269), &(displayState[viewPlayer])));
+        for (int i = 0; i < ((MenuResource *)clickableMenu.back())->buttonsSelect.size(); i++)
+            clickableButton.push_back((Button *)((MenuResource *)clickableMenu.back())->buttonsSelect[i]);
+        //std::cout << "ressource " << resTypeToString((state::ResourceType) ((MenuResource *) clickableMenu.back())->resourceClicked()) << std::endl;
+        displayState[viewPlayer] = INVENTION_DISPLAY_STAY;
+        break;
+
+    case MONOPOLY_DISPLAY_STAY:
+        state::ResourceType r;
+        if ((r = (state::ResourceType)((MenuResource*)clickableMenu.back())->resourceClicked()) != -1){
+            sprintf(s, "monopoly-%d-%s", viewPlayer, resTypeToString(r));
+            engine->addSerializedCommand(s);
+        }
+        break;
+
+    case INVENTION_DISPLAY_STAY:
+        static state::ResourceType r0;
+        static state::ResourceType r1;
+        if ((r1 = (state::ResourceType)((MenuResource*)clickableMenu.back())->resourceClicked()) != -1){
+            if (menuResClicks == 0){
+                menuResClicks = 1;
+                std::cout << "HAHAHAH\n";
+                r0 = r1;
+            } else {
+                sprintf(s, "invention-%d-%d-%d", viewPlayer, r0, r1);
+                std::cout << "INVENTION ::::: " << r0 << " " << r1 << std::endl;
+                engine->addSerializedCommand(s);
+                menuResClicks = 0;
+            }
+        }
         break;
 
     case CHOOSE_BUILD:
@@ -268,8 +321,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         // menu d'attente de création de la commande échange
         if (((Button *)((MenuExchange *)clickableMenu.back())->buttonValidate)->clicked)
         {
-            if (((MenuExchange *)clickableMenu.back())->isOnlyOne())
-            {
+            if (((MenuExchange *)clickableMenu.back())->isOnlyOne()) {
                 std::cout << "echange !" << std::endl;
 
                 for (state::Resource r : ((MenuExchange *)clickableMenu.back())->resourcesGiving)
@@ -279,9 +331,14 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
                     if (r.number > 0)
                         receiving = r;
 
-                // commande d'échange
-                sprintf(s, "request-%d-%s-%d-%s-%d", viewPlayer, resTypeToString(giving.resourceType), giving.number, resTypeToString(receiving.resourceType), receiving.number);
-                engine->addSerializedCommand(s);
+                if (((Button *)((MenuExchange *)clickableMenu.back())->buttonsSelect[0])->clicked){ //bank exchange
+                    sprintf(s, "exchangebank-%d-%s-%s", viewPlayer, resTypeToString(giving.resourceType), resTypeToString(receiving.resourceType));
+                    engine->addSerializedCommand(s);
+                } else {
+                    // commande d'échange
+                    sprintf(s, "request-%d-%s-%d-%s-%d", viewPlayer, resTypeToString(giving.resourceType), giving.number, resTypeToString(receiving.resourceType), receiving.number);
+                    engine->addSerializedCommand(s);
+                }
 
                 // displayState = ACCEPT_EXCHANGE;
             }
