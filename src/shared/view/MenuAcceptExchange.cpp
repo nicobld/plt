@@ -31,8 +31,8 @@ MenuAcceptExchange::MenuAcceptExchange (state::State* state, sf::Texture menuTex
     playerProposingName->setPosition(spriteMenu->getPosition().x, spriteMenu->getPosition().y + 20);
 
     icon.loadFromFile("./../res/icons.png");
-    resources.push_back(sf::Sprite(icon, sf::IntRect(this->resourceGiving.resourceType * 74, 0, 74, 58)));
-    resources.push_back(sf::Sprite(icon, sf::IntRect(this->resourceReceiving.resourceType * 74, 0, 74, 58)));
+    resources.push_back(sf::Sprite(icon, sf::IntRect(this->resourceGiving.resourceType * 73, 0, 74, 58)));
+    resources.push_back(sf::Sprite(icon, sf::IntRect(this->resourceReceiving.resourceType * 73, 0, 74, 58)));
 
     resourcesNumber.push_back(sf::Text(std::to_string(this->resourceGiving.number), font, fontSize));
     resourcesNumber.push_back(sf::Text(std::to_string(this->resourceReceiving.number), font, fontSize));

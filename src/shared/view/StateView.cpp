@@ -352,6 +352,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case ACCEPT_EXCHANGE:
+        std::cout << "giving type : " << resTypeToString(giving.resourceType) << " | giving number : " << giving.number <<std::endl;
         clickableMenu.push_back((Menu *)new MenuAcceptExchange(state, *menuTexture, state->turn, giving, receiving, sf::IntRect(1280 / 2 - 351 / 2, 720 - 205, 351, 205), &(displayState[viewPlayer])));
         clickableButton.push_back((Button *)((MenuAcceptExchange *)clickableMenu.back())->buttonValidate);
         clickableButton.push_back((Button *)((MenuAcceptExchange *)clickableMenu.back())->buttonDeny);

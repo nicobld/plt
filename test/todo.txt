@@ -1,13 +1,25 @@
+TO DO : 
+
+On peut faire qu'un tour
+
 corriger menu thief pour la carte knight
 
 retirer les clics en trop
     carte monopole, menu ressource, menu thief
 
-limier à 2 route construite avec carte construction route
-
-mettre a jour victorypoint
-
-mettre a jour menu construire (nb route, coloni, ville)
-
 invention bug, donne 2 fois la même ressource
+
+bug au niveau de l'échange
+
+largest road bug affichage (ne redevient pas blanc) : A TESTER
+
+bug sur le refuser
+
+
+CORRECTED : 
+menu echange fais 2 fois l'echange
+limiter à 2 route construite avec carte construction 
+mettre a jour victorypoint
+menu acceptexhcange affiche n'importe quoi
+carte monopole, menu ressource, menu thief
 

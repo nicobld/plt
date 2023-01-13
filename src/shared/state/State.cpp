@@ -2,6 +2,11 @@
 
 namespace state {
 
-State::State() {}
+State::State() {
+
+// for(int i = 0; i < map.buildings.size(); i++){
+
+// }
+}
 
 }
