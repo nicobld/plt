@@ -38,7 +38,7 @@ bool ButtonPassTurn::isReleased(int x, int y){
     if(clicked = coords.contains(sf::Vector2i(x, y))){
         //commande
         std::cout << "Boutton passer son tour" << std::endl;
-        *displayState = THROW_DICE;
+        *displayState = PASS_TURN_DISPLAY;
         result = true;
     }
     clicked = 0;

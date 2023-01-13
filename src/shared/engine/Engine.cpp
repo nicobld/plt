@@ -222,7 +222,7 @@ void Engine::update() {
                             if (((PlaceThiefCommand*) commandQueue.front())->canSteal)
                                 state->gameState = STEAL_CARD_STATE;
                             else {
-                                state->turn = (state::PlayerColor)(((int) state->turn) + 1);
+                                //state->turn = (state::PlayerColor)(((int) state->turn) + 1);
                                 state->gameState = NORMAL_STATE;
                             }
                         } else if (saveCmd == USE_CARD_CMD){
@@ -245,7 +245,7 @@ void Engine::update() {
                     if (commandQueue.front()->verify(state) == true){
                         commandQueue.front()->execute(state);
                         if (saveCmd == THROW_DICE_CMD){
-                            state->turn = (state::PlayerColor)(((int) state->turn) + 1);
+                            //state->turn = (state::PlayerColor)(((int) state->turn) + 1);
                         }
                         state->gameState = NORMAL_STATE;
                     } else {

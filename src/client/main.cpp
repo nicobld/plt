@@ -131,18 +131,18 @@ int main(int argc, char* argv[])
             state.players[(state::PlayerColor) i].resources[Wool].number = 20;
         }
 
-        state.players[PlayerRed].developments.push_back(Development(Monopoly));
-        state.players[PlayerRed].developments.push_back(Development(Knight));
-        state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
-        state.players[PlayerRed].developments.push_back(Development(Invention));
+        // state.players[PlayerRed].developments.push_back(Development(Monopoly));
+        // state.players[PlayerRed].developments.push_back(Development(Knight));
+        // state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
+        // state.players[PlayerRed].developments.push_back(Development(Invention));
 
-        state.players[PlayerBlue].developments.push_back(Development(Invention));
+        // state.players[PlayerBlue].developments.push_back(Development(Invention));
 
-        state.players[PlayerBlue].resources[Lumber].number = 10;
-        state.players[PlayerBlue].resources[Brick].number = 10;
-        state.players[PlayerBlue].resources[Ore].number = 10;
-        state.players[PlayerBlue].resources[Grain].number = 10;
-        state.players[PlayerBlue].resources[Wool].number = 10;
+        // state.players[PlayerBlue].resources[Lumber].number = 10;
+        // state.players[PlayerBlue].resources[Brick].number = 10;
+        // state.players[PlayerBlue].resources[Ore].number = 10;
+        // state.players[PlayerBlue].resources[Grain].number = 10;
+        // state.players[PlayerBlue].resources[Wool].number = 10;
 
         sf::Mouse mouse;
         stateView.updateClickableObjects(state.turn);
@@ -158,28 +158,28 @@ int main(int argc, char* argv[])
 
                 if (event.type == sf::Event::MouseButtonPressed){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        
+                        std::cout << "aaa\n";
                         stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                         stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
-                        // stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                         break;
                     }
-
                 }
+
                 else if (event.type == sf::Event::MouseButtonReleased){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        //stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
                         stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                         stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
-                        // stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                        stateView.reloadTroisButtons();
                         std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
                     }
                 }
 
                 else if (event.type == sf::Event::KeyPressed){
                      if (event.key.code == sf::Keyboard::V){
+                        std::cout << "V\n";
                         stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
                         stateView.reloadTroisButtons();
+                        stateView.updatePlayerTurnDisplay();
                         stateView.updateClickableObjects(state.turn);
                      }
                 }

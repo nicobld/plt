@@ -41,7 +41,7 @@ Map::Map(){
 
     //Thief
 
-    thief.position = Position(4, 3);
+    thief.position = Position(3, 3);
 
 	//Roads
 

@@ -89,7 +89,7 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[2]), &(state->players[0]), &(state->players[1]), &(state->players[3])));
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[3]), &(state->players[0]), &(state->players[1]), &(state->players[2])));
 
-    displayState[0] = STAND_BY;
+    displayState[0] = THROW_DICE;
     displayState[1] = STAND_BY;
     displayState[2] = STAND_BY;
     displayState[3] = STAND_BY;
@@ -197,11 +197,11 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     char s[64];
     state::Resource giving;
     state::Resource receiving;
-    if (state->turn != viewPlayer){
-        viewPlayer = state->turn;
-        updatePlayerTurnDisplay();
-        reloadTroisButtons();
-    }
+    // if (state->turn != viewPlayer){
+    //     viewPlayer = state->turn;
+    //     updatePlayerTurnDisplay();
+    //     reloadTroisButtons();
+    // }
 
     if (state->players[viewPlayer].playerState == state::EXCHANGE){
         displayState[viewPlayer] = ACCEPT_EXCHANGE;
@@ -293,15 +293,17 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case STEAL_PLAYER:
-        std::cout << "menu thief\n";
         clickableMenu.push_back((Menu *)new MenuThief(state, *menuTexture, viewPlayer, sf::IntRect(1280 / 2 - 351, 720 - 167, 351, 167), &(displayState[viewPlayer])));
         for (int i = 0; i < ((MenuThief*) clickableMenu.back())->buttonsSelect.size(); i++)
             clickableButton.push_back((Button*) ((MenuThief*) clickableMenu.back())->buttonsSelect[i]);
         break;
 
-    case THROW_DICE:
-        sprintf(s, "throwdice-%d", viewPlayer);
+    case PASS_TURN_DISPLAY:
+        std::cout << "pass turn\n";
+        sprintf(s, "passturn-%d", viewPlayer);
         engine->addSerializedCommand(s);
+        viewPlayer = (state::PlayerColor)((int)viewPlayer + 1 % 4);
+        displayState[viewPlayer] = THROW_DICE;
         break;
 
     default:
@@ -349,6 +351,7 @@ void StateView::displayStateEffect(){
 void StateView::clickedObjects(int x, int y)
 {
     char s[64];
+    std::cout << "viewPlayer : " << viewPlayer << std::endl;
     updateClickableObjects(viewPlayer);
     for (int i = 0; i < clickableButton.size(); i++)
     {
@@ -391,10 +394,15 @@ void StateView::handleClick(int x, int y)
     std::array<state::Position, 2> roadPos;
     state::Position pos;
     char s[64];
-
     switch (displayState[viewPlayer])
     {
     case STAND_BY:
+        break;
+        
+    case THROW_DICE:
+        sprintf(s, "throwdice-%d", viewPlayer);
+        engine->addSerializedCommand(s);
+        displayState[viewPlayer] = STAND_BY;
         break;
 
     case BUILD_ROAD:
@@ -437,10 +445,12 @@ void StateView::reloadTroisButtons(){
     int width = 1280;
     int height = 720;
     int scrennGap = 30, ecartBouton = 60;
-    deleteTroisButton(&clickableButton);
-    clickableButton.push_back((Button *)new ButtonBuild(*this->squareTexture, sf::IntRect(width - scrennGap - 199 / 2, height - scrennGap - 48 - ecartBouton * 2, 199, 48), "Construire", &(displayState[viewPlayer])));
-    clickableButton.push_back((Button *)new ButtonExchange(*this->squareTexture, sf::IntRect(width - scrennGap - 199 / 2, height - scrennGap - 48 - ecartBouton, 199, 48), "Echange", &(displayState[viewPlayer])));
-    clickableButton.push_back((Button *)new ButtonPassTurn(*this->squareTexture, sf::IntRect(width - scrennGap - 199 / 2, height - scrennGap - 48, 199, 48), "Passer son tour", &(displayState[viewPlayer])));
+    delete clickableButton[0];
+    delete clickableButton[1];
+    delete clickableButton[2];
+    clickableButton[0] = ((Button *)new ButtonBuild(*this->squareTexture, sf::IntRect(width - scrennGap - 199 / 2, height - scrennGap - 48 - ecartBouton * 2, 199, 48), "Construire", &(displayState[viewPlayer])));
+    clickableButton[1] = ((Button *)new ButtonExchange(*this->squareTexture, sf::IntRect(width - scrennGap - 199 / 2, height - scrennGap - 48 - ecartBouton, 199, 48), "Echange", &(displayState[viewPlayer])));
+    clickableButton[2] = ((Button *)new ButtonPassTurn(*this->squareTexture, sf::IntRect(width - scrennGap - 199 / 2, height - scrennGap - 48, 199, 48), "Passer son tour", &(displayState[viewPlayer])));
 }
 
 void StateView::updatePlayerTurnDisplay()

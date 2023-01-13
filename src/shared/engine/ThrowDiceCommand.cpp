@@ -71,7 +71,6 @@ bool ThrowDiceCommand::execute(state::State* state) {
             dice2 = rand() % 6 + 1;
             result = dice1 + dice2;
 
-            result = 7;
             std::cout << "resultat du lancer de dés : " << result << std::endl;
         }
 
