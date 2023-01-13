@@ -47,6 +47,7 @@ namespace engine {
 
 Engine::Engine(state::State* state) : state(state) {
     std::cout << "Engine launched" << std::endl;
+    saveThrDiceCmd = new ThrowDiceCommand();
 }
 
 void Engine::addCommand(Command* command) {
@@ -132,7 +133,6 @@ void Engine::addSerializedCommand(std::string string){
 }
 
 ExchangeRequestCommand* saveExReqCmd = new ExchangeRequestCommand();
-ThrowDiceCommand* saveThrDiceCmd = new ThrowDiceCommand();
 CommandID saveCmd;
 int roadConstrutionNum = 2;
 int buildRoads = 0;
@@ -150,7 +150,7 @@ void Engine::update() {
                     commandQueue.front()->commandID != MONOPOLY_CMD &&
                     commandQueue.front()->commandID != STEAL_CARD_CMD) {
                     if (commandQueue.front()->verify(state)){
-
+                        commandQueue.front()->execute(state);
                         if (commandQueue.front()->commandID == EXCHANGE_REQUEST_CMD){ //passer en exchange state
                             saveCmd = EXCHANGE_REQUEST_CMD;
                             *saveExReqCmd = *(static_cast<ExchangeRequestCommand*>(commandQueue.front()));
@@ -161,6 +161,7 @@ void Engine::update() {
                         else if (commandQueue.front()->commandID == THROW_DICE_CMD){
                             saveCmd = THROW_DICE_CMD;
                             *saveThrDiceCmd = *(static_cast<ThrowDiceCommand*>(commandQueue.front()));
+                            std::cout << "ENGINE DICE RESULT " << saveThrDiceCmd->dice1 << std::endl;
                         }
                         
                         else if (commandQueue.front()->commandID == USE_CARD_CMD){
@@ -170,7 +171,7 @@ void Engine::update() {
                                 roadConstrutionNum = state->map.roads.size() - 70;
                             }
                         }
-                        commandQueue.front()->execute(state);
+                        
                     } else {
                         std::cout << "Command failed" << std::endl;
                     }

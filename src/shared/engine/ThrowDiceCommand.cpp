@@ -49,6 +49,8 @@ namespace engine {
 
 ThrowDiceCommand::ThrowDiceCommand() {
     commandID = THROW_DICE_CMD;
+    dice1 = 0;
+    dice2 = 0;
 }
 
 ThrowDiceCommand::ThrowDiceCommand(state::PlayerColor playerColor){
@@ -58,8 +60,6 @@ ThrowDiceCommand::ThrowDiceCommand(state::PlayerColor playerColor){
 }
 
 bool ThrowDiceCommand::execute(state::State* state) {
-    int dice1;
-    int dice2;
     std::vector<state::Player*> canStealPlayers;
 
     if (state->turn == playerColor){

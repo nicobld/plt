@@ -129,6 +129,8 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     for(int i = 0; i < 4; i++){
         handPlayers.push_back(Hand(cardTexture, (state::PlayerColor) i, state));
     }
+
+    dice = new Dice();
     
 }
 
@@ -190,6 +192,9 @@ void StateView::render(sf::RenderTarget &target)
     //----------Cards------------
     
     handPlayers[viewPlayer].render(target);
+
+    if(displayState[state->turn] == THROW_DICE || displayState[state->turn] == EXIT_THROW_DICE)
+        dice->render(target);
 
     //updateClickableObjects(state->turn);
 }
@@ -464,8 +469,22 @@ void StateView::handleClick(int x, int y)
         break;
         
     case THROW_DICE:
+    {
         sprintf(s, "throwdice-%d", viewPlayer);
         engine->addSerializedCommand(s);
+        engine->update();
+        std::cout << "THROW DIIIIICE\n";
+        dice->update(engine->saveThrDiceCmd->dice1 + engine->saveThrDiceCmd->dice2, engine->saveThrDiceCmd->dice1, engine->saveThrDiceCmd->dice2);
+        // int d1 = rand() % 6 + 1; 
+        // int d2 = rand() % 6 + 1;
+        // dice->update(d1 + d2, d1, d2);
+        std::cout << "THROW DIIIIICE\n";
+        displayState[viewPlayer] = EXIT_THROW_DICE;
+    }
+        break;
+    
+    case EXIT_THROW_DICE:
+        dice->update(0, 1, 1);
         displayState[viewPlayer] = STAND_BY;
         break;
 
