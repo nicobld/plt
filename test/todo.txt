@@ -1,0 +1,13 @@
+corriger menu thief pour la carte knight
+
+retirer les clics en trop
+    carte monopole, menu ressource, menu thief
+
+limier à 2 route construite avec carte construction route
+
+mettre a jour victorypoint
+
+mettre a jour menu construire (nb route, coloni, ville)
+
+invention bug, donne 2 fois la même ressource
+
