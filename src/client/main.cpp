@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
     sf::RenderWindow window(sf::VideoMode(width, height), "Catan");
     window.setPosition(sf::Vector2i(1920/2 -width/2, 1080/2 - height/2));
     window.setVerticalSyncEnabled(true);
+
     
     State state;
 
@@ -52,7 +53,9 @@ int main(int argc, char* argv[])
     state.players.push_back(Player("Nicolas", PlayerBlue));
     state.players.push_back(Player("Xu", PlayerYellow));
     state.players.push_back(Player("Stephane", PlayerGreen));
+    
     Engine engine(&state);
+    
     StateView stateView(&state, &engine);
 
     if(argc == 1){
@@ -69,11 +72,6 @@ int main(int argc, char* argv[])
     else if(!strncmp(argv[1], "render", 6)){
         cout << "===============| Catan |===============" << endl;
 
-        // state.players.at(0).developments.push_back(Development(Knight));
-        // state.players.at(0).developments.push_back(Development(VictoryPointsCard));
-        // state.players.at(0).developments.push_back(Development(Monopoly));
-
-        // state.players.at(1).developments.push_back(Development(Knight));
 
         state.players.at(0).resources.at(0).number = 2;
         state.players.at(0).resources.at(1).number = 3;
@@ -85,13 +83,6 @@ int main(int argc, char* argv[])
         
 
         Color sea(148, 240, 248);
-
-        Texture focusTexture;
-        focusTexture.loadFromFile("../res/focus.png");
-        Sprite *focus = new Sprite(focusTexture);
-        focus->setScale(Vector2f(0.9, 0.9));
-        focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
-        focus->setPosition(width/2, height/2);
 
         state.players.at(0).hasLargestArmy = 0;
         state.players.at(1).hasLargestArmy = 1;
@@ -115,8 +106,6 @@ int main(int argc, char* argv[])
 
             // c'est ici qu'on dessine tout
             //HUD.display(window);
-            window.draw(*stateView.tileMap);
-            window.draw(*focus);
             //stateView.displayHUD->render(window);
             stateView.render(window);
 
@@ -127,7 +116,7 @@ int main(int argc, char* argv[])
 
     else if(!strncmp(argv[1], "engine", 6)){
 
-        int c = 2;
+        //int c = 2;
 
         std::string inString; 
 
@@ -154,14 +143,9 @@ int main(int argc, char* argv[])
         state.players[PlayerBlue].resources[Grain].number = 10;
         state.players[PlayerBlue].resources[Wool].number = 10;
 
-        Texture focusTexture;
-        focusTexture.loadFromFile("../res/focus.png");
-        Sprite *focus = new Sprite(focusTexture);
-        focus->setScale(Vector2f(0.9, 0.9));
-        focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
-        focus->setPosition(width/2, height/2);
-
         sf::Mouse mouse;
+        stateView.updateClickableObjects(state.turn);
+
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
         {
@@ -171,14 +155,15 @@ int main(int argc, char* argv[])
             {
                 if (event.type == Event::Closed)
                     window.close();
-
+                    
                 if (event.type == sf::Event::MouseButtonPressed){
                     if (event.mouseButton.button == sf::Mouse::Left){
                         stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                         stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
                     }
-
+                
                 }
+
                 if (event.type == sf::Event::MouseButtonReleased){
                     if (event.mouseButton.button == sf::Mouse::Left){
                         //stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
@@ -186,7 +171,6 @@ int main(int argc, char* argv[])
                         std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
                     }
                 }
-
                 if (event.type == sf::Event::KeyPressed){
                      if (event.key.code == sf::Keyboard::V){
                         stateView.viewPlayer = (state::PlayerColor) (( stateView.viewPlayer + 1) % 4);
@@ -195,11 +179,9 @@ int main(int argc, char* argv[])
                 }
                 //if(stateView.handPlayers[state.turn].coords.contains(mouse.getPosition(window).x, mouse.getPosition(window).y))
                     stateView.handPlayers[state.turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
-
                 
             }
-
-            // effacement de la fenêtre en noir
+            // effacement de la fenêtre
             window.clear(sea);
 
             /* Terminal */
@@ -208,9 +190,9 @@ int main(int argc, char* argv[])
 
             // c'est ici qu'on dessine tout
             engine.update();
-
-            window.draw(*stateView.tileMap);
-            window.draw(*focus);
+            
+            //window.draw(*stateView.tileMap);   //mis dans stateview::render()
+            
             stateView.render(window);
 
             // fin de la frame courante, affichage de tout ce qu'on a dessiné
