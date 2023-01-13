@@ -72,6 +72,18 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     this->squareTexture->loadFromFile("../res/squares.png");
     this->squareTexture->setSmooth(true);
 
+    focusTexture = new sf::Texture();
+    focusTexture->loadFromFile("../res/focus.png");
+
+    cardTexture = new sf::Texture();
+    cardTexture->loadFromFile("../res/developmentCards.png");
+    cardTexture->setSmooth(true);
+    
+    spriteFocus = new sf::Sprite(*focusTexture);
+    spriteFocus->setScale(sf::Vector2f(0.9, 0.9));
+    spriteFocus->setOrigin(spriteFocus->getGlobalBounds().width/2, spriteFocus->getGlobalBounds().height/2);
+    spriteFocus->setPosition(width/2, height/2);
+
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[0]), &(state->players[1]), &(state->players[2]), &(state->players[3])));
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[1]), &(state->players[0]), &(state->players[2]), &(state->players[3])));
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[2]), &(state->players[0]), &(state->players[1]), &(state->players[3])));
@@ -97,10 +109,10 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     font.loadFromFile("../res/poppins.ttf");
     int fontSize = 24;
 
-    fontPlayerColor.push_back(sf::Color(181, 53, 53));
-    fontPlayerColor.push_back(sf::Color(69, 98, 184));
-    fontPlayerColor.push_back(sf::Color(182, 148, 82));
-    fontPlayerColor.push_back(sf::Color(70, 157, 70));
+    fontPlayerColor[0] = (sf::Color(181, 53, 53));
+    fontPlayerColor[1] = (sf::Color(69, 98, 184));
+    fontPlayerColor[2] = (sf::Color(182, 148, 82));
+    fontPlayerColor[3] = (sf::Color(70, 157, 70));
 
     playerTurnDisplay.push_back(new sf::Text("C'est votre tour", font, fontSize));
     playerTurnDisplay.back()->setColor(sf::Color(0, 0, 0));
@@ -112,10 +124,6 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     int heightPlayerTurn = 165;
     playerTurnDisplay[0]->setPosition(width - offset, heightPlayerTurn);
     playerTurnDisplay[1]->setPosition(playerTurnDisplay[0]->getPosition().x + playerTurnDisplay[0]->getGlobalBounds().width + 10, heightPlayerTurn);
-
-    cardTexture = new sf::Texture();
-    cardTexture->loadFromFile("../res/developmentCards.png");
-    cardTexture->setSmooth(true);
     
     for(int i = 0; i < 4; i++){
         handPlayers.push_back(Hand(cardTexture, (state::PlayerColor) i, state));
@@ -151,12 +159,16 @@ void deleteTroisButton(std::vector<Button *> *button){
 void StateView::render(sf::RenderTarget &target)
 {
     
+    target.draw(*tileMap);
+    renderPieces->render(state, target);
+    target.draw(*spriteFocus);
+
     if (clickableButton[2]->clicked)
         displayHUD[state->turn]->render(target);
     else
         displayHUD[viewPlayer]->render(target);
 
-    renderPieces->render(state, target);
+    
 
     for (int i = 0; i < playerTurnDisplay.size(); i++)
     {

@@ -83,15 +83,7 @@ int main(int argc, char* argv[])
         state.players.at(0).knightNumber = 3;
         state.players.at(0).hasLargestArmy = 1;
         
-
         Color sea(148, 240, 248);
-
-        Texture focusTexture;
-        focusTexture.loadFromFile("../res/focus.png");
-        Sprite *focus = new Sprite(focusTexture);
-        focus->setScale(Vector2f(0.9, 0.9));
-        focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
-        focus->setPosition(width/2, height/2);
 
         state.players.at(0).hasLargestArmy = 0;
         state.players.at(1).hasLargestArmy = 1;
@@ -115,8 +107,6 @@ int main(int argc, char* argv[])
 
             // c'est ici qu'on dessine tout
             //HUD.display(window);
-            window.draw(*stateView.tileMap);
-            window.draw(*focus);
             //stateView.displayHUD->render(window);
             stateView.render(window);
 
@@ -154,14 +144,8 @@ int main(int argc, char* argv[])
         state.players[PlayerBlue].resources[Grain].number = 10;
         state.players[PlayerBlue].resources[Wool].number = 10;
 
-        Texture focusTexture;
-        focusTexture.loadFromFile("../res/focus.png");
-        Sprite *focus = new Sprite(focusTexture);
-        focus->setScale(Vector2f(0.9, 0.9));
-        focus->setOrigin(focus->getGlobalBounds().width/2, focus->getGlobalBounds().height/2);
-        focus->setPosition(width/2, height/2);
-
         sf::Mouse mouse;
+        stateView.updateClickableObjects(state.turn);
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
         {
@@ -215,8 +199,6 @@ int main(int argc, char* argv[])
             // c'est ici qu'on dessine tout
             engine.update();
 
-            window.draw(*stateView.tileMap);
-            window.draw(*focus);
             stateView.render(window);
 
             // fin de la frame courante, affichage de tout ce qu'on a dessiné
