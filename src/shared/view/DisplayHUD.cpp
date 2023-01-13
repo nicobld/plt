@@ -87,6 +87,7 @@ namespace view
             vectorSpriteRessource.back().setPosition(spriteRessourceSquare->getPosition().x + 40 + i * 80, spriteRessourceSquare->getPosition().y + spriteRessourceSquare->getGlobalBounds().height / 2 - 13);
 
             vectorTextRessource.push_back(Text(to_string(this->player1->resources.at(i).number), font, 24));
+            vectorTextRessource.back().setOrigin(vectorTextRessource.back().getGlobalBounds().width, 0);
             vectorTextRessource.back().setPosition(vectorSpriteRessource.back().getPosition().x - 20, vectorSpriteRessource.back().getPosition().y);
             vectorTextRessource.back().setFillColor(Color(0, 0, 0));
         }
@@ -459,6 +460,21 @@ namespace view
         player2NumberCards->setString(to_string(sommeResources2));
         player3NumberCards->setString(to_string(sommeResources3));
         player4NumberCards->setString(to_string(sommeResources4));
+
+        player1NumberCards->setOrigin(player1NumberCards->getGlobalBounds().width, 0);
+        player2NumberCards->setOrigin(player2NumberCards->getGlobalBounds().width, 0);
+        player3NumberCards->setOrigin(player3NumberCards->getGlobalBounds().width, 0);
+        player4NumberCards->setOrigin(player4NumberCards->getGlobalBounds().width, 0);
+
+        
+        player1NumberCards->setPosition(spritePlayer1NumberCards->getPosition().x - 2, spritePlayer1NumberCards->getPosition().y);
+        player2NumberCards->setPosition(spritePlayer2NumberCards->getPosition().x - 2, spritePlayer2NumberCards->getPosition().y);
+        player3NumberCards->setPosition(spritePlayer3NumberCards->getPosition().x - 2, spritePlayer3NumberCards->getPosition().y);
+        player4NumberCards->setPosition(spritePlayer4NumberCards->getPosition().x - 2, spritePlayer4NumberCards->getPosition().y);
+
+
+
+
 
         player2NumberDevelopments->setString(to_string(this->player2->developments.size()));
         player3NumberDevelopments->setString(to_string(this->player3->developments.size()));

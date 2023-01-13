@@ -10,6 +10,7 @@
 #include "MenuExchange.h"
 #include "MenuAcceptExchange.h"
 #include "MenuThief.h"
+#include "MenuResource.h"
 #include "Hand.h"
 #include <cstring>
 
@@ -227,6 +228,10 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     switch (displayState[viewPlayer])
     {
     case STAND_BY:
+        // clickableMenu.push_back((Menu *)new MenuResource(*menuTexture, sf::IntRect(1280 / 2 - 434 / 2, 720 - 269, 434, 269), &(displayState[viewPlayer])));
+        // for (int i = 0; i < ((MenuResource *)clickableMenu.back())->buttonsSelect.size(); i++)
+        //     clickableButton.push_back((Button *)((MenuResource *)clickableMenu.back())->buttonsSelect[i]);
+        // std::cout << "ressource " << resTypeToString((state::ResourceType) ((MenuResource *) clickableMenu.back())->resourceClicked()) << std::endl;
         break;
 
     case CHOOSE_BUILD:
