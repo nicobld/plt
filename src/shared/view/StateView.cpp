@@ -359,16 +359,28 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case STEAL_PLAYER:
-        clickableMenu.push_back((Menu *)new MenuThief(state, *menuTexture, viewPlayer, sf::IntRect(1280 / 2 - 351, 720 - 167, 351, 167), &(displayState[viewPlayer])));
-        for (int i = 0; i < ((MenuThief*) clickableMenu.back())->buttonsSelect.size(); i++)
-            clickableButton.push_back((Button*) ((MenuThief*) clickableMenu.back())->buttonsSelect[i]);
+        playerToSteal.clear();
+        for(state::Player p : state->players){
+            if(p.playerColor != viewPlayer){
+                engine::StealCardCommand* steal = new engine::StealCardCommand(viewPlayer, p.playerColor);
+                if(steal->verify(state))
+                    playerToSteal.push_back(p);
+                delete steal;
+            }
+        }if(playerToSteal.size() > 0){
+            clickableMenu.push_back((Menu *)new MenuThief(state, *menuTexture, viewPlayer, playerToSteal, sf::IntRect(1280 / 2 - 351, 720 - 167, 351, 167), &(displayState[viewPlayer])));
+            for (int i = 0; i < ((MenuThief*) clickableMenu.back())->buttonsSelect.size(); i++)
+                clickableButton.push_back((Button*) ((MenuThief*) clickableMenu.back())->buttonsSelect[i]);
+        }
+        else
+            displayState[viewPlayer] = STAND_BY;
         break;
 
     case PASS_TURN_DISPLAY:
         std::cout << "pass turn\n";
         sprintf(s, "passturn-%d", viewPlayer);
         engine->addSerializedCommand(s);
-        viewPlayer = (state::PlayerColor)((int)viewPlayer + 1 % 4);
+        viewPlayer = (state::PlayerColor)(((int)viewPlayer + 1) % 4);
         displayState[viewPlayer] = THROW_DICE;
         break;
 

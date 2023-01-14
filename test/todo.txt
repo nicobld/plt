@@ -1,6 +1,8 @@
 TO DO : 
 
-On peut faire qu'un tour
+Faire L'initialisation des ressource pour les joueurs
+
+faire la condition de victoire ! 
 
 corriger menu thief pour la carte knight
 
@@ -22,4 +24,6 @@ limiter à 2 route construite avec carte construction
 mettre a jour victorypoint
 menu acceptexhcange affiche n'importe quoi
 carte monopole, menu ressource, menu thief
+coorection crash aon peut faire qu'un tour
+menu thief s'adapte au joeur disponible pour le vol
 
