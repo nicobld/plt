@@ -43,6 +43,14 @@ int main(int argc, char* argv[])
     window.setPosition(sf::Vector2i(1920/2 -width/2, 1080/2 - height/2));
     window.setVerticalSyncEnabled(true);
     
+    bool home = true;
+    sf::Texture homeTexure;
+    homeTexure.loadFromFile("../res/home.png");
+    homeTexure.setSmooth(true);
+
+    sf::Sprite* homeSprite = new sf::Sprite(homeTexure);
+    homeSprite->setScale(sf::Vector2f(0.66, 0.66));
+
     State state;
 
     state.turn = PlayerRed;
@@ -123,18 +131,18 @@ int main(int argc, char* argv[])
 
         Color sea(148, 240, 248);
 
-        for(int i= 0; i < state.players.size();  i++){
-            state.players[(state::PlayerColor) i ].resources[Lumber].number = 20;
-            state.players[(state::PlayerColor) i].resources[Brick].number = 20;
-            state.players[(state::PlayerColor) i].resources[Ore].number = 20;
-            state.players[(state::PlayerColor) i].resources[Grain].number = 20;
-            state.players[(state::PlayerColor) i].resources[Wool].number = 20;
-        }
+        // for(int i= 0; i < state.players.size();  i++){
+        //     state.players[(state::PlayerColor) i ].resources[Lumber].number = 20;
+        //     state.players[(state::PlayerColor) i].resources[Brick].number = 20;
+        //     state.players[(state::PlayerColor) i].resources[Ore].number = 20;
+        //     state.players[(state::PlayerColor) i].resources[Grain].number = 20;
+        //     state.players[(state::PlayerColor) i].resources[Wool].number = 20;
+        // }
 
-        state.players[PlayerRed].developments.push_back(Development(Monopoly));
-        state.players[PlayerRed].developments.push_back(Development(Knight));
-        state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
-        state.players[PlayerRed].developments.push_back(Development(Invention));
+        // state.players[PlayerRed].developments.push_back(Development(Monopoly));
+        // state.players[PlayerRed].developments.push_back(Development(Knight));
+        // state.players[PlayerRed].developments.push_back(Development(RoadConstruction));
+        // state.players[PlayerRed].developments.push_back(Development(Invention));
 
         // state.players[PlayerBlue].developments.push_back(Development(Invention));
 
@@ -157,35 +165,42 @@ int main(int argc, char* argv[])
 
                 if (event.type == sf::Event::MouseButtonPressed){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        std::cout << "aaa\n";
-                        stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
-                        stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
+                        if(home)
+                            home = false;
+                        else{
+                            stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                            stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
+                        }
                         break;
                     }
                 }
 
                 else if (event.type == sf::Event::MouseButtonReleased){
                     if (event.mouseButton.button == sf::Mouse::Left){
-                        //stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
-                        stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
-                        stateView.reloadTroisButtons();
-                        std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
+                        if(!home){
+                            //stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                            stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
+                            stateView.reloadTroisButtons();
+                            std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
+                        }
                     }
                 }
 
                 else if (event.type == sf::Event::KeyPressed){
                      if (event.key.code == sf::Keyboard::V){
-                        std::cout << "V\n";
-                        stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
-                        stateView.reloadTroisButtons();
-                        stateView.updatePlayerTurnDisplay();
-                        stateView.updateClickableObjects(state.turn);
+                        if(!home){
+                            std::cout << "V\n";
+                            stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
+                            stateView.reloadTroisButtons();
+                            stateView.updatePlayerTurnDisplay();
+                            stateView.updateClickableObjects(state.turn);
+                        }
+                        
                      }
                 }
-                //if(stateView.handPlayers[state.turn].coords.contains(mouse.getPosition(window).x, mouse.getPosition(window).y))
-                stateView.handPlayers[state.turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+                if(!home)
+                    stateView.handPlayers[state.turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
 
-                
             }
 
             // effacement de la fenêtre en noir
@@ -196,9 +211,13 @@ int main(int argc, char* argv[])
             // engine.addSerializedCommand(inString);
 
             // c'est ici qu'on dessine tout
-            engine.update();
-
+            if(!home){
+                engine.update();
             stateView.render(window);
+            }
+            else
+                window.draw(*homeSprite);
+            
 
             // fin de la frame courante, affichage de tout ce qu'on a dessiné
             window.display();
