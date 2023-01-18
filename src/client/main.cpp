@@ -158,18 +158,30 @@ int main(int argc, char* argv[])
                             std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
                     }
                 }
-
-                else if (event.type == sf::Event::KeyPressed){
-                     if (event.key.code == sf::Keyboard::V){
-                            std::cout << "V\n";
-                            stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
-                            stateView.reloadTroisButtons();
-                            stateView.updatePlayerTurnDisplay();
-                            stateView.updateClickableObjects(state.turn);
-                     }
+                if(stateView.displayState[0] == CHOOSING_NAME){
+                    if (event.type == sf::Event::TextEntered){
+                        if (event.text.unicode < 128){
+                            //std::cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) << std::endl;
+                            stateView.updateChooseName(static_cast<char>(event.text.unicode));
+                        }
                 }
-                    stateView.handPlayers[state.turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+                }
+                else{
+                    if (event.type == sf::Event::KeyPressed){
+                        if (event.key.code == sf::Keyboard::V){
+                                std::cout << "V\n";
+                                stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
+                                stateView.reloadTroisButtons();
+                                stateView.updatePlayerTurnDisplay();
+                                stateView.updateClickableObjects(state.turn);
+                        }
+                    }
+                }
 
+                
+
+                    stateView.handPlayers[state.turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+                    //stateView.updateChooseName();
             }
 
             // effacement de la fenêtre en noir
@@ -239,7 +251,10 @@ int main(int argc, char* argv[])
                                 stateView.updateClickableObjects(state->turn);
                         }
                     }
-                        stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+
+            
+                    stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+
                 }
                 
                 else{       //si c'est un bot
@@ -252,6 +267,7 @@ int main(int argc, char* argv[])
                 }
 
             }
+
 
             // effacement de la fenêtre en noir
             window.clear(sea);
