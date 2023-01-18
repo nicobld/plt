@@ -243,8 +243,12 @@ int main(int argc, char* argv[])
                 }
                 
                 else{       //si c'est un bot
-                    
-                    engine.randomBot.generateCommand(state);
+                
+                    engine.addSerializedCommand(engine.randomBot.throwDice(state));
+                    engine.update();
+                    stateView.dice->update(engine.saveThrDiceCmd->dice1 + engine.saveThrDiceCmd->dice2, engine.saveThrDiceCmd->dice1, engine.saveThrDiceCmd->dice2);
+                    stateView.updateClickableObjects(state->turn);
+
                 }
 
             }

@@ -47,7 +47,6 @@ namespace engine {
 
 Engine::Engine(state::State* state) : state(state) {
     std::cout << "Engine launched" << std::endl;
-
     saveThrDiceCmd = new ThrowDiceCommand();
 }
 
