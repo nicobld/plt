@@ -43,20 +43,22 @@ int main(int argc, char* argv[])
     window.setPosition(sf::Vector2i(1920/2 -width/2, 1080/2 - height/2));
     window.setVerticalSyncEnabled(true);
     
-    //bool home = true;
+    
     
 
-    State state;
+    //State state;
+    // state.players.push_back(Player("Jonah", PlayerRed));
+    // state.players.push_back(Player("Nicolas", PlayerBlue));
+    // state.players.push_back(Player("Xu", PlayerYellow));
+    // state.players.push_back(Player("Stephane", PlayerGreen));
+    // Engine engine(&state);
+    // StateView stateView(&state, &engine);
 
-    state.turn = PlayerRed;
-    state.gameState = NORMAL_STATE;
-    
-    state.players.push_back(Player("Jonah", PlayerRed));
-    state.players.push_back(Player("Nicolas", PlayerBlue));
-    state.players.push_back(Player("Xu", PlayerYellow));
-    state.players.push_back(Player("Stephane", PlayerGreen));
-    Engine engine(&state);
-    StateView stateView(&state, &engine);
+    std::vector<std::string> namePlayers = {"Jonah", "Nicolas"};
+    State* state = new State(namePlayers);
+
+    Engine engine(state);
+    StateView stateView (state, &engine);
 
     if(argc == 1){
         cout << "hello" << endl;
@@ -69,54 +71,54 @@ int main(int argc, char* argv[])
     if(!strncmp(argv[1], "hello", 5)){
         cout << "===============| Catan |===============" << endl;
     }
-    else if(!strncmp(argv[1], "render", 6)){
-        cout << "===============| Catan |===============" << endl;
+    // else if(!strncmp(argv[1], "render", 6)){
+    //     cout << "===============| Catan |===============" << endl;
 
-        // state.players.at(0).developments.push_back(Development(Knight));
-        // state.players.at(0).developments.push_back(Development(VictoryPointsCard));
-        // state.players.at(0).developments.push_back(Development(Monopoly));
+    //     // state.players.at(0).developments.push_back(Development(Knight));
+    //     // state.players.at(0).developments.push_back(Development(VictoryPointsCard));
+    //     // state.players.at(0).developments.push_back(Development(Monopoly));
 
-        // state.players.at(1).developments.push_back(Development(Knight));
+    //     // state.players.at(1).developments.push_back(Development(Knight));
 
-        state.players.at(0).resources.at(0).number = 2;
-        state.players.at(0).resources.at(1).number = 3;
-        state.players.at(0).resources.at(4).number = 1;
-        state.players.at(1).resources.at(4).number = 1;
-        state.players.at(3).resources.at(4).number = 5;
-        state.players.at(0).knightNumber = 3;
-        state.players.at(0).hasLargestArmy = 1;
+    //     state.players.at(0).resources.at(0).number = 2;
+    //     state.players.at(0).resources.at(1).number = 3;
+    //     state.players.at(0).resources.at(4).number = 1;
+    //     state.players.at(1).resources.at(4).number = 1;
+    //     state.players.at(3).resources.at(4).number = 5;
+    //     state.players.at(0).knightNumber = 3;
+    //     state.players.at(0).hasLargestArmy = 1;
         
-        Color sea(148, 240, 248);
+    //     Color sea(148, 240, 248);
 
-        state.players.at(0).hasLargestArmy = 0;
-        state.players.at(1).hasLargestArmy = 1;
+    //     state.players.at(0).hasLargestArmy = 0;
+    //     state.players.at(1).hasLargestArmy = 1;
 
        
-        // on fait tourner le programme tant que la fenêtre n'a pas été fermée
-        while (window.isOpen())
-        {
-            // on traite tous les évènements de la fenêtre qui ont été générés depuis la dernière itération de la boucle
-            Event event;
-            while (window.pollEvent(event))
-            {
-                // fermeture de la fenêtre lorsque l'utilisateur le souhaite
-                if (event.type == Event::Closed)
-                    window.close();
-            }
+    //     // on fait tourner le programme tant que la fenêtre n'a pas été fermée
+    //     while (window.isOpen())
+    //     {
+    //         // on traite tous les évènements de la fenêtre qui ont été générés depuis la dernière itération de la boucle
+    //         Event event;
+    //         while (window.pollEvent(event))
+    //         {
+    //             // fermeture de la fenêtre lorsque l'utilisateur le souhaite
+    //             if (event.type == Event::Closed)
+    //                 window.close();
+    //         }
 
-            // effacement de la fenêtre en noir
-            //window.clear(Color::Black);
-            window.clear(sea);
+    //         // effacement de la fenêtre en noir
+    //         //window.clear(Color::Black);
+    //         window.clear(sea);
 
-            // c'est ici qu'on dessine tout
-            //HUD.display(window);
-            //stateView.displayHUD->render(window);
-            stateView.render(window);
+    //         // c'est ici qu'on dessine tout
+    //         //HUD.display(window);
+    //         //stateView.displayHUD->render(window);
+    //         stateView.render(window);
 
-            // fin de la frame courante, affichage de tout ce qu'on a dessiné
-            window.display();
-        }
-    }
+    //         // fin de la frame courante, affichage de tout ce qu'on a dessiné
+    //         window.display();
+    //     }
+    // }
 
     else if(!strncmp(argv[1], "engine", 6)){
 
@@ -160,10 +162,10 @@ int main(int argc, char* argv[])
                             stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
                             stateView.reloadTroisButtons();
                             stateView.updatePlayerTurnDisplay();
-                            stateView.updateClickableObjects(state.turn);
+                            stateView.updateClickableObjects(state->turn);
                      }
                 }
-                    stateView.handPlayers[state.turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+                    stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
 
             }
 
