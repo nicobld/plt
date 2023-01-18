@@ -63,6 +63,8 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     int width = 1280;
     int height = 720;
 
+    home = true;
+
     this->engine = engine;
 
     this->menuTexture = new sf::Texture();
@@ -85,12 +87,19 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     spriteFocus->setOrigin(spriteFocus->getGlobalBounds().width/2, spriteFocus->getGlobalBounds().height/2);
     spriteFocus->setPosition(width/2, height/2);
 
+    homeTexture = new sf::Texture();
+    homeTexture->loadFromFile("../res/home.png");
+    homeTexture->setSmooth(true);
+
+    spriteHome = new sf::Sprite(*homeTexture);
+    spriteHome->setScale(sf::Vector2f(0.66, 0.66));
+
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[0]), &(state->players[1]), &(state->players[2]), &(state->players[3])));
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[1]), &(state->players[0]), &(state->players[2]), &(state->players[3])));
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[2]), &(state->players[0]), &(state->players[1]), &(state->players[3])));
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[3]), &(state->players[0]), &(state->players[1]), &(state->players[2])));
 
-    displayState[0] = THROW_DICE;
+    displayState[0] = HUB;
     displayState[1] = STAND_BY;
     displayState[2] = STAND_BY;
     displayState[3] = STAND_BY;
@@ -161,42 +170,47 @@ void deleteTroisButton(std::vector<Button *> *button){
 
 void StateView::render(sf::RenderTarget &target)
 {
-    
-    target.draw(*tileMap);
-    renderPieces->render(state, target);
-    target.draw(*spriteFocus);
+    if(!home){
+        target.draw(*tileMap);
+        renderPieces->render(state, target);
+        target.draw(*spriteFocus);
 
-    if (clickableButton[2]->clicked)
-        displayHUD[state->turn]->render(target);
-    else
-        displayHUD[viewPlayer]->render(target);
+        if (clickableButton[2]->clicked)
+            displayHUD[state->turn]->render(target);
+        else
+            displayHUD[viewPlayer]->render(target);
 
-    
+        
 
-    for (int i = 0; i < playerTurnDisplay.size(); i++)
-    {
-        target.draw(*playerTurnDisplay[i]);
+        for (int i = 0; i < playerTurnDisplay.size(); i++)
+        {
+            target.draw(*playerTurnDisplay[i]);
+        }
+
+        for (int i = 0; i < clickableMenu.size(); i++)
+        {
+            clickableMenu[i]->render(target);
+        }
+
+        // for (int i = 0; i < clickableButton.size(); i++)
+        for (int i = 0; i < 3; i++)
+        {
+            clickableButton[i]->render(target);
+        }
+
+        //----------Cards------------
+        
+        handPlayers[viewPlayer].render(target);
+
+        if(displayState[state->turn] == THROW_DICE || displayState[state->turn] == EXIT_THROW_DICE)
+            dice->render(target);
+
+        //updateClickableObjects(state->turn);
+
     }
-
-    for (int i = 0; i < clickableMenu.size(); i++)
-    {
-        clickableMenu[i]->render(target);
+    else{
+        target.draw(*spriteHome);
     }
-
-    // for (int i = 0; i < clickableButton.size(); i++)
-    for (int i = 0; i < 3; i++)
-    {
-        clickableButton[i]->render(target);
-    }
-
-    //----------Cards------------
-    
-    handPlayers[viewPlayer].render(target);
-
-    if(displayState[state->turn] == THROW_DICE || displayState[state->turn] == EXIT_THROW_DICE)
-        dice->render(target);
-
-    //updateClickableObjects(state->turn);
 }
 
 void StateView::updateClickableObjects(state::PlayerColor playerColor)
@@ -475,6 +489,11 @@ void StateView::handleClick(int x, int y)
     switch (displayState[viewPlayer])
     {
     case STAND_BY:
+        break;
+
+    case HUB : 
+        home = false;
+        displayState[viewPlayer] = THROW_DICE;
         break;
         
     case THROW_DICE:
