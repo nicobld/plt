@@ -266,16 +266,25 @@ int main(int argc, char* argv[])
                         }
                     }
 
-                    else if (event.type == sf::Event::KeyPressed){
+                if(stateView.displayState[0] == CHOOSING_NAME){
+                    if (event.type == sf::Event::TextEntered){
+                        if (event.text.unicode < 128){
+                            //std::cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) << std::endl;
+                            stateView.updateChooseName(static_cast<char>(event.text.unicode));
+                        }
+                }
+                }
+                else{
+                    if (event.type == sf::Event::KeyPressed){
                         if (event.key.code == sf::Keyboard::V){
                                 std::cout << "V\n";
                                 stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
-                                std::cout << "VIEW PLAYER : " << stateView.viewPlayer << std::endl;
                                 stateView.reloadTroisButtons();
                                 stateView.updatePlayerTurnDisplay();
                                 stateView.updateClickableObjects(state->turn);
                         }
                     }
+                }
 
             
                     stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
