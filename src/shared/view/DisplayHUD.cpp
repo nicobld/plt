@@ -441,6 +441,19 @@ namespace view
     void DisplayHUD::update()
     {
 
+        player1Name->setString(this->player1->name);
+        player2Name->setString(this->player2->name);
+        player3Name->setString(this->player3->name);
+        player4Name->setString(this->player4->name);
+
+        player2Name->setOrigin((player2Name->getGlobalBounds().width) / 2, 0);
+        player2Name->setPosition((spritePlayer2Square->getGlobalBounds().width) / 2 + spritePlayer2Square->getPosition().x, 10);
+        player3Name->setOrigin((player3Name->getGlobalBounds().width) / 2, 0);
+        player3Name->setPosition((spritePlayer3Square->getGlobalBounds().width) / 2 + spritePlayer3Square->getPosition().x, 10);
+        player4Name->setOrigin((player4Name->getGlobalBounds().width) / 2, 0);
+        player4Name->setPosition((spritePlayer4Square->getGlobalBounds().width) / 2 + spritePlayer4Square->getPosition().x, 10);
+
+
         player1VP->setString(to_string(this->player1->victoryPoints));
         player2VP->setString(to_string(this->player2->victoryPoints));
         player3VP->setString(to_string(this->player3->victoryPoints));

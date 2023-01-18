@@ -11,6 +11,7 @@
 #include "MenuAcceptExchange.h"
 #include "MenuThief.h"
 #include "MenuResource.h"
+#include "MenuChooseName.h"
 #include "Hand.h"
 #include <cstring>
 
@@ -53,6 +54,23 @@ static char *cardIDToString(view::Card_ID card_ID)
         return "victorypoint";
     else
         return "nothing";
+}
+
+static char* iToColor(int i){
+    switch(i){
+        case 0 :
+            return "Red";
+            break;
+        case 1 :
+            return "Blue";
+            break;
+        case 2 :
+            return "Yellow";
+            break;
+        case 3 :
+            return "Green";
+            break;
+    }
 }
 
 namespace view
@@ -100,9 +118,9 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[3]), &(state->players[0]), &(state->players[1]), &(state->players[2])));
 
     displayState[0] = HUB;
-    displayState[1] = STAND_BY;
-    displayState[2] = STAND_BY;
-    displayState[3] = STAND_BY;
+    displayState[1] = HUB;
+    displayState[2] = HUB;
+    displayState[3] = HUB;
 
     viewPlayer = (state::PlayerColor)0;
 
@@ -212,6 +230,10 @@ void StateView::render(sf::RenderTarget &target)
     }
     else{
         target.draw(*spriteHome);
+        for (int i = 0; i < clickableMenu.size(); i++)
+        {
+            clickableMenu[i]->render(target);
+        }
     }
 }
 
@@ -251,7 +273,8 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
 
     if (displayState[viewPlayer] != CHOOSING_EXCHANGE &&
         displayState[viewPlayer] != MONOPOLY_DISPLAY_STAY &&
-        displayState[viewPlayer] != INVENTION_DISPLAY_STAY) //c'est un menu qui reste ouvert longtemps
+        displayState[viewPlayer] != INVENTION_DISPLAY_STAY &&
+        displayState[viewPlayer] != CHOOSING_NAME) //c'est un menu qui reste ouvert longtemps
     {
         deleteMenu(&clickableMenu);
         deleteButton(&clickableButton);
@@ -260,6 +283,27 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     switch (displayState[viewPlayer])
     {
     case STAND_BY:
+        break;
+
+    case CHOOSING_NAME:
+        
+        if (((Button *)((MenuChooseName *)clickableMenu.back())->buttonValidate)->clicked){
+            home = false;
+            for(int i = 0; i < 4; i ++){
+                if(((MenuChooseName *)clickableMenu.back())->namePlayers[i].getString() != ""){
+                    state->players[i].name = (std::string) ((MenuChooseName *)clickableMenu.back())->namePlayers[i].getString();
+                }
+                else{
+                    state->players[i].name = (std::string) iToColor(i);
+                    state->players[i].isBot = true;
+                    std::cout << "i :" << i << "player Name : " << state->players[i].name << std::endl;
+                }
+            }
+
+            deleteButton(&clickableButton);
+            deleteMenu(&clickableMenu);
+            displayState[viewPlayer] = THROW_DICE;
+        }
         break;
 
     case MONOPOLY_DISPLAY:
@@ -292,11 +336,9 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         if ((r1 = (state::ResourceType)((MenuResource*)clickableMenu.back())->resourceClicked()) != -1){
             if (menuResClicks == 0){
                 menuResClicks = 1;
-                std::cout << "HAHAHAH\n";
                 r0 = r1;
             } else {
                 sprintf(s, "invention-%d-%d-%d", viewPlayer, r0, r1);
-                std::cout << "INVENTION ::::: " << r0 << " " << r1 << std::endl;
                 engine->addSerializedCommand(s);
                 menuResClicks = 0;
             }
@@ -451,6 +493,12 @@ void StateView::clickedObjects(int x, int y)
     {
         clickableButton[i]->isClicked(x, y);
     }
+
+    if(displayState[viewPlayer] == CHOOSING_NAME){
+        ((MenuChooseName*)clickableMenu.back())->updateNameSelected(x, y);
+    }
+
+
     int c_id = -1;
     if((c_id = handPlayers[viewPlayer].isClicked(x, y)) != -1){
         std::cout << "dev type : " << cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID) << std::endl;
@@ -463,11 +511,13 @@ void StateView::clickedObjects(int x, int y)
 
 void StateView::releasedObjects(int x, int y)
 {
-    if (clickableMenu.size() > 0)
-    {
-        if (!clickableMenu.back()->isClicked(x, y)){
-            displayState[viewPlayer] = STAND_BY;
-            updateClickableObjects(viewPlayer);
+    if(displayState[viewPlayer] != HUB && displayState[viewPlayer] != CHOOSING_NAME ){
+        if (clickableMenu.size() > 0)
+        {
+            if (!clickableMenu.back()->isClicked(x, y)){
+                displayState[viewPlayer] = STAND_BY;
+                updateClickableObjects(viewPlayer);
+            }
         }
     }
     for (int i = 0; i < clickableButton.size(); i++)
@@ -494,9 +544,12 @@ void StateView::handleClick(int x, int y)
         break;
 
     case HUB : 
-        home = false;
-        displayState[viewPlayer] = THROW_DICE;
+        //home = false;
+        clickableMenu.push_back((Menu *)new MenuChooseName(*menuTexture, sf::IntRect(1280 / 2 - 621 / 2, 720 - 609, 621, 609), &(displayState[viewPlayer])));
+        clickableButton.push_back((Button*) ((MenuChooseName*) clickableMenu.back())->buttonValidate);
+        displayState[viewPlayer] = CHOOSING_NAME;
         break;
+
         
     case THROW_DICE:
     {
@@ -578,6 +631,12 @@ void StateView::updatePlayerTurnDisplay()
 
     playerTurnDisplay[0]->setPosition(width - offset, heightPlayerTurn);
     playerTurnDisplay[1]->setPosition(playerTurnDisplay[0]->getPosition().x + playerTurnDisplay[0]->getGlobalBounds().width + 10, heightPlayerTurn);
+}
+
+void StateView::updateChooseName(char letter){
+     if(displayState[viewPlayer] == CHOOSING_NAME){
+        ((MenuChooseName*)clickableMenu.back())->updateText(letter);
+    }
 }
 
 
