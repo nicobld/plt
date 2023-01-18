@@ -110,7 +110,9 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     homeTexture->setSmooth(true);
 
     spriteHome = new sf::Sprite(*homeTexture);
-    spriteHome->setScale(sf::Vector2f(0.66, 0.66));
+    spriteHome->setOrigin(spriteHome->getGlobalBounds().width/2, spriteHome->getGlobalBounds().height/2);
+    spriteHome->setScale(sf::Vector2f(0.67, 0.67));
+    spriteHome->setPosition(1280/2, 720/2);
 
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[0]), &(state->players[1]), &(state->players[2]), &(state->players[3])));
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[1]), &(state->players[0]), &(state->players[2]), &(state->players[3])));

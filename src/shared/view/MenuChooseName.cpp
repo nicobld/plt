@@ -16,7 +16,7 @@ MenuChooseName::MenuChooseName(sf::Texture menuTexture, sf::IntRect coords, Disp
     spriteMenu = new sf::Sprite(this->menuTexture, sf::IntRect(2173, 0, 621, 609));
     spriteMenu->setScale(sf::Vector2f(0.65, 0.65));
     spriteMenu->setOrigin(spriteMenu->getGlobalBounds().width/2, 0);
-    spriteMenu->setPosition(1280/2 - 90, 720 - spriteMenu->getGlobalBounds().height - 50);
+    spriteMenu->setPosition(1280/2 - 70, 720 - spriteMenu->getGlobalBounds().height - 50);
 
     fontPlayerColor[0] = (sf::Color(181, 53, 53));
     fontPlayerColor[1] = (sf::Color(69, 98, 184));
