@@ -175,9 +175,9 @@ void StateView::render(sf::RenderTarget &target)
         renderPieces->render(state, target);
         target.draw(*spriteFocus);
 
-        if (clickableButton[2]->clicked)
-            displayHUD[state->turn]->render(target);
-        else
+        // if (clickableButton[2]->clicked)
+        //     displayHUD[state->turn]->render(target);
+        // else
             displayHUD[viewPlayer]->render(target);
 
         
@@ -381,7 +381,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
                     playerToSteal.push_back(p);
                 delete steal;
             }
-        }if(playerToSteal.size() > 0){
+        } if(playerToSteal.size() > 0){
             clickableMenu.push_back((Menu *)new MenuThief(state, *menuTexture, viewPlayer, playerToSteal, sf::IntRect(1280 / 2 - 351, 720 - 167, 351, 167), &(displayState[viewPlayer])));
             for (int i = 0; i < ((MenuThief*) clickableMenu.back())->buttonsSelect.size(); i++)
                 clickableButton.push_back((Button*) ((MenuThief*) clickableMenu.back())->buttonsSelect[i]);

@@ -65,7 +65,7 @@ bool ThrowDiceCommand::execute(state::State* state) {
     if (state->turn == playerColor){
         //std::cout << "throwDice" << std::endl;
 
-        if (state->gameState == state::NORMAL_STATE){
+        if (state->gameState == state::THROW_DICE_STATE){
             //lancer de dés
             dice1 = rand() % 6 + 1;
             dice2 = rand() % 6 + 1;

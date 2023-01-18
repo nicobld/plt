@@ -47,6 +47,7 @@ namespace engine {
 
 Engine::Engine(state::State* state) : state(state) {
     std::cout << "Engine launched" << std::endl;
+    state->gameState = THROW_DICE_STATE;
     saveThrDiceCmd = new ThrowDiceCommand();
 }
 
@@ -159,7 +160,24 @@ void Engine::update() {
     while(commandQueue.size() != 0) {
         std::cout << "ENGINE : New command : " << commandQueue.front()->commandID << std::endl;
         std::cout << "ENGINE : gameState : " << state->gameState << std::endl;
-        if (state->gameState == NORMAL_STATE){
+
+
+        if (state->gameState == THROW_DICE_STATE){
+            if (commandQueue.front()->playerColor == state->turn){
+                if (commandQueue.front()->commandID == THROW_DICE_CMD){
+                    if (commandQueue.front()->verify(state)){
+                        commandQueue.front()->execute(state);
+                        saveCmd = THROW_DICE_CMD;
+                        *saveThrDiceCmd = *(static_cast<ThrowDiceCommand*>(commandQueue.front()));
+                        std::cout << "ENGINE DICE RESULT " << static_cast<ThrowDiceCommand*>(commandQueue.front())->result << std::endl;
+                        state->gameState = NORMAL_STATE;
+                    }
+                }
+            }
+        }
+
+
+        else if (state->gameState == NORMAL_STATE){
             if (commandQueue.front()->playerColor == state->turn){
                 if (commandQueue.front()->commandID != EXCHANGE_RESPONSE_CMD &&
                     commandQueue.front()->commandID != PLACE_THIEF_CMD &&
@@ -172,13 +190,6 @@ void Engine::update() {
                             saveCmd = EXCHANGE_REQUEST_CMD;
                             *saveExReqCmd = *(static_cast<ExchangeRequestCommand*>(commandQueue.front()));
                             state->gameState = EXCHANGE_REQUEST_STATE;
-
-                        }
-                        
-                        else if (commandQueue.front()->commandID == THROW_DICE_CMD){
-                            saveCmd = THROW_DICE_CMD;
-                            *saveThrDiceCmd = *(static_cast<ThrowDiceCommand*>(commandQueue.front()));
-                            std::cout << "ENGINE DICE RESULT " << saveThrDiceCmd->dice1 << std::endl;
                         }
                         
                         else if (commandQueue.front()->commandID == USE_CARD_CMD){

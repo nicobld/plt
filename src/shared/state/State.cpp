@@ -22,7 +22,7 @@ static char* iToColor(int i){
 State::State() {
 
     turn = PlayerRed;
-    gameState = NORMAL_STATE;
+    gameState = THROW_DICE_STATE;
 }
 
 State::State (std::vector<std::string> namePlayers){
