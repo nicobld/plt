@@ -16,7 +16,7 @@
 #include <view.h>
 #include <engine.h>
 
-//#define ALLBOTS
+// #define ALLBOTS
 
 using namespace std;
 using namespace state;
@@ -312,7 +312,7 @@ int main(int argc, char* argv[])
                 std::cout << "CURRENT BOT " << state->players[state->turn].playerColor << std::endl;
                 engine.randomBot.generateCommand(state, &engine);
                 stateView.viewPlayer = (PlayerColor) (((int)stateView.viewPlayer + 1) % 4);
-                stateView.displayState[stateView.viewPlayer] = view::THROW_DICE;
+                stateView.displayState[stateView.viewPlayer] = view::STAND_BY;
                 stateView.reloadTroisButtons();
                 stateView.updatePlayerTurnDisplay();
                 stateView.updateClickableObjects(state->turn);

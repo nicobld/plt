@@ -302,7 +302,10 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
 
             deleteButton(&clickableButton);
             deleteMenu(&clickableMenu);
-            displayState[viewPlayer] = THROW_DICE;
+            if(!state->players[viewPlayer].isBot)
+                displayState[viewPlayer] = THROW_DICE;
+            else
+                displayState[viewPlayer] = STAND_BY;
         }
         break;
 

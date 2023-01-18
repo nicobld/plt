@@ -56,7 +56,7 @@ char* Bot::generateCommand(state::State* state, engine::Engine* engine){
         }
     }
 
-    int count = 1000;
+    int count = 100;
 
     while (--count){
         sprintf(s, "placeroad-%d-%d-%d-%d-%d", state->turn, rand()%7, rand()%7, rand()%7, rand()%7);
