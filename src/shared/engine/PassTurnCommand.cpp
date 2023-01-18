@@ -24,6 +24,7 @@ bool PassTurnCommand::verify(state::State* state){
 
 bool PassTurnCommand::execute(state::State* state) {
     state->turn = (state::PlayerColor) (((int)state->turn + 1) % 4);
+    state->gameState = state::THROW_DICE_STATE;
     return true;
 }
 

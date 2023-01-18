@@ -64,6 +64,17 @@ static std::array<Position, 2> findTilesRoadNeighbors(state::State* state, std::
     return res;
 }
 
+static bool isNeighbor(Position pos1, Position pos2){
+    Position pos = pos2 - pos1;
+    if (pos == Position(0, 0))
+        return false;
+    for (int i = 0; i < 6; i++){
+        if (pos == neighbors[pos1.y % 2][i])
+            return true;
+    }
+    return false;
+}
+
 namespace engine {
 
 PlaceBuildingCommand::PlaceBuildingCommand() {
@@ -81,6 +92,13 @@ bool PlaceBuildingCommand::verify(state::State* state){
     std::array<Position, 2> tempRoadPos;
     std::array<Position, 2> tempRoadNeighbors;
     Position tempTile;
+
+    if (!(isNeighbor(position[0], position[1]) &&
+        isNeighbor(position[1], position[2]) &&
+        isNeighbor(position[2], position[0]))){
+        std::cout << "PlaceBuilding error: not a valid position\n";
+        return false;
+    }
 
     bool foundBuilding = false;
     //verifie si le joueur a le building
@@ -115,7 +133,7 @@ bool PlaceBuildingCommand::verify(state::State* state){
 
     foundBuilding = false;
     for (state::Building b : state->map.buildings){//pour upgrade colony en city
-        if (b.position == position) {
+        if (equalBuildingPos(b.position, position)) {
             std::cout << "build : " << buildingType << " on : " << b.buildingType << std::endl;
             if (buildingType == City && b.buildingType == Colony && b.playerColor == playerColor) {
                 foundBuilding = true;

@@ -239,7 +239,7 @@ bool PlaceRoadCommand::verify(state::State* state){
 
     //verifie pas déjà une route sur la map
     for (state::Road r : state->map.roads){
-        if (r.position == position){
+        if (equalArrayPos(r.position, position)){
             std::cout << "PlaceRoad error : already a road here" << std::endl;
             return false;
         }

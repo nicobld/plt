@@ -170,6 +170,7 @@ void deleteTroisButton(std::vector<Button *> *button){
 
 void StateView::render(sf::RenderTarget &target)
 {
+    updatePlayerTurnDisplay();
     if(!home){
         target.draw(*tileMap);
         renderPieces->render(state, target);
@@ -178,7 +179,8 @@ void StateView::render(sf::RenderTarget &target)
         // if (clickableButton[2]->clicked)
         //     displayHUD[state->turn]->render(target);
         // else
-            displayHUD[viewPlayer]->render(target);
+        
+        displayHUD[viewPlayer]->render(target);
 
         
 
@@ -251,7 +253,6 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         displayState[viewPlayer] != MONOPOLY_DISPLAY_STAY &&
         displayState[viewPlayer] != INVENTION_DISPLAY_STAY) //c'est un menu qui reste ouvert longtemps
     {
-        std::cout << "DELELEETE\n";
         deleteMenu(&clickableMenu);
         deleteButton(&clickableButton);
     }
@@ -394,6 +395,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         std::cout << "pass turn\n";
         sprintf(s, "passturn-%d", viewPlayer);
         engine->addSerializedCommand(s);
+        displayState[viewPlayer] = STAND_BY;
         viewPlayer = (state::PlayerColor)(((int)viewPlayer + 1) % 4);
         displayState[viewPlayer] = THROW_DICE;
         break;
@@ -503,8 +505,8 @@ void StateView::handleClick(int x, int y)
         engine->update();
         dice->update(engine->saveThrDiceCmd->dice1 + engine->saveThrDiceCmd->dice2, engine->saveThrDiceCmd->dice1, engine->saveThrDiceCmd->dice2);
         displayState[viewPlayer] = EXIT_THROW_DICE;
-    }
         break;
+    }
     
     case EXIT_THROW_DICE:
         dice->update(0, 1, 1);

@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/Music.hpp>
+#include <SFML/System/Time.hpp>
 
 
 // Fin test SFML
@@ -15,7 +16,7 @@
 #include <view.h>
 #include <engine.h>
 
-
+//#define ALLBOTS
 
 using namespace std;
 using namespace state;
@@ -190,10 +191,33 @@ int main(int argc, char* argv[])
 
 
     else if(!strncmp(argv[1], "random_ai", 9)){
-        std::vector<std::string> namePlayers = {"Jonah", "Nicolas"};
+        std::vector<std::string> namePlayers = {"a", "b"};
         State* state = new State(namePlayers);
         Engine engine(state);
         StateView stateView (state, &engine);
+
+        state->players[0].resources[0].number = 100;
+        state->players[0].resources[1].number = 100;
+        state->players[0].resources[2].number = 100;
+        state->players[0].resources[3].number = 100;
+        state->players[0].resources[4].number = 100;
+
+        state->players[1].resources[0].number = 100;
+        state->players[1].resources[1].number = 100;
+        state->players[1].resources[2].number = 100;
+        state->players[1].resources[3].number = 100;
+        state->players[1].resources[4].number = 100;
+
+        // stateView.displayState[0] = view::STAND_BY;
+        // stateView.displayState[1] = view::STAND_BY;
+        // stateView.displayState[2] = view::STAND_BY;
+        // stateView.displayState[3] = view::STAND_BY;
+
+        // stateView.clickedObjects(0, 0);
+        // stateView.handleClick(0, 0);
+#ifdef ALLBOTS
+        stateView.home = 0;
+#endif
 
 
         std::string inString; 
@@ -211,12 +235,12 @@ int main(int argc, char* argv[])
                 if (event.type == Event::Closed)
                     window.close();
                 
-                if(! (state->players[state->turn].isBot)){
+                if(!(state->players[state->turn].isBot)){
 
                     if (event.type == sf::Event::MouseButtonPressed){
                         if (event.mouseButton.button == sf::Mouse::Left){
-                                stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
-                                stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
+                            stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                            stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
                             break;
                         }
                     }
@@ -234,6 +258,7 @@ int main(int argc, char* argv[])
                         if (event.key.code == sf::Keyboard::V){
                                 std::cout << "V\n";
                                 stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
+                                std::cout << "VIEW PLAYER : " << stateView.viewPlayer << std::endl;
                                 stateView.reloadTroisButtons();
                                 stateView.updatePlayerTurnDisplay();
                                 stateView.updateClickableObjects(state->turn);
@@ -242,13 +267,11 @@ int main(int argc, char* argv[])
                         stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
                 }
                 
-                else{       //si c'est un bot
-                
-                    engine.addSerializedCommand(engine.randomBot.throwDice(state));
-                    engine.update();
-                    stateView.dice->update(engine.saveThrDiceCmd->dice1 + engine.saveThrDiceCmd->dice2, engine.saveThrDiceCmd->dice1, engine.saveThrDiceCmd->dice2);
-                    stateView.updateClickableObjects(state->turn);
-
+                else {       //si c'est un bot
+                    // std::cout << "BOT\n";
+                    // engine.randomBot.generateCommand(state, &engine);
+                    // stateView.dice->update(engine.saveThrDiceCmd->dice1 + engine.saveThrDiceCmd->dice2, engine.saveThrDiceCmd->dice1, engine.saveThrDiceCmd->dice2);
+                    // stateView.updateClickableObjects(state->turn);
                 }
 
             }
@@ -259,6 +282,23 @@ int main(int argc, char* argv[])
             /* Terminal */
             // std::getline(cin, inString);
             // engine.addSerializedCommand(inString);
+
+            if(state->players[state->turn].isBot){
+                std::cout << "CURRENT BOT " << state->players[state->turn].playerColor << std::endl;
+                engine.randomBot.generateCommand(state, &engine);
+                stateView.viewPlayer = (PlayerColor) (((int)stateView.viewPlayer + 1) % 4);
+                stateView.displayState[stateView.viewPlayer] = view::THROW_DICE;
+                stateView.reloadTroisButtons();
+                stateView.updatePlayerTurnDisplay();
+                stateView.updateClickableObjects(state->turn);
+                //sf::sleep(sf::seconds(0.1f));
+#ifdef ALLBOTS
+                stateView.displayState[0] = view::STAND_BY;
+                stateView.displayState[1] = view::STAND_BY;
+                stateView.displayState[2] = view::STAND_BY;
+                stateView.displayState[3] = view::STAND_BY;
+#endif
+            }
 
             // c'est ici qu'on dessine tout
             engine.update();

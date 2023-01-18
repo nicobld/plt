@@ -158,8 +158,8 @@ void Engine::update() {
     }
 
     while(commandQueue.size() != 0) {
-        std::cout << "ENGINE : New command : " << commandQueue.front()->commandID << std::endl;
-        std::cout << "ENGINE : gameState : " << state->gameState << std::endl;
+        // std::cout << "ENGINE : New command : " << commandQueue.front()->commandID << std::endl;
+        // std::cout << "ENGINE : gameState : " << state->gameState << std::endl;
 
 
         if (state->gameState == THROW_DICE_STATE){
@@ -170,7 +170,8 @@ void Engine::update() {
                         saveCmd = THROW_DICE_CMD;
                         *saveThrDiceCmd = *(static_cast<ThrowDiceCommand*>(commandQueue.front()));
                         std::cout << "ENGINE DICE RESULT " << static_cast<ThrowDiceCommand*>(commandQueue.front())->result << std::endl;
-                        state->gameState = NORMAL_STATE;
+                        if (state->gameState != PLACE_THIEF_STATE)
+                            state->gameState = NORMAL_STATE;
                     }
                 }
             }
@@ -325,7 +326,6 @@ void Engine::update() {
                     if (commandQueue.front()->verify(state) == true){
                         commandQueue.front()->execute(state);
                         state->gameState = NORMAL_STATE;
-                        std::cout << "YESSAIEEE\n";
                     } else {
                         std::cout << "NOT VERIFIED\n";
                     }

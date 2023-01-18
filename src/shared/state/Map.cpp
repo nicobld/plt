@@ -45,14 +45,14 @@ Map::Map(){
 
 	//Roads
 
-	roads.push_back(Road(PlayerRed, 2,4,2,3));
-	roads.push_back(Road(PlayerRed, 3,2,3,1));
-	roads.push_back(Road(PlayerBlue, 2,5,3,4));
-	roads.push_back(Road(PlayerBlue, 4,4,5,4));
-	roads.push_back(Road(PlayerYellow, 4,2,4,1));
-	roads.push_back(Road(PlayerYellow, 3,5,4,4));
-	roads.push_back(Road(PlayerGreen, 4,3,5,3));
-	roads.push_back(Road(PlayerGreen, 2,3,2,2));
+    roads.push_back(Road(PlayerRed, 2,4,2,3));
+    roads.push_back(Road(PlayerRed, 3,2,3,1));
+    roads.push_back(Road(PlayerBlue, 2,5,3,4));
+    roads.push_back(Road(PlayerBlue, 4,4,5,4));
+    roads.push_back(Road(PlayerYellow, 4,2,4,1));
+    roads.push_back(Road(PlayerYellow, 3,5,4,4));
+    roads.push_back(Road(PlayerGreen, 4,3,5,3));
+    roads.push_back(Road(PlayerGreen, 2,3,2,2));
 
     //Buildings
 
@@ -63,8 +63,8 @@ Map::Map(){
     buildings.push_back(Building(PlayerYellow, Colony, 4,2,5,2,4,1));
     buildings.push_back(Building(PlayerYellow, Colony, 3,5,4,4,3,4));
     buildings.push_back(Building(PlayerGreen, Colony, 4,3,5,3,5,4));
-    buildings.push_back(Building(PlayerGreen, Colony, 2,2,3,2,2,3));
-
+    buildings.push_back(Building(PlayerGreen, Colony, 2,2,3,2,2,3));  
+    
     // Ports
     ports.push_back(Port(3, Nothing, 2, 0, 2, 1));
     ports.push_back(Port(2, Grain, 4, 0, 3, 1));
