@@ -44,6 +44,17 @@ bool UseCardCommand::execute(state::State* state) {
 
     if (developmentType == state::Knight){
         state->players[playerColor].knightNumber ++;
+        if (state->players[playerColor].knightNumber >= 3){
+            for (int p = 0; p < 4; p++){
+                if (p != playerColor && state->players[p].hasLargestArmy){
+                    if (state->players[playerColor].knightNumber > state->players[p].hasLargestArmy){
+                        state->players[p].hasLargestArmy = false;
+                        break;
+                    }
+                }
+            }
+            state->players[playerColor].hasLargestArmy = true;
+        }
         state->gameState = state::PLACE_THIEF_STATE;
         std::cout << "Used card Knight, please place thief" << std::endl;
     }

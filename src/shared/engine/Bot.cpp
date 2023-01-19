@@ -44,12 +44,12 @@ void Bot::generateCommand(state::State* state, engine::Engine* engine){
         engine->update();
     }
 
-    if (rand()%20 == 0){
+    if (rand()%5 == 0){
         sprintf(s, "drawcard-%d", state->turn);
         engine->addSerializedCommand(s);
     }
 
-    if (rand()%20 == 0){
+    if (rand()%5 == 0){
         int siz = state->players[state->turn].developments.size();
         if (siz != 0){
             sprintf(s, "usecard-%d-%d", state->turn, rand() % siz);

@@ -83,6 +83,7 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     int height = 720;
 
     home = true;
+    victory = false;
 
     this->engine = engine;
 
@@ -266,6 +267,8 @@ void StateView::render(sf::RenderTarget &target)
             clickableMenu[i]->render(target);
         }
     }
+    if(victory)
+        victoryScreen->render(target);
 }
 
 void StateView::updateClickableObjects(state::PlayerColor playerColor)
