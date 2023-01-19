@@ -13,6 +13,7 @@
 #include "MenuResource.h"
 #include "MenuChooseName.h"
 #include "Hand.h"
+#include "VictoryScreen.h"
 #include <cstring>
 
 static char *resTypeToString(state::ResourceType resType)
@@ -678,6 +679,5 @@ void StateView::updateChooseName(char letter){
         ((MenuChooseName*)clickableMenu.back())->updateText(letter);
     }
 }
-
 
 }

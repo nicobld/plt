@@ -232,6 +232,13 @@ int main(int argc, char* argv[])
 #endif
 
 
+        sf::Music music;
+
+        music.openFromFile("../res/One-Bard-Band.ogg");
+
+        music.setLoop(true);
+        music.play();
+
         std::string inString; 
 
         Color sea(148, 240, 248);
