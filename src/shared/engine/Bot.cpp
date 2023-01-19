@@ -6,8 +6,9 @@ namespace engine {
 
 Bot::Bot(){}
 
-char* Bot::generateCommand(state::State* state, engine::Engine* engine){
+void Bot::generateCommand(state::State* state, engine::Engine* engine){
     char s[64];
+    int count;
     std::cout << "Commande aléatoire" << std::endl;
     sprintf(s, "throwdice-%d", state->turn);
     engine->addSerializedCommand(s);
@@ -56,32 +57,29 @@ char* Bot::generateCommand(state::State* state, engine::Engine* engine){
         }
     }
 
-    int count = 100;
+    count = 10;
 
     while (--count){
-        sprintf(s, "placeroad-%d-%d-%d-%d-%d", state->turn, rand()%7, rand()%7, rand()%7, rand()%7);
+        sprintf(s, "exchangebank-%d-%d-%d", state->turn, rand()%5, rand()%5);
         engine->addSerializedCommand(s);
-        sprintf(s, "placebuilding-%d-%d-%d-%d-%d-%d-%d-%d", state->turn, rand()%7, rand()%7, rand()%7, rand()%7, rand()%7, rand()%7, rand()%2);
+    }
+    
+    count = 1000;
+
+    while (--count){
+        sprintf(s, "placebuilding-%d-%d-%d-%d-%d-%d-%d-%d", state->turn, rand()%5+1, rand()%5+1, rand()%5+1, rand()%5+1, rand()%5+1, rand()%5+1, rand()%2);
+        engine->addSerializedCommand(s);
+    }
+
+    count = 100;
+
+    while (--count){
+        sprintf(s, "placeroad-%d-%d-%d-%d-%d", state->turn, rand()%5+1, rand()%5+1, rand()%5+1, rand()%5+1);
         engine->addSerializedCommand(s);
     }
 
     sprintf(s, "passturn-%d", state->turn);
     engine->addSerializedCommand(s);
-    return s;
-}
-
-char* Bot::throwDice(state::State* state){
-    static char s[64];
-    std::cout << "Bot lance les des" << std::endl;
-    sprintf(s, "throwdice-%d", state->turn);
-    return s;
-}
-
-char* passTurn (state::State* state){
-    static char s[64];
-    std::cout << "Bot pass turn" << std::endl;
-    sprintf(s, "passturn-%d", state->turn);
-    return s;
 }
 
 }

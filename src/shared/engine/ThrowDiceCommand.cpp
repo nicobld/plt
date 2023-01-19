@@ -83,7 +83,7 @@ bool ThrowDiceCommand::execute(state::State* state) {
                 color = (state::PlayerColor) i;
                 removeCards(state, color);
             }
-            std::cout << "THROWDICECOMMAND : Please place thief" << std::endl;
+            std::cout << "Please place thief" << std::endl;
             state->gameState = state::PLACE_THIEF_STATE;
             return true;
         }

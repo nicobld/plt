@@ -1,8 +1,6 @@
 TO DO : 
 
-Faire L'initialisation des ressource pour les joueurs
 
-faire la condition de victoire ! 
 
 corriger menu thief pour la carte knight
 
@@ -11,11 +9,7 @@ retirer les clics en trop
 
 invention bug, donne 2 fois la même ressource
 
-bug au niveau de l'échange
 
-largest road bug affichage (ne redevient pas blanc) : A TESTER
-
-bug sur le refuser
 
 
 CORRECTED : 
@@ -26,4 +20,8 @@ menu acceptexhcange affiche n'importe quoi
 carte monopole, menu ressource, menu thief
 coorection crash aon peut faire qu'un tour
 menu thief s'adapte au joeur disponible pour le vol
-
+Faire L'initialisation des ressource pour les joueurs
+faire la condition de victoire ! 
+bug au niveau de l'échange
+largest road bug affichage (ne redevient pas blanc) : A TESTER
+bug sur le refuser

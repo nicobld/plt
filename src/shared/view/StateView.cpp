@@ -414,7 +414,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case ACCEPT_EXCHANGE:
-        std::cout << "giving type : " << resTypeToString(giving.resourceType) << " | giving number : " << giving.number <<std::endl;
+        // std::cout << "giving type : " << resTypeToString(giving.resourceType) << " | giving number : " << giving.number <<std::endl;
         clickableMenu.push_back((Menu *)new MenuAcceptExchange(state, *menuTexture, state->turn, giving, receiving, sf::IntRect(1280 / 2 - 351 / 2, 720 - 205, 351, 205), &(displayState[viewPlayer])));
         clickableButton.push_back((Button *)((MenuAcceptExchange *)clickableMenu.back())->buttonValidate);
         clickableButton.push_back((Button *)((MenuAcceptExchange *)clickableMenu.back())->buttonDeny);
@@ -439,7 +439,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         break;
 
     case PASS_TURN_DISPLAY:
-        std::cout << "pass turn\n";
+        // std::cout << "pass turn\n";
         sprintf(s, "passturn-%d", viewPlayer);
         engine->addSerializedCommand(s);
         displayState[viewPlayer] = STAND_BY;
@@ -459,14 +459,14 @@ void StateView::displayStateEffect(){
     case ACCEPT_EXCHANGE:
         if (((Button*) ((MenuAcceptExchange *)clickableMenu.back())->buttonValidate )->clicked)
         {
-            std::cout << "échange accepter !" << std::endl;
+            // std::cout << "échange accepter !" << std::endl;
             sprintf(s, "response-%d-1", viewPlayer);
             engine->addSerializedCommand(s);
             displayState[viewPlayer] = STAND_BY;
         }
         else if (((Button *)((MenuAcceptExchange *)clickableMenu.back())->buttonDeny)->clicked)
         {
-            std::cout << "échange refusé..." << std::endl;
+            // std::cout << "échange refusé..." << std::endl;
             sprintf(s, "response-%d-0", viewPlayer);
             engine->addSerializedCommand(s);
             displayState[viewPlayer] = STAND_BY;
@@ -492,7 +492,7 @@ void StateView::displayStateEffect(){
 void StateView::clickedObjects(int x, int y)
 {
     char s[64];
-    std::cout << "viewPlayer : " << viewPlayer << std::endl;
+    // std::cout << "viewPlayer : " << viewPlayer << std::endl;
     updateClickableObjects(viewPlayer);
     for (int i = 0; i < clickableButton.size(); i++)
     {
@@ -506,7 +506,7 @@ void StateView::clickedObjects(int x, int y)
 
     int c_id = -1;
     if((c_id = handPlayers[viewPlayer].isClicked(x, y)) != -1){
-        std::cout << "dev type : " << cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID) << std::endl;
+        // std::cout << "dev type : " << cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID) << std::endl;
         sprintf(s, "usecard-%d-%s", viewPlayer, cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID));
         engine->addSerializedCommand(s);
     }

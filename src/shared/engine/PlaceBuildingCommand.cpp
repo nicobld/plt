@@ -134,7 +134,6 @@ bool PlaceBuildingCommand::verify(state::State* state){
     foundBuilding = false;
     for (state::Building b : state->map.buildings){//pour upgrade colony en city
         if (equalBuildingPos(b.position, position)) {
-            std::cout << "build : " << buildingType << " on : " << b.buildingType << std::endl;
             if (buildingType == City && b.buildingType == Colony && b.playerColor == playerColor) {
                 foundBuilding = true;
                 break;

@@ -82,7 +82,7 @@ bool DrawCardCommand::unserialize(std::string string){
         if (tokens.size() == 2){
             playerColor = (state::PlayerColor) stoi(tokens[1]);
         } else {
-            std::cout << "Invalid number of arguments\n";
+            std::cout << "ENGINE error: DrawCardCommand : Invalid number of arguments\n";
             return false;
         }
     }

@@ -16,7 +16,7 @@
 #include <view.h>
 #include <engine.h>
 
-// #define ALLBOTS
+//#define ALLBOTS
 
 using namespace std;
 using namespace state;
@@ -125,9 +125,6 @@ int main(int argc, char* argv[])
         Engine engine(&state);
         StateView stateView(&state, &engine);
 
-
-        int c = 2;
-
         std::string inString; 
 
         Color sea(148, 240, 248);
@@ -156,13 +153,11 @@ int main(int argc, char* argv[])
                             //stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
                             stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
                             stateView.reloadTroisButtons();
-                            std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
                     }
                 }
                 if(stateView.displayState[0] == CHOOSING_NAME){
                     if (event.type == sf::Event::TextEntered){
                         if (event.text.unicode < 128){
-                            //std::cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) << std::endl;
                             stateView.updateChooseName(static_cast<char>(event.text.unicode));
                         }
                 }
@@ -170,7 +165,6 @@ int main(int argc, char* argv[])
                 else{
                     if (event.type == sf::Event::KeyPressed){
                         if (event.key.code == sf::Keyboard::V){
-                                std::cout << "V\n";
                                 stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
                                 stateView.reloadTroisButtons();
                                 stateView.updatePlayerTurnDisplay();
@@ -207,18 +201,19 @@ int main(int argc, char* argv[])
         State* state = new State(namePlayers);
         Engine engine(state);
         StateView stateView (state, &engine);
+        std::vector<state::Player> playerWon;
 
-        state->players[0].resources[0].number = 100;
-        state->players[0].resources[1].number = 100;
-        state->players[0].resources[2].number = 100;
-        state->players[0].resources[3].number = 100;
-        state->players[0].resources[4].number = 100;
+        // state->players[0].resources[0].number = 100;
+        // state->players[0].resources[1].number = 100;
+        // state->players[0].resources[2].number = 100;
+        // state->players[0].resources[3].number = 100;
+        // state->players[0].resources[4].number = 100;
 
-        state->players[1].resources[0].number = 100;
-        state->players[1].resources[1].number = 100;
-        state->players[1].resources[2].number = 100;
-        state->players[1].resources[3].number = 100;
-        state->players[1].resources[4].number = 100;
+        // state->players[1].resources[0].number = 100;
+        // state->players[1].resources[1].number = 100;
+        // state->players[1].resources[2].number = 100;
+        // state->players[1].resources[3].number = 100;
+        // state->players[1].resources[4].number = 100;
 
         // stateView.displayState[0] = view::STAND_BY;
         // stateView.displayState[1] = view::STAND_BY;
@@ -237,6 +232,9 @@ int main(int argc, char* argv[])
         Color sea(148, 240, 248);
 
         sf::Mouse mouse;
+
+        engine.initGame();
+
         // on fait tourner le programme tant que la fenêtre n'a pas été fermée
         while (window.isOpen())
         {
@@ -244,60 +242,58 @@ int main(int argc, char* argv[])
             Event event;
             while (window.pollEvent(event))
             {
-                if (event.type == Event::Closed)
-                    window.close();
+                if (state->gameState != END_STATE){
+                    if (event.type == Event::Closed)
+                        window.close();
+                    
+                    if(!(state->players[state->turn].isBot)){
+
+                        if (event.type == sf::Event::MouseButtonPressed){
+                            if (event.mouseButton.button == sf::Mouse::Left){
+                                stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                                stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
+                                break;
+                            }
+                        }
+
+                        else if (event.type == sf::Event::MouseButtonReleased){
+                            if (event.mouseButton.button == sf::Mouse::Left){
+                                    //stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
+                                    stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
+                                    stateView.reloadTroisButtons();
+                            }
+                        }
+
+                    if(stateView.displayState[0] == CHOOSING_NAME){
+                        if (event.type == sf::Event::TextEntered){
+                            if (event.text.unicode < 128){
+                                stateView.updateChooseName(static_cast<char>(event.text.unicode));
+                            }
+                    }
+                    }
+                    else{
+                        if (event.type == sf::Event::KeyPressed){
+                            if (event.key.code == sf::Keyboard::V){
+                                    stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
+                                    stateView.reloadTroisButtons();
+                                    stateView.updatePlayerTurnDisplay();
+                                    stateView.updateClickableObjects(state->turn);
+                            }
+                        }
+                    }
+
                 
-                if(!(state->players[state->turn].isBot)){
+                        stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
 
-                    if (event.type == sf::Event::MouseButtonPressed){
-                        if (event.mouseButton.button == sf::Mouse::Left){
-                            stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
-                            stateView.handleClick(event.mouseButton.x, event.mouseButton.y);
-                            break;
-                        }
+                    }
+                    
+                    else {       //si c'est un bot
+                        // engine.randomBot.generateCommand(state, &engine);
+                        // stateView.dice->update(engine.saveThrDiceCmd->dice1 + engine.saveThrDiceCmd->dice2, engine.saveThrDiceCmd->dice1, engine.saveThrDiceCmd->dice2);
+                        // stateView.updateClickableObjects(state->turn);
                     }
 
-                    else if (event.type == sf::Event::MouseButtonReleased){
-                        if (event.mouseButton.button == sf::Mouse::Left){
-                                //stateView.clickedObjects(event.mouseButton.x, event.mouseButton.y);
-                                stateView.releasedObjects(event.mouseButton.x, event.mouseButton.y);
-                                stateView.reloadTroisButtons();
-                                std::cout << "displayState : " << stateView.displayState[stateView.viewPlayer] << std::endl;
-                        }
-                    }
-
-                if(stateView.displayState[0] == CHOOSING_NAME){
-                    if (event.type == sf::Event::TextEntered){
-                        if (event.text.unicode < 128){
-                            //std::cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) << std::endl;
-                            stateView.updateChooseName(static_cast<char>(event.text.unicode));
-                        }
                 }
-                }
-                else{
-                    if (event.type == sf::Event::KeyPressed){
-                        if (event.key.code == sf::Keyboard::V){
-                                std::cout << "V\n";
-                                stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
-                                stateView.reloadTroisButtons();
-                                stateView.updatePlayerTurnDisplay();
-                                stateView.updateClickableObjects(state->turn);
-                        }
-                    }
-                }
-
-            
-                    stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
-
-                }
-                
-                else {       //si c'est un bot
-                    // std::cout << "BOT\n";
-                    // engine.randomBot.generateCommand(state, &engine);
-                    // stateView.dice->update(engine.saveThrDiceCmd->dice1 + engine.saveThrDiceCmd->dice2, engine.saveThrDiceCmd->dice1, engine.saveThrDiceCmd->dice2);
-                    // stateView.updateClickableObjects(state->turn);
-                }
-
             }
 
 
@@ -308,26 +304,29 @@ int main(int argc, char* argv[])
             // std::getline(cin, inString);
             // engine.addSerializedCommand(inString);
 
-            if(state->players[state->turn].isBot){
-                std::cout << "CURRENT BOT " << state->players[state->turn].playerColor << std::endl;
-                engine.randomBot.generateCommand(state, &engine);
-                stateView.viewPlayer = (PlayerColor) (((int)stateView.viewPlayer + 1) % 4);
-                stateView.displayState[stateView.viewPlayer] = view::STAND_BY;
-                stateView.reloadTroisButtons();
-                stateView.updatePlayerTurnDisplay();
-                stateView.updateClickableObjects(state->turn);
-                //sf::sleep(sf::seconds(0.1f));
-#ifdef ALLBOTS
-                stateView.displayState[0] = view::STAND_BY;
-                stateView.displayState[1] = view::STAND_BY;
-                stateView.displayState[2] = view::STAND_BY;
-                stateView.displayState[3] = view::STAND_BY;
-#endif
+            if (state->gameState != END_STATE){
+                if(state->players[state->turn].isBot){
+                    engine.randomBot.generateCommand(state, &engine);
+                    stateView.viewPlayer = (PlayerColor) (((int)stateView.viewPlayer + 1) % 4);
+                    stateView.displayState[stateView.viewPlayer] = view::STAND_BY;
+                    stateView.reloadTroisButtons();
+                    stateView.updatePlayerTurnDisplay();
+                    stateView.updateClickableObjects(state->turn);
+                    sf::sleep(sf::seconds(1));
+                }
             }
 
             // c'est ici qu'on dessine tout
             engine.update();
             stateView.render(window);
+            if ((playerWon = engine.hasWon()).size() != 0){
+                std::cout << "Player " << playerWon[0].name << " has won with " << playerWon[0].victoryPoints << " victory points !\n";
+                std::cout << "Player " << playerWon[1].name << " is second with " << playerWon[1].victoryPoints << " victory points !\n";
+                std::cout << "Player " << playerWon[2].name << " is third with " << playerWon[2].victoryPoints << " victory points !\n";
+                std::cout << "Player " << playerWon[3].name << " is fourth with " << playerWon[3].victoryPoints << " victory points !\n";
+                // stateView.victoryScreen = new VictoryScreen(playerWon);
+                // stateView.victory = true;
+            }
             
             // fin de la frame courante, affichage de tout ce qu'on a dessiné
             window.display();

@@ -56,7 +56,7 @@ bool MonopolyCommand::unserialize(std::string string){
     try {
         if (tokens.size() == 3){
             playerColor = (state::PlayerColor) stoi(tokens[1]);
-            if ((resourceType = stringToResType(tokens[2])) == state::Nothing){
+            if ((resourceType = (state::ResourceType) stoi(tokens[2])) == state::Nothing){
                 std::cout << "Wrong resource type" << std::endl;
                 return false;
             }

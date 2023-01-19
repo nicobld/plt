@@ -5,48 +5,13 @@
 
 using namespace state;
 
-// const Position neighbors[2][6] = {
-//     {Position(+1,  0), Position(0, -1), Position(-1, -1), Position(-1,  0), Position(-1, +1), Position(0, +1)},
-//     {Position(+1,  0), Position(1, -1), Position(0, -1), Position(-1,  0), Position(0, +1), Position(1, +1)}
-// };
-
-// const struct neighborsIndices {
-//     const int x[12] = {1, 0, -1, -1, -1, 0, 1, 1, 0, -1, 0, 1}; //les 6 premiers si le tile en y est pair
-//     const int y[12] = {0, -1, -1? 0, 1, 1, 0, -1, -1, 0, 1, 1};
-// } neightborIndices; 
-
-
-// static bool equalArrayPos(std::array<Position, 2> pos1, std::array<Position, 2> pos2){
-//     return (pos1[0] == pos2[0] && pos1[1] == pos2[1]) || (pos1[0] == pos2[1] && pos1[1] == pos2[0]);
-// }
-
-// /*
-// * return true if there is a road on the map at position pos
-// */
-// static bool hasRoad(state::State* state, std::array<Position, 2> pos){
-//     for (Road road : state->map.roads){
-//         if (equalArrayPos(road.position, pos))
-//             return true;
-//     return false;
-// }
-
-// static int countRoadsSpaces(state::State* state){
-//     int roads = 0;
-//     for (int x = 1; x < 6; x++){
-//         for (int y = 1; y < 6; y++){
-//             for (int k = 0; k < 6; k++){
-//                 if (hasRoad(state::State*, {Position(x, y), Position(x + neightborIndices.x[k + (y%2)*7], y + neightborIndices.y[k + (y%2)*7])})){
-//                     roads++; 
-//                 }
-//             }
-//         }
-//     }
-// }
+static bool compareVPfunc(state::Player p0, state::Player p1){
+    return (p0.victoryPoints > p1.victoryPoints);
+}
 
 namespace engine {
 
 Engine::Engine(state::State* state) : state(state) {
-    std::cout << "Engine launched" << std::endl;
     state->gameState = THROW_DICE_STATE;
     saveThrDiceCmd = new ThrowDiceCommand();
 }
@@ -169,7 +134,6 @@ void Engine::update() {
                         commandQueue.front()->execute(state);
                         saveCmd = THROW_DICE_CMD;
                         *saveThrDiceCmd = *(static_cast<ThrowDiceCommand*>(commandQueue.front()));
-                        std::cout << "ENGINE DICE RESULT " << static_cast<ThrowDiceCommand*>(commandQueue.front())->result << std::endl;
                         if (state->gameState != PLACE_THIEF_STATE)
                             state->gameState = NORMAL_STATE;
                     }
@@ -202,13 +166,13 @@ void Engine::update() {
                         }
                         
                     } else {
-                        std::cout << "Command failed" << std::endl;
+                        std::cout << "ENGINE error : Command failed" << std::endl;
                     }
                 } else {
-                    std::cout << "Cannot execute command " << commandQueue.front()->commandID << " in this state" << std::endl;
+                    std::cout << "ENGINE error : Cannot execute command " << commandQueue.front()->commandID << " in this state" << std::endl;
                 }
             } else {
-                std::cout << "Not your turn player" << commandQueue.front()->playerColor << std::endl;
+                std::cout << "ENGINE error : Not your turn player" << commandQueue.front()->playerColor << std::endl;
             }
         } 
         
@@ -237,7 +201,6 @@ void Engine::update() {
                 }
                 if (s == 0) {
                     state->gameState = NORMAL_STATE;
-                    std::cout << "Reviens en normal state\n";
                 }
 
             } else {
@@ -340,6 +303,60 @@ void Engine::update() {
 
         delete commandQueue.front();
         commandQueue.pop();
+    }
+}
+
+std::vector<state::Player> Engine::hasWon(){
+    int vpCount = 0;
+    std::vector<state::Player> playerVect;
+    for (state::Player p : state->players){
+        for (state::Development dev : p.developments)
+            if (dev.developmentType == state::VictoryPointsCard)
+                vpCount++;
+        if (p.victoryPoints + vpCount >= 10){
+            state->gameState = state::END_STATE;
+            playerVect = state->players;
+            for (int v = 0; v < 4; v++)
+                for (state::Development dev : playerVect[v].developments)
+                    if (dev.developmentType == state::VictoryPointsCard)
+                        playerVect[v].victoryPoints++;
+
+            std::sort(playerVect.begin(), playerVect.end(), compareVPfunc);
+            return playerVect;
+        }
+    }
+    return {};
+}
+
+void Engine::initGame(){
+    int i;
+    for (i = 0; i < 49; i++ ){
+        int grid_position = state->map.grid[i];
+
+        if (grid_position >= 1 && grid_position <= 5){
+            
+            for (state::Building b : state->map.buildings){
+                //pour toute tile entourant un batiment
+                for (int k = 0; k < 3; k++){ 
+
+                    if (b.position[k].x + 7*b.position[k].y == i){
+                        state::PlayerColor actualPlayer = b.playerColor;
+
+                        if (state->gameCards.resources[grid_position - 1].number == 0){ //no resources left in bank
+                            std::cout << "Not enough resources in bank" << std::endl;
+                            continue;
+                        }
+                        
+                        if (b.buildingType == state::City){
+                            state->gameCards.resources[grid_position - 1].number --;
+                            state->players[actualPlayer].resources[grid_position - 1].number ++;
+                        }
+                        state->gameCards.resources[grid_position - 1].number --;
+                        state->players[actualPlayer].resources[grid_position - 1].number ++;
+                    }
+                }
+            }
+        }
     }
 }
 

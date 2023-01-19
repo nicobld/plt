@@ -32,7 +32,6 @@ Player::Player(std::string name, PlayerColor playerColor) : name(name), playerCo
     resources.push_back(Resource(Ore));
 
     longestRoad = 0;
-    largestArmy = 0;
 }
 
 int Player::getBuilding(BuildingType buildingType){

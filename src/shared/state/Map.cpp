@@ -1,6 +1,15 @@
 #include "Map.h"
 #include <cstring>
 
+static bool equalBuildingPos(std::array<state::Position, 3> pos1, std::array<state::Position, 3> pos2){
+    for (int i = 0; i < 3; i++){
+        if(!(pos1[i] == pos2[0] || pos1[i] == pos2[1] || pos1[i] == pos2[2])){
+            return false;
+        }
+    }
+    return true;
+}
+
 namespace state{
 
 Map::Map(){
@@ -79,7 +88,7 @@ Map::Map(){
 
 int Map::getBuilding(std::array<Position, 3> position){
 	for (int i = 0; i < buildings.size(); i++){
-		if (buildings[i].position == position){
+		if (equalBuildingPos(buildings[i].position, position)){
 			return i;
 		}
 	}
