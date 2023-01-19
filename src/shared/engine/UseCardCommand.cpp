@@ -117,7 +117,7 @@ bool UseCardCommand::unserialize(std::string string){
         if (tokens.size() == 3){
             playerColor = (state::PlayerColor) stoi(tokens[1]);
             std::cout << "ENGINE : " << tokens[2] << std::endl;
-            if ((developmentType = stringToDevType(tokens[2])) == -1){
+            if ((developmentType = (state::DevelopmentType) stoi(tokens[2])) == -1){
                 std::cout << "Wrong development type" << std::endl;
                 return false;
             }

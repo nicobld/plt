@@ -7,7 +7,7 @@ namespace view
 {
 
 Cloud::Cloud(sf::Texture cloudTexture, bool home) : cloudTexture(cloudTexture), home(home){
-    cloudSprite = new sf::Sprite(this->cloudTexture, sf::IntRect(236 * rand() % 4, 0, 236, 88));
+    cloudSprite = new sf::Sprite(this->cloudTexture, sf::IntRect(236 * (rand() % 4), 0, 236, 88));
     isHover = false;
     // x =  rand()%1280;
     // y = rand()%175;

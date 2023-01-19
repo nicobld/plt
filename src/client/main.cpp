@@ -170,6 +170,7 @@ int main(int argc, char* argv[]){
                                 stateView.updateClickableObjects(state.turn);
                         }
                     }
+                    
                 }
 
                 
@@ -291,6 +292,9 @@ int main(int argc, char* argv[]){
                                     stateView.reloadTroisButtons();
                                     stateView.updatePlayerTurnDisplay();
                                     stateView.updateClickableObjects(state->turn);
+                            }
+                            else if (event.key.code == sf::Keyboard::Escape){
+                                sf::sleep(sf::seconds(10));
                             }
                         }
                     }

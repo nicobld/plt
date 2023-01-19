@@ -197,7 +197,7 @@ bool PlaceBuildingCommand::execute(state::State* state) {
         //state::Building* b = &(state->map.buildings[state->map.getBuilding(position)]);
 
         state->map.buildings.erase(state->map.buildings.begin() + state->map.getBuilding(position)); //remove colony from map
-        state->players[playerColor].buildings.push_back(Building(playerColor, buildingType, position)); //give back colony to player
+        state->players[playerColor].buildings.push_back(Building(playerColor, state::Colony, position)); //give back colony to player
         state->map.buildings.push_back(Building(playerColor, buildingType, position)); //add city to map
         state->players[playerColor].buildings.erase(state->players[playerColor].buildings.begin() + state->players[playerColor].getBuilding(buildingType)); //remove player building
 

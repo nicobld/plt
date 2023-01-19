@@ -322,6 +322,12 @@ std::vector<state::Player> Engine::hasWon(){
                         playerVect[v].victoryPoints++;
 
             std::sort(playerVect.begin(), playerVect.end(), compareVPfunc);
+
+            for (int v = 0; v < 4; v++)
+                for (state::Development dev : playerVect[v].developments)
+                    if (dev.developmentType == state::VictoryPointsCard)
+                        playerVect[v].victoryPoints--;
+
             return playerVect;
         }
     }
