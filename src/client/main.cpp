@@ -235,10 +235,10 @@ int main(int argc, char* argv[]){
 
         sf::Music music;
 
-        // music.openFromFile("../res/One-Bard-Band.ogg");
+        music.openFromFile("../res/One-Bard-Band.ogg");
 
-        // music.setLoop(true);
-        // music.play();
+        music.setLoop(true);
+        music.play();
 
         std::string inString; 
 

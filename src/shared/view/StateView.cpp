@@ -249,8 +249,8 @@ void StateView::render(sf::RenderTarget &target)
         
         handPlayers[viewPlayer].render(target);
 
-        if(displayState[state->turn] == THROW_DICE || displayState[state->turn] == EXIT_THROW_DICE)
-            dice->render(target);
+        // if(displayState[state->turn] == THROW_DICE || displayState[state->turn] == EXIT_THROW_DICE)
+            //dice->render(target);
 
         //updateClickableObjects(state->turn);
 
@@ -590,6 +590,7 @@ void StateView::handleClick(int x, int y)
         //home = false;
         clickableMenu.push_back((Menu *)new MenuChooseName(*menuTexture, sf::IntRect(1280 / 2 - 621 / 2, 720 - 609, 621, 609), &(displayState[viewPlayer])));
         clickableButton.push_back((Button*) ((MenuChooseName*) clickableMenu.back())->buttonValidate);
+        clickableButton.push_back((Button*) ((MenuChooseName*) clickableMenu.back())->ButtonMapGen);
         displayState[viewPlayer] = CHOOSING_NAME;
         break;
 

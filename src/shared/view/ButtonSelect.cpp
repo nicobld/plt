@@ -14,7 +14,7 @@ ButtonSelect::ButtonSelect (sf::Texture buttonTexture, sf::IntRect coords, Selec
 
 
     this->font.loadFromFile("../res/poppins.ttf");
-    int fontSize = 20;
+    fontSize = 20;
 
     spriteButton = new sf::Sprite(this->buttonTexture, sf::IntRect(0, 98, 143, 48));
     
@@ -40,9 +40,6 @@ ButtonSelect::ButtonSelect (sf::Texture buttonTexture, sf::IntRect coords, Selec
         spriteButton->setScale(sf::Vector2f(scaleX, scaleY));
         this->coords.width =  this->coords.width * scaleX;
         this->coords.height =  this->coords.height * scaleY;
-        
-        // namePlayers.back().setOrigin(namePlayers.back().getGlobalBounds().width/2, 0);
-        // namePlayers.back().setPosition(spriteMenu->getPosition().x -spriteMenu->getGlobalBounds().width/2 + 60 + namePlayers.back().getGlobalBounds().width/2, spriteMenu->getPosition().y + 157);
 
         spriteButton->setOrigin(spriteButton->getGlobalBounds().width/2 * scaleX, spriteButton->getGlobalBounds().height/2 * scaleY);
         spriteButton->setPosition(this->coords.left - 22, this->coords.top);
@@ -56,15 +53,35 @@ ButtonSelect::ButtonSelect (sf::Texture buttonTexture, sf::IntRect coords, Selec
         this->coords.top -= spriteButton->getGlobalBounds().height/2;
     }
 
-    this->coords.left -= (spriteButton->getGlobalBounds().width*scaleX)/2;
+    else if(select_ID == SELECT_ALEA_GEN){
+        
+        spriteButton->setOrigin(spriteButton->getGlobalBounds().width/2, 0);  //comme btton validate
+        spriteButton->setPosition(this->coords.left, this->coords.top);
+
+        // spriteButton->setOrigin(spriteButton->getGlobalBounds().width/2 * scaleX, spriteButton->getGlobalBounds().height/2 * scaleY);
+        // spriteButton->setPosition(this->coords.left - 22, this->coords.top);
+
+        fontSize = fontSize - 3;
+        text = new sf::Text(message, font, fontSize);
+        text->setColor(sf::Color(0, 0, 0));
+        text->setOrigin(text->getGlobalBounds().width/2, text->getGlobalBounds().height/2);
+        text->setPosition(spriteButton->getPosition().x, spriteButton->getPosition().y + spriteButton->getGlobalBounds().height/2 - 7);
+
+        scaleX = 1;
+    }
+
+        this->coords.left -= (spriteButton->getGlobalBounds().width*scaleX)/2;
 }
 
 bool ButtonSelect::isClicked(int x, int y){
     if(select_ID == SELECT_ROAD || select_ID == SELECT_COLONY || select_ID == SELECT_CITY || select_ID == SELECT_DEV )
         clicked = coords.contains(sf::Vector2i(x, y));
-    else if(select_ID == SELECT_BANK || select_ID == SELECT_P1 || select_ID == SELECT_P2 || select_ID == SELECT_P3 || select_ID == SELECT_RESOURCE){
-        if (clicked && coords.contains(sf::Vector2i(x, y)))
+    else if(select_ID == SELECT_BANK || select_ID == SELECT_P1 || select_ID == SELECT_P2 || select_ID == SELECT_P3 || select_ID == SELECT_RESOURCE || select_ID == SELECT_ALEA_GEN){
+        if (clicked && coords.contains(sf::Vector2i(x, y))){
             clicked = 0;
+            std::cout << "test" << std::endl;
+        }
+            
         else if(!clicked && coords.contains(sf::Vector2i(x, y)))
             clicked = 1;
     }
@@ -78,8 +95,6 @@ bool ButtonSelect::isReleased(int x, int y){
 
     if(select_ID == SELECT_ROAD || select_ID == SELECT_COLONY || select_ID == SELECT_CITY || select_ID == SELECT_DEV){
         if(clicked = coords.contains(sf::Vector2i(x, y))){
-            
-            std::cout << "Boutton Selection" << std::endl;
             
             if(select_ID == SELECT_ROAD)
                 *displayState = BUILD_ROAD;
@@ -105,16 +120,15 @@ bool ButtonSelect::isReleased(int x, int y){
 
 
 void ButtonSelect::update(){
-    int fontSize = 20;
     if(clicked)
-        spriteButton->setTextureRect(sf::IntRect(0 + 143*1, 98, 143, 48));
+        spriteButton->setTextureRect(sf::IntRect(0 + 144*1, 98, 145, 48));
     else
         spriteButton->setTextureRect(sf::IntRect(0, 98, 143, 48));
 }
 
 void ButtonSelect::render (sf::RenderTarget& target){
     target.draw(*spriteButton);
-    if(select_ID == SELECT_BANK || select_ID == SELECT_P1 || select_ID == SELECT_P2 || select_ID == SELECT_P3)
+    if(select_ID == SELECT_BANK || select_ID == SELECT_P1 || select_ID == SELECT_P2 || select_ID == SELECT_P3 || select_ID == SELECT_ALEA_GEN)
         target.draw(*text);
 }
 

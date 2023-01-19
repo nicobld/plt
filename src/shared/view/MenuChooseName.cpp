@@ -35,9 +35,8 @@ MenuChooseName::MenuChooseName(sf::Texture menuTexture, sf::IntRect coords, Disp
 
     sf::Texture buttonTexture;
     buttonTexture.loadFromFile("../res/button.png");
-    buttonValidate = new ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x + spriteMenu->getGlobalBounds().width/2 - 125, spriteMenu->getPosition().y + spriteMenu->getGlobalBounds().height - 70, 135, 135), "Commencer",  this->displayState);
-
-
+    buttonValidate = new ButtonValidate(buttonTexture, sf::IntRect(spriteMenu->getPosition().x + spriteMenu->getGlobalBounds().width/2 - 35, spriteMenu->getPosition().y + spriteMenu->getGlobalBounds().height - 70, 135, 135), "Commencer",  this->displayState);
+    ButtonMapGen = new ButtonSelect(buttonTexture, sf::IntRect(spriteMenu->getPosition().x + spriteMenu->getGlobalBounds().width/2 - 215, spriteMenu->getPosition().y + spriteMenu->getGlobalBounds().height - 70, 135, 135), SELECT_ALEA_GEN, "Carte aleatoire", this->displayState);
 }
 
 void MenuChooseName::render(sf::RenderTarget& target){
@@ -53,6 +52,7 @@ void MenuChooseName::render(sf::RenderTarget& target){
     
 
     buttonValidate->render(target);
+    ButtonMapGen->render(target);
 }
 
 void MenuChooseName::update(){}
