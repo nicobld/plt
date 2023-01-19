@@ -49,7 +49,7 @@ void Bot::generateCommand(state::State* state, engine::Engine* engine){
         engine->addSerializedCommand(s);
     }
 
-    if (rand()%5 == 0){
+    if (rand()%2 == 0){
         int siz = state->players[state->turn].developments.size();
         if (siz != 0){
             sprintf(s, "usecard-%d-%d", state->turn, rand() % siz);

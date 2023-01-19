@@ -255,9 +255,12 @@ int main(int argc, char* argv[]){
             Event event;
             while (window.pollEvent(event))
             {
+                if (event.type == Event::Closed){
+                    window.close();
+                    exit(0);
+                }
+
                 if (state->gameState != END_STATE){
-                    if (event.type == Event::Closed)
-                        window.close();
                     
                     if(!(state->players[state->turn].isBot)){
 

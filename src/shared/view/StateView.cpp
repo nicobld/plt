@@ -369,7 +369,7 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
     case MONOPOLY_DISPLAY_STAY:
         state::ResourceType r;
         if ((r = (state::ResourceType)((MenuResource*)clickableMenu.back())->resourceClicked()) != -1){
-            sprintf(s, "monopoly-%d-%s", viewPlayer, resTypeToString(r));
+            sprintf(s, "monopoly-%d-%d", viewPlayer, r);
             engine->addSerializedCommand(s);
         }
         break;
@@ -432,12 +432,12 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
                         receiving = r;
 
                 if (((Button *)((MenuExchange *)clickableMenu.back())->buttonsSelect[0])->clicked){ //bank exchange
-                    sprintf(s, "exchangebank-%d-%s-%s", viewPlayer, resTypeToString(giving.resourceType), resTypeToString(receiving.resourceType));
+                    sprintf(s, "exchangebank-%d-%d-%d", viewPlayer, giving.resourceType, receiving.resourceType);
                     engine->addSerializedCommand(s);
                     displayState[viewPlayer] = STAND_BY;
                 } else {
                     // commande d'échange
-                    sprintf(s, "request-%d-%s-%d-%s-%d", viewPlayer, resTypeToString(giving.resourceType), giving.number, resTypeToString(receiving.resourceType), receiving.number);
+                    sprintf(s, "request-%d-%d-%d-%d-%d", viewPlayer, giving.resourceType, giving.number, receiving.resourceType, receiving.number);
                     engine->addSerializedCommand(s);
                     displayState[viewPlayer] = STAND_BY;
                 }
@@ -545,8 +545,7 @@ void StateView::clickedObjects(int x, int y)
 
     int c_id = -1;
     if((c_id = handPlayers[viewPlayer].isClicked(x, y)) != -1){
-        // std::cout << "dev type : " << cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID) << std::endl;
-        sprintf(s, "usecard-%d-%s", viewPlayer, cardIDToString(handPlayers[viewPlayer].cards[c_id].card_ID));
+        sprintf(s, "usecard-%d-%d", viewPlayer, handPlayers[viewPlayer].cards[c_id].card_ID);
         engine->addSerializedCommand(s);
     }
 
