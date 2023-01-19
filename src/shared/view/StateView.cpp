@@ -319,6 +319,13 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
         
         if (((Button *)((MenuChooseName *)clickableMenu.back())->buttonValidate)->clicked){
             home = false;
+            for(Cloud* c :clouds)
+                delete c;
+            clouds.clear();
+
+            for(int i = 0; i < 15; i++){
+                clouds.push_back(new Cloud(cloudTexture, home));
+            }
             for(int i = 0; i < 4; i ++){
                 if(((MenuChooseName *)clickableMenu.back())->namePlayers[i].getString() != ""){
                     state->players[i].name = (std::string) ((MenuChooseName *)clickableMenu.back())->namePlayers[i].getString();

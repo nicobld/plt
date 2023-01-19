@@ -59,7 +59,7 @@ void Cloud::update(){
 
     cloudSprite->setPosition((int)x, y);
     
-    int opacity = 220;
+    int opacity = 210;
     if(!home){
         if(isHover)
             cloudSprite->setColor(sf::Color(255, 255, 255, opacity));
