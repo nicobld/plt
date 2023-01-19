@@ -288,6 +288,8 @@ int main(int argc, char* argv[])
 
             
                     stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+                    for(view::Cloud* c : stateView.clouds)
+                        c->hover(mouse.getPosition(window).x, mouse.getPosition(window).y);
 
                 }
                 

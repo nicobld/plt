@@ -106,12 +106,13 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     spriteFocus->setPosition(width/2, height/2);
 
     homeTexture = new sf::Texture();
-    homeTexture->loadFromFile("../res/home.png");
+    // homeTexture->loadFromFile("../res/home.png");
+    homeTexture->loadFromFile("../res/home2.png");
     homeTexture->setSmooth(true);
 
     spriteHome = new sf::Sprite(*homeTexture);
     spriteHome->setOrigin(spriteHome->getGlobalBounds().width/2, spriteHome->getGlobalBounds().height/2);
-    spriteHome->setScale(sf::Vector2f(0.67, 0.67));
+    //spriteHome->setScale(sf::Vector2f(0.67, 0.67));
     spriteHome->setPosition(1280/2, 720/2);
 
     displayHUD.push_back(new DisplayHUD(width, height, &(state->players[0]), &(state->players[1]), &(state->players[2]), &(state->players[3])));
@@ -160,6 +161,22 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     }
 
     dice = new Dice();
+
+    logoTexture.loadFromFile("../res/catan.png");
+    logoTexture.setSmooth(true);
+
+    logoSprite = new sf::Sprite(logoTexture);
+    logoSprite->setOrigin(logoSprite->getGlobalBounds().width/2, 0);
+    logoSprite->setScale(sf::Vector2f(0.75, 0.75));
+    logoSprite->setPosition(1280/2, 20);
+    
+    cloudTexture.loadFromFile("../res/cloud.png");
+    cloudTexture.setSmooth(true);
+
+    for(int i = 0; i < 16; i++){
+        clouds.push_back(new Cloud(cloudTexture, home));
+    }
+    
     
 }
 
@@ -192,8 +209,14 @@ void StateView::render(sf::RenderTarget &target)
 {
     updatePlayerTurnDisplay();
     if(!home){
+       
+        
         target.draw(*tileMap);
         renderPieces->render(state, target);
+        
+        for(int i = 0; i < clouds.size(); i++)
+            clouds[i]->render(target);
+
         target.draw(*spriteFocus);
 
         // if (clickableButton[2]->clicked)
@@ -232,6 +255,11 @@ void StateView::render(sf::RenderTarget &target)
     }
     else{
         target.draw(*spriteHome);
+        for(Cloud* c : clouds)
+            c->render(target);
+        spriteFocus->setColor(sf::Color(230, 230, 230));
+        target.draw(*spriteFocus);
+        target.draw(*logoSprite);
         for (int i = 0; i < clickableMenu.size(); i++)
         {
             clickableMenu[i]->render(target);
