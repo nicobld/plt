@@ -26,8 +26,7 @@ using namespace engine;
 
 
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]){
     int width = 1280;
     int height = 720;
 
@@ -202,6 +201,7 @@ int main(int argc, char* argv[])
         Engine engine(state);
         StateView stateView (state, &engine);
         std::vector<state::Player> playerWon;
+        bool finishedGame = false;
 
         // state->players[0].resources[0].number = 100;
         // state->players[0].resources[1].number = 100;
@@ -215,6 +215,11 @@ int main(int argc, char* argv[])
         // state->players[1].resources[3].number = 100;
         // state->players[1].resources[4].number = 100;
 
+        // state->players[0].developments.push_back(Knight);
+        // state->players[0].developments.push_back(Knight);
+        // state->players[0].developments.push_back(Knight);
+        // state->players[0].developments.push_back(Knight);
+
         // stateView.displayState[0] = view::STAND_BY;
         // stateView.displayState[1] = view::STAND_BY;
         // stateView.displayState[2] = view::STAND_BY;
@@ -226,6 +231,13 @@ int main(int argc, char* argv[])
         stateView.home = 0;
 #endif
 
+
+        // sf::Music music;
+
+        // music.openFromFile("../res/One-Bard-Band.ogg");
+
+        // music.setLoop(true);
+        // music.play();
 
         std::string inString; 
 
@@ -263,15 +275,16 @@ int main(int argc, char* argv[])
                                     stateView.reloadTroisButtons();
                             }
                         }
+                    }
 
                     if(stateView.displayState[0] == CHOOSING_NAME){
                         if (event.type == sf::Event::TextEntered){
                             if (event.text.unicode < 128){
                                 stateView.updateChooseName(static_cast<char>(event.text.unicode));
                             }
+                        }
                     }
-                    }
-                    else{
+                    else {
                         if (event.type == sf::Event::KeyPressed){
                             if (event.key.code == sf::Keyboard::V){
                                     stateView.viewPlayer = (state::PlayerColor) ((stateView.viewPlayer + 1) % 4);
@@ -281,18 +294,10 @@ int main(int argc, char* argv[])
                             }
                         }
                     }
-
-                
-                        stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
-
-                    }
+                    stateView.handPlayers[state->turn].hoverOneCard(mouse.getPosition(window).x, mouse.getPosition(window).y);
+                    for(view::Cloud* c : stateView.clouds)
+                        c->hover(mouse.getPosition(window).x, mouse.getPosition(window).y);
                     
-                    else {       //si c'est un bot
-                        // engine.randomBot.generateCommand(state, &engine);
-                        // stateView.dice->update(engine.saveThrDiceCmd->dice1 + engine.saveThrDiceCmd->dice2, engine.saveThrDiceCmd->dice1, engine.saveThrDiceCmd->dice2);
-                        // stateView.updateClickableObjects(state->turn);
-                    }
-
                 }
             }
 
@@ -312,26 +317,26 @@ int main(int argc, char* argv[])
                     stateView.reloadTroisButtons();
                     stateView.updatePlayerTurnDisplay();
                     stateView.updateClickableObjects(state->turn);
-                    sf::sleep(sf::seconds(1));
+                    //sf::sleep(sf::seconds(1));
                 }
             }
 
             // c'est ici qu'on dessine tout
             engine.update();
             stateView.render(window);
-            if ((playerWon = engine.hasWon()).size() != 0){
+            if (finishedGame == false && (playerWon = engine.hasWon()).size() != 0){
                 std::cout << "Player " << playerWon[0].name << " has won with " << playerWon[0].victoryPoints << " victory points !\n";
                 std::cout << "Player " << playerWon[1].name << " is second with " << playerWon[1].victoryPoints << " victory points !\n";
                 std::cout << "Player " << playerWon[2].name << " is third with " << playerWon[2].victoryPoints << " victory points !\n";
                 std::cout << "Player " << playerWon[3].name << " is fourth with " << playerWon[3].victoryPoints << " victory points !\n";
-                // stateView.victoryScreen = new VictoryScreen(playerWon);
-                // stateView.victory = true;
+                stateView.victoryScreen = new VictoryScreen(playerWon);
+                stateView.victory = true;
+                finishedGame = true;
             }
             
             // fin de la frame courante, affichage de tout ce qu'on a dessiné
             window.display();
         }
     }
-
     return 0;
 }

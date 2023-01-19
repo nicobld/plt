@@ -25,7 +25,7 @@ MenuChooseName::MenuChooseName(sf::Texture menuTexture, sf::IntRect coords, Disp
     
     int gap = 75;
     for(int i = 0; i < 4; i++){
-        namePlayers[i] = sf::Text("", font, fontSize);
+        namePlayers[i] = sf::Text(L"", font, fontSize);
         namePlayers[i].setColor(fontPlayerColor[i]);
         namePlayers[i].setOrigin(namePlayers[i].getGlobalBounds().width, 0);
         namePlayers[i].setPosition(spriteMenu->getPosition().x + spriteMenu->getGlobalBounds().width/2 - 45, spriteMenu->getPosition().y + 37 + gap * i);
@@ -66,11 +66,20 @@ void MenuChooseName::updateNameSelected(int x, int y){
 }
 
 void MenuChooseName::updateText(char letter){
-    if(nameSelected >=0 && namePlayers[nameSelected].getString().getSize() < 10){
-        namePlayers[nameSelected].setString(namePlayers[nameSelected].getString() + letter);
-        namePlayers[nameSelected].setOrigin(namePlayers[nameSelected].getGlobalBounds().width, 0);
-        namePlayers[nameSelected].setPosition(spriteMenu->getPosition().x + spriteMenu->getGlobalBounds().width/2 - 45, namePlayers[nameSelected].getPosition().y);
+    std::string s =namePlayers[nameSelected].getString();
+    if(letter == '\b'){
+        if(nameSelected >=0 && namePlayers[nameSelected].getString().getSize() > 0){
+            s.pop_back();
+            namePlayers[nameSelected].setString(s);
+        }
     }
+    else{
+        if(nameSelected >=0 && namePlayers[nameSelected].getString().getSize() < 10)
+            namePlayers[nameSelected].setString(namePlayers[nameSelected].getString() + letter);
+    }
+    namePlayers[nameSelected].setOrigin(namePlayers[nameSelected].getGlobalBounds().width, 0);
+    namePlayers[nameSelected].setPosition(spriteMenu->getPosition().x + spriteMenu->getGlobalBounds().width/2 - 45, namePlayers[nameSelected].getPosition().y);
 }
+
 
 }
