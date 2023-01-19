@@ -249,8 +249,8 @@ void StateView::render(sf::RenderTarget &target)
         
         handPlayers[viewPlayer].render(target);
 
-        // if(displayState[state->turn] == THROW_DICE || displayState[state->turn] == EXIT_THROW_DICE)
-            //dice->render(target);
+        if(displayState[state->turn] == THROW_DICE || displayState[state->turn] == EXIT_THROW_DICE)
+            dice->render(target);
 
         //updateClickableObjects(state->turn);
 
