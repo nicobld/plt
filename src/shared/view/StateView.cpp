@@ -631,7 +631,9 @@ void StateView::handleClick(int x, int y)
         break;
 
     case DRAW_CARD_DISPLAY:
+        
         sprintf(s, "drawcard-%d", viewPlayer);
+        std::cout << "DRAW CARD : player " << s << std::endl;
         engine->addSerializedCommand(s);
         displayState[viewPlayer] = STAND_BY;
         break;

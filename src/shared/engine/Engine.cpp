@@ -18,6 +18,7 @@ Engine::Engine(state::State* state) : state(state) {
 
 void Engine::addCommand(Command* command) {
     commandQueue.push(command);
+    std::cout << "HAHAH " << commandQueue.front()->playerColor << std::endl;
 }
 
 void Engine::addSerializedCommand(std::string string){
@@ -87,6 +88,7 @@ void Engine::addSerializedCommand(std::string string){
         DrawCardCommand* drawCardCommand = new DrawCardCommand();
         if (drawCardCommand->unserialize(string))
             addCommand(drawCardCommand);
+        std::cout << "HAHAHaaaaaaa " << drawCardCommand->playerColor << std::endl;
     }
     else if (commandType == "invention"){
         InventionCommand* inventionCommand = new InventionCommand();

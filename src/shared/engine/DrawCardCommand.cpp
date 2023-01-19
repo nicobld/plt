@@ -25,8 +25,9 @@ DrawCardCommand::DrawCardCommand() {
     commandID = DRAW_CARD_CMD;
 }
 
-DrawCardCommand::DrawCardCommand(state::PlayerColor playerColor): playerColor(playerColor){
+DrawCardCommand::DrawCardCommand(state::PlayerColor playerColor){
     commandID = DRAW_CARD_CMD;
+    this->playerColor = playerColor;
 }
 
 bool DrawCardCommand::verify(state::State* state){

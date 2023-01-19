@@ -235,10 +235,10 @@ int main(int argc, char* argv[]){
 
         sf::Music music;
 
-        music.openFromFile("../res/One-Bard-Band.ogg");
+        // music.openFromFile("../res/One-Bard-Band.ogg");
 
-        music.setLoop(true);
-        music.play();
+        // music.setLoop(true);
+        // music.play();
 
         std::string inString; 
 
@@ -320,7 +320,10 @@ int main(int argc, char* argv[]){
                 if(state->players[state->turn].isBot){
                     engine.randomBot.generateCommand(state, &engine);
                     stateView.viewPlayer = (PlayerColor) (((int)stateView.viewPlayer + 1) % 4);
-                    stateView.displayState[stateView.viewPlayer] = view::STAND_BY;
+                    stateView.displayState[stateView.viewPlayer] = view::THROW_DICE;
+#ifdef ALLBOTS
+                    //stateView.displayState[stateView.viewPlayer] = view::STAND_BY;
+#endif
                     stateView.reloadTroisButtons();
                     stateView.updatePlayerTurnDisplay();
                     stateView.updateClickableObjects(state->turn);
