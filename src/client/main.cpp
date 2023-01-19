@@ -232,12 +232,12 @@ int main(int argc, char* argv[]){
 #endif
 
 
-        // sf::Music music;
+        sf::Music music;
 
-        // music.openFromFile("../res/One-Bard-Band.ogg");
+        music.openFromFile("../res/One-Bard-Band.ogg");
 
-        // music.setLoop(true);
-        // music.play();
+        music.setLoop(true);
+        music.play();
 
         std::string inString; 
 
