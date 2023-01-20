@@ -296,8 +296,8 @@ int main(int argc, char* argv[]){
                                     stateView.updatePlayerTurnDisplay();
                                     stateView.updateClickableObjects(state->turn);
                             }
-                            else if (event.key.code == sf::Keyboard::A){
-                                //state->map.generate();
+                            else if (event.key.code == sf::Keyboard::Escape){
+                                sf::sleep(sf::seconds(10));
                             }
                         }
                     }
