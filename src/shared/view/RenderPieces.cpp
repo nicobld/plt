@@ -129,14 +129,15 @@ void RenderPieces::update(state::State* state){
     sf::Vector2f centre1, centre2, centre3;
 
     // update token
-
+    int compteur =0;
     for(int i = 0; i < 49; i++){
         if(state->map.tokengrid[i] != 0){
-            if(!(state->map.thief.position.x == i%7  && state->map.thief.position.y == i/7)){    //vérifie s'il n'y a pas un voleur sur la case
-                tokens[i].setString(to_string(state->map.tokengrid[i]));
-                tokens.back().setOrigin(tokens.back().getGlobalBounds().width/2, tokens.back().getGlobalBounds().height/2);
-                tokens.back().setPosition(hexagones->at(i).vertices[0].position + sf::Vector2f(-65, 32.5) + sf::Vector2f(-5, -25)); //65 = hauteur d'un tile/2
-            }
+            //if(!(state->map.thief.position.x == i%7  && state->map.thief.position.y == i/7)){    //vérifie s'il n'y a pas un voleur sur la case
+                tokens[compteur].setString(to_string(state->map.tokengrid[i]));
+                tokens[compteur].setOrigin(tokens[compteur].getGlobalBounds().width/2, tokens[compteur].getGlobalBounds().height/2);
+                tokens[compteur].setPosition(hexagones->at(i).vertices[0].position + sf::Vector2f(-65, 32.5) + sf::Vector2f(-5, -25)); //65 = hauteur d'un tile/2
+                compteur++;
+            //}
         }
     }
     

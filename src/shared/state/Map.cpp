@@ -129,7 +129,7 @@ void Map::generate (){
   
   int temp_token_grid[49];
 
-    for(int i = 0; i < sizeof(temp_grid); i++){
+    for(int i = 0; i < 49; i++){
       if(temp_grid[i] > 0 && temp_grid[i] < 6){
           int temp2 = rand()%possibleTokens.size();
           temp_token_grid[i] = possibleTokens[temp2];
@@ -138,10 +138,12 @@ void Map::generate (){
           if(possibleTokens.size() > 1)
             possibleTokens.erase(toErase2);
       }
-      else
+      else{
         temp_token_grid[i] = 0;
+      }
     }
     memcpy(tokengrid, temp_token_grid, sizeof(int)*49);
+    std::cout << "test fin generate" <<std::endl;
 }
 
 }

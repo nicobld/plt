@@ -235,10 +235,10 @@ int main(int argc, char* argv[]){
 
         sf::Music music;
 
-        // music.openFromFile("../res/One-Bard-Band.ogg");
+        music.openFromFile("../res/One-Bard-Band.ogg");
 
-        // music.setLoop(true);
-        // music.play();
+        music.setLoop(true);
+        music.play();
 
         std::string inString; 
 
@@ -297,12 +297,10 @@ int main(int argc, char* argv[]){
                                     stateView.updateClickableObjects(state->turn);
                             }
                             else if (event.key.code == sf::Keyboard::F3){
-                                std::cout << "test" <<std::endl;
                                 state->map.generate();
-                                std::cout << "test" <<std::endl;
                                 stateView.tileMap->load("../res/tilesHexIso.png", sf::Vector2u(114, 131), state->map.grid, 7, 7);
                                 stateView.renderPieces->update(state);
-                                
+
                             }
                         }
                     }
