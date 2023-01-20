@@ -1,5 +1,6 @@
 #include "Map.h"
 #include <cstring>
+#include <iostream>
 
 static bool equalBuildingPos(std::array<state::Position, 3> pos1, std::array<state::Position, 3> pos2){
     for (int i = 0; i < 3; i++){
@@ -94,5 +95,37 @@ int Map::getBuilding(std::array<Position, 3> position){
 	}
 	return -1;
 }
+
+// void Map::generate (){
+//   std::vector<int> possibleTiles;
+//   possibleTiles.resize(19);
+//   possibleTiles = {5, 1, 2, 4, 3, 1, 3, 4, 2, 6, 2, 5, 2, 5, 4, 1, 3, 4, 1};
+
+//   int temp_grid[49] = {
+//         0, 0, 13, 7, 7, 14, 0,
+//           0, 10, 5, 1, 2, 9, 0,
+//         0, 10, 4, 3, 1, 3, 9,
+//           18, 4, 2, 6, 2, 5, 17,
+//         0, 12, 2, 5, 4, 1, 11,
+//           0, 12, 3, 4, 1, 11, 0,
+//         0, 0, 16, 8, 8, 15, 0,
+//     };
+//     for(int i = 0; i < sizeof(temp_grid); i++){
+//       if(temp_grid[i] > 0 && temp_grid[i] < 7){
+//         int temp = rand()%possibleTiles.size();
+//         // std::cout << "i : " << i;
+//         // std::cout << " | possibleTiles.size() : " << possibleTiles.size();
+//         // std::cout << " | temp : " << temp << std::endl;
+//         temp_grid[i] = possibleTiles[temp];
+//         auto toErase = possibleTiles.begin() + temp;
+//         if(possibleTiles.size() > 1)
+//           possibleTiles.erase(toErase);
+//       }
+//     }
+
+//   memcpy(grid, temp_grid, sizeof(int)*49); 
+
+
+// }
 
 }
