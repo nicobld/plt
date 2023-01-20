@@ -178,6 +178,13 @@ StateView::StateView(state::State *state, engine::Engine *engine) : state(state)
     for(int i = 0; i < 16; i++){
         clouds.push_back(new Cloud(cloudTexture, home));
     }
+
+    backTexture.loadFromFile("../res/hexagoneBack.png");
+    backTexture.setSmooth(true);
+    backSprite = new sf::Sprite(backTexture);
+    backSprite->setOrigin(backSprite->getGlobalBounds().width/2, backSprite->getGlobalBounds().height/2);
+    backSprite->setPosition(1280/2 + 20, 720/2 + 30);
+    backSprite->setScale(sf::Vector2f(0.6, 0.6));
     
     
 }
@@ -212,7 +219,7 @@ void StateView::render(sf::RenderTarget &target)
     updatePlayerTurnDisplay();
     if(!home){
        
-        
+        target.draw(*backSprite);
         target.draw(*tileMap);
         renderPieces->render(state, target);
         

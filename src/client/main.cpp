@@ -296,8 +296,13 @@ int main(int argc, char* argv[]){
                                     stateView.updatePlayerTurnDisplay();
                                     stateView.updateClickableObjects(state->turn);
                             }
-                            else if (event.key.code == sf::Keyboard::Escape){
-                                sf::sleep(sf::seconds(10));
+                            else if (event.key.code == sf::Keyboard::F3){
+                                std::cout << "test" <<std::endl;
+                                state->map.generate();
+                                std::cout << "test" <<std::endl;
+                                stateView.tileMap->load("../res/tilesHexIso.png", sf::Vector2u(114, 131), state->map.grid, 7, 7);
+                                stateView.renderPieces->update(state);
+                                
                             }
                         }
                     }

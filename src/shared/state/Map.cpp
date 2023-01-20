@@ -1,5 +1,6 @@
 #include "Map.h"
 #include <cstring>
+#include <iostream>
 
 static bool equalBuildingPos(std::array<state::Position, 3> pos1, std::array<state::Position, 3> pos2){
     for (int i = 0; i < 3; i++){
@@ -93,6 +94,54 @@ int Map::getBuilding(std::array<Position, 3> position){
 		}
 	}
 	return -1;
+}
+
+void Map::generate (){
+  std::vector<int> possibleTiles;
+  possibleTiles.resize(19);
+  possibleTiles = {5, 1, 2, 4, 3, 1, 3, 4, 2, 6, 2, 5, 2, 5, 4, 1, 3, 4, 1};
+
+  int temp_grid[49] = {
+        0, 0, 13, 7, 7, 14, 0,
+          0, 10, 5, 1, 2, 9, 0,
+        0, 10, 4, 3, 1, 3, 9,
+          18, 4, 2, 6, 2, 5, 17,
+        0, 12, 2, 5, 4, 1, 11,
+          0, 12, 3, 4, 1, 11, 0,
+        0, 0, 16, 8, 8, 15, 0,
+    };
+    for(int i = 0; i < sizeof(temp_grid); i++){
+      if(temp_grid[i] > 0 && temp_grid[i] < 7){
+        int temp = rand()%possibleTiles.size();
+        temp_grid[i] = possibleTiles[temp];
+        auto toErase = possibleTiles.begin() + temp;
+        if(possibleTiles.size() > 1)
+          possibleTiles.erase(toErase);
+      }
+    }
+
+  memcpy(grid, temp_grid, sizeof(int)*49);
+
+
+  std::vector<int> possibleTokens;
+  possibleTokens.resize(18);
+  possibleTokens = {9, 12, 10, 8, 11, 6, 2, 5, 3, 4, 9, 6, 4, 3, 10, 11, 5, 8};
+  
+  int temp_token_grid[49];
+
+    for(int i = 0; i < sizeof(temp_grid); i++){
+      if(temp_grid[i] > 0 && temp_grid[i] < 6){
+          int temp2 = rand()%possibleTokens.size();
+          temp_token_grid[i] = possibleTokens[temp2];
+          
+          auto toErase2 = possibleTokens.begin() + temp2;
+          if(possibleTokens.size() > 1)
+            possibleTokens.erase(toErase2);
+      }
+      else
+        temp_token_grid[i] = 0;
+    }
+    memcpy(tokengrid, temp_token_grid, sizeof(int)*49);
 }
 
 }
