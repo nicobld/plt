@@ -114,6 +114,9 @@ void Map::generate (){
       if(temp_grid[i] > 0 && temp_grid[i] < 7){
         int temp = rand()%possibleTiles.size();
         temp_grid[i] = possibleTiles[temp];
+        if (possibleTiles[temp] == 6){
+          thief.position = Position(i%7, i/7);
+        }
         auto toErase = possibleTiles.begin() + temp;
         if(possibleTiles.size() > 1)
           possibleTiles.erase(toErase);
@@ -143,6 +146,7 @@ void Map::generate (){
       }
     }
     memcpy(tokengrid, temp_token_grid, sizeof(int)*49);
+
     std::cout << "test fin generate" <<std::endl;
 }
 

@@ -197,7 +197,7 @@ int main(int argc, char* argv[]){
 
 
     else if(!strncmp(argv[1], "random_ai", 9)){
-        std::vector<std::string> namePlayers = {"a", "b"};
+        std::vector<std::string> namePlayers = {"a", "b", "c", "d"};
         State* state = new State(namePlayers);
         Engine engine(state);
         StateView stateView (state, &engine);
@@ -235,10 +235,10 @@ int main(int argc, char* argv[]){
 
         sf::Music music;
 
-        music.openFromFile("../res/One-Bard-Band.ogg");
+        // music.openFromFile("../res/One-Bard-Band.ogg");
 
-        music.setLoop(true);
-        music.play();
+        // music.setLoop(true);
+        // music.play();
 
         std::string inString; 
 

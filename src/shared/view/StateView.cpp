@@ -348,6 +348,12 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
                 }
             }
 
+            if (((Button *)((MenuChooseName *)clickableMenu.back())->ButtonMapGen)->clicked){
+                state->map.generate();
+                tileMap->load("../res/tilesHexIso.png", sf::Vector2u(114, 131), state->map.grid, 7, 7);
+                renderPieces->update(state);
+            }
+
             deleteButton(&clickableButton);
             deleteMenu(&clickableMenu);
             if(!state->players[viewPlayer].isBot)
@@ -597,6 +603,7 @@ void StateView::handleClick(int x, int y)
         //home = false;
         clickableMenu.push_back((Menu *)new MenuChooseName(*menuTexture, sf::IntRect(1280 / 2 - 621 / 2, 720 - 609, 621, 609), &(displayState[viewPlayer])));
         clickableButton.push_back((Button*) ((MenuChooseName*) clickableMenu.back())->buttonValidate);
+        clickableButton.push_back((Button*) ((MenuChooseName*) clickableMenu.back())->ButtonMapGen);
         displayState[viewPlayer] = CHOOSING_NAME;
         break;
 
