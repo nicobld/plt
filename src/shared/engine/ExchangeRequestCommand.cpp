@@ -45,7 +45,8 @@ bool ExchangeRequestCommand::verify(state::State* state){
     // std::cout << "ressource de " << state->players[playerColor].name << " donné avant echange " << givingResources.resourceType << " : " << state->players[playerColor].resources[givingResources.resourceType].number << std::endl;
     // std::cout << "ressource de " << state->players[playerColor].name << " reçu avant echange " << receivingResources.resourceType << " : " << state->players[playerColor].resources[receivingResources.resourceType].number << std::endl;
     if(state->players[playerColor].resources[givingResources.resourceType].number >= givingResources.number){
-        std::cout << "on peut proposer l'échange" << std::endl;
+        std::cout << "on peut proposer l'échange : giving : " << givingResources.resourceType << " receiving : " << receivingResources.resourceType << std::endl;
+
         return true;
     }
     std::cout << "pas d'échange" << std::endl;

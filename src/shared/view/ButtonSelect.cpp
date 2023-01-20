@@ -79,7 +79,6 @@ bool ButtonSelect::isClicked(int x, int y){
     else if(select_ID == SELECT_BANK || select_ID == SELECT_P1 || select_ID == SELECT_P2 || select_ID == SELECT_P3 || select_ID == SELECT_RESOURCE || select_ID == SELECT_ALEA_GEN){
         if (clicked && coords.contains(sf::Vector2i(x, y))){
             clicked = 0;
-            std::cout << "test" << std::endl;
         }
             
         else if(!clicked && coords.contains(sf::Vector2i(x, y)))

@@ -129,7 +129,7 @@ void RenderPieces::update(state::State* state){
     sf::Vector2f centre1, centre2, centre3;
 
     // update token
-    int compteur =0;
+    int compteur = 0;
     for(int i = 0; i < 49; i++){
         if(state->map.tokengrid[i] != 0){
             //if(!(state->map.thief.position.x == i%7  && state->map.thief.position.y == i/7)){    //vérifie s'il n'y a pas un voleur sur la case

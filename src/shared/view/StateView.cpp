@@ -344,7 +344,6 @@ void StateView::updateClickableObjects(state::PlayerColor playerColor)
                 else{
                     state->players[i].name = (std::string) iToColor(i);
                     state->players[i].isBot = true;
-                    std::cout << "i :" << i << "player Name : " << state->players[i].name << std::endl;
                 }
             }
 

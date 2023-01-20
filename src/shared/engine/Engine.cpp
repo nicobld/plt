@@ -178,8 +178,8 @@ void Engine::update() {
         
         else if (state->gameState == EXCHANGE_REQUEST_STATE){
             if (commandQueue.front()->commandID == EXCHANGE_RESPONSE_CMD && commandQueue.front()->playerColor != state->turn){ //seulement accepter les reponses
-                ((ExchangeResponseCommand*)commandQueue.front())->givingResources = saveExReqCmd->receivingResources;
-                ((ExchangeResponseCommand*)commandQueue.front())->receivingResources = saveExReqCmd->givingResources;
+                ((ExchangeResponseCommand*)commandQueue.front())->givingResources = saveExReqCmd->givingResources;
+                ((ExchangeResponseCommand*)commandQueue.front())->receivingResources = saveExReqCmd->receivingResources;
                 ((ExchangeResponseCommand*)commandQueue.front())->playerReceiving = saveExReqCmd->playerColor;
                 if (state->players[commandQueue.front()->playerColor].playerState == EXCHANGE){
                     if (commandQueue.front()->verify(state)){

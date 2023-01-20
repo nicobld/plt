@@ -35,7 +35,6 @@ ButtonValidate::ButtonValidate(sf::Texture buttonTexture, sf::IntRect coords, st
 bool ButtonValidate::isClicked(int x, int y){
     
     clicked = coords.contains(sf::Vector2i(x, y));
-    std::cout << clicked << std::endl;
     this->update();
     return clicked;
 }
@@ -44,11 +43,9 @@ bool ButtonValidate::isReleased(int x, int y){
     bool result = false;
     if(clicked = coords.contains(sf::Vector2i(x, y))){
         //commande
-        std::cout << "Boutton Valider" << std::endl;
         result = true;
     }
     //clicked = 0;
-    std::cout << "released " << clicked << std::endl;
     this->update();
 
     return result;
